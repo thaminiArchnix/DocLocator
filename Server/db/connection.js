@@ -1,10 +1,29 @@
 const mysql = require('mysql2')
 
+
+//Connect to Server
+const connect = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+});
+
+//Create a database if it does not exist
+connect.query('CREATE DATABASE IF NOT EXISTS dlocator', (err, results) => {
+  if (err) {
+    console.error('Error creating database:', err);
+    return;
+  }
+  console.log('Database created successfully');
+  connect.end(); // Close the connection
+});
+
+//Connect to database
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'doclocator'
+  database: 'dlocator'
 });
 
 connection.connect((err) => {
@@ -12,7 +31,6 @@ connection.connect((err) => {
     console.error('Error connecting to MySQL database:', err);
     return;
   }
-  
   console.log('Connected to MySQL database');
   
   //Doctor Table -- By Thamini
