@@ -10,6 +10,9 @@ import Dashboard from "./Pages/Doctor/Dashboard";
 import Appointments from "./Pages/Doctor/Appointments";
 import History from "./Pages/Doctor/History";
 import Profile from "./Pages/Doctor/Profile";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
+import './index.css';
 
 
 function App() {
