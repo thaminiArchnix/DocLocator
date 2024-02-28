@@ -10,6 +10,13 @@ const doctorModel = {
     });
   },
 
+  getAllDoctors: function(callback) {
+    const sql = 'SELECT * FROM doctors';
+    connection.query(sql, function(err, result) {
+      callback(err, result)
+    });
+  },
+
   getDoctorById: function(userId, callback) {
     const sql = 'SELECT * FROM doctors WHERE id = ?';
     connection.query(sql, [userId], function(err, result) {
