@@ -10,6 +10,18 @@ const doctorController = {
         })
     },
 
+    getAllDoctors: function(req, res) {
+        doctorModel.getAllDoctors(function(err, result) {
+            if(err) {
+                return res.status(500).json({ error: err.message});
+            }
+            if(!result || result.length === 0) {
+                return res.status(404).json({ error : 'No Doctors Found'});
+            }''
+            res.status(201).json(result)
+        })
+    },
+
     getDoctorById: function(req, res) {
         doctorModel.getDoctorById(req.body, function(err, result) {
             if(err) {

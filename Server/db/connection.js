@@ -15,6 +15,7 @@ connection.connect((err) => {
   
   console.log('Connected to MySQL database');
   
+  //Doctor Table -- By Thamini
   connection.query(`CREATE TABLE IF NOT EXISTS doctors (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(255),
@@ -26,13 +27,18 @@ connection.connect((err) => {
     specialization TEXT,
     longitude DECIMAL(10, 8),
     latitude DECIMAL(11, 8)
-)`, (err, results) => {
+    )`, (err, results) => {
     if (err) {
       console.error('Error creating doctors table:', err);
       return;
     }
     console.log('doctors table created or already exists');
   });
+
+
+
+
+
 });
 
 module.exports = connection;
