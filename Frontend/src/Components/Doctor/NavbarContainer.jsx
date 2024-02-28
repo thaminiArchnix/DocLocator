@@ -15,7 +15,7 @@ const NavbarContainer = () => {
             <Nav.Link href="./history" className='text-center'>Treatment History</Nav.Link>
             <Nav.Link href="./profile" className='text-center'>Profile</Nav.Link>
         </Nav>
-        <div className='mx-3 d-flex text-center justify-content-center'><Button className='mr-3' variant="primary" href='../login'>Logout</Button>{' '}</div>
+        <div className='mx-3 d-flex text-center justify-content-center'><Button className='mr-3' variant="primary" href='./login'>Logout</Button>{' '}</div>
     </Navbar>
   )
 }

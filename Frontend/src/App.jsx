@@ -10,16 +10,17 @@ import Dashboard from "./Pages/Doctor/Dashboard";
 import Appointments from "./Pages/Doctor/Appointments";
 import History from "./Pages/Doctor/History";
 import Profile from "./Pages/Doctor/Profile";
+import Login from "./Pages/Doctor/Login";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './index.css';
-
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
+        <Route path="/doctor/login" element={<Login/>} />
           <Route path="/doctor/register" element={<Register/>} />
           <Route path="/doctor/dashboard" element={<Dashboard/>} />
           <Route path="/doctor/appointments" element={<Appointments/>} />
