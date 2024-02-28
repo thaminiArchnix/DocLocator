@@ -7,8 +7,8 @@ const Appointments = () => {
     <div>
       <div><NavbarContainer/></div>
       <div>
-        <AppointmentDay date="20th February 2024"/>
-        <AppointmentDay date="21th February 2024"/>
+        <AppointmentDay date="20 February 2024"/>
+        <AppointmentDay date="21 February 2024"/>
       </div>
       </div>
   )
