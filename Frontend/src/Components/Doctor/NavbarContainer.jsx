@@ -7,15 +7,15 @@ import Navbar from 'react-bootstrap/Navbar';
 
 const NavbarContainer = () => {
   return (
-    <Navbar bg="dark" data-bs-theme="dark">
+    <Navbar bg="dark" data-bs-theme="dark" className='d-flex flex-wrap align-items-center'>
         <div className='mx-auto text-white'>DocLocator</div>
-        <Nav className="mx-auto">
-            <Nav.Link href="./dashboard">Home</Nav.Link>
-            <Nav.Link href="./appointments">My Appointments</Nav.Link>
-            <Nav.Link href="./history">Treatment History</Nav.Link>
-            <Nav.Link href="./profile">Profile</Nav.Link>
+        <Nav className="mx-auto align-items-center d-flex flex-wrap">
+            <Nav.Link href="./dashboard" className='text-center'>Home</Nav.Link>
+            <Nav.Link href="./appointments" className='text-center'>My Appointments</Nav.Link>
+            <Nav.Link href="./history" className='text-center'>Treatment History</Nav.Link>
+            <Nav.Link href="./profile" className='text-center'>Profile</Nav.Link>
         </Nav>
-        <div className='mx-3'><Button className='mr-3' variant="primary" href='../login'>Logout</Button>{' '}</div>
+        <div className='mx-3 d-flex text-center justify-content-center'><Button className='mr-3' variant="primary" href='../login'>Logout</Button>{' '}</div>
     </Navbar>
   )
 }
