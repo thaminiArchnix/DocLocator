@@ -1,6 +1,5 @@
 const connection = require('../../DB/connection.js')
 
-
 const doctorModel = {
   createDoctor: function(userData, callback) {
     const { full_name, email, date_of_birth, password, gender, phone_number, specialization, longitude, latitude } = userData;
