@@ -11,10 +11,15 @@ import Appointments from "./Pages/Doctor/Appointments";
 import History from "./Pages/Doctor/History";
 import Profile from "./Pages/Doctor/Profile";
 import Login from "./Pages/Doctor/Login";
+
+import PatientRegister from "./Pages/Patient/PatientRegister";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './index.css';
 
+import PatientNavbarContainer from "./Components/Patient/PatientNavbarContainer";
+import PatientAppointmentCard from "./Components/Patient/PatientAppointmentCard";
 function App() {
   return (
     <>
@@ -26,6 +31,14 @@ function App() {
           <Route path="/doctor/appointments" element={<Appointments/>} />
           <Route path="/doctor/history" element={<History/>} />
           <Route path="/doctor/profile" element={<Profile/>} />
+
+          <Route path="/patient/regi" element={<PatientRegister/>}/>
+          
+
+          <Route path="/patient/nb" element={<PatientNavbarContainer/>}/>
+          <Route path="/patient/ac" element={<PatientAppointmentCard/>}/>
+
+
         </Routes>
       </Router>
     </>
