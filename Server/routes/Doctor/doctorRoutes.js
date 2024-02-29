@@ -9,5 +9,6 @@ doctorRouter.get('/', doctorController.getAllDoctors);
 doctorRouter.get('/:id', doctorController.getDoctorById);
 doctorRouter.put('/:id', doctorController.updateDoctor);
 doctorRouter.delete('/:id', doctorController.deleteDoctor);
+doctorRouter.post('/login', doctorController.loginDoctor)
 
 module.exports = doctorRouter;

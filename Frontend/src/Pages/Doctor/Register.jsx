@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 
 const Register = () => {
+  const [date, setDate] = useState("");
+
+  const handleDate = (e) => {
+    setDate(e.target.value);
+    console.log(date);
+  }
+
   return (
     <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
         <h2>Sign Up as a Doctor</h2>
@@ -19,7 +26,7 @@ const Register = () => {
               <option>Other</option>
             </select>
             <label>Date of Birth</label>
-            <input type="date" placeholder='Enter your Date of Birth' className="form-control"></input>
+            <input type="date" value={date} placeholder='Enter your Date of Birth' className="form-control" onChange={handleDate}></input>
             <label>Specialization</label>
             <input type="text" placeholder='Enter your Specialization' className="form-control"></input>
             <label>Location</label>

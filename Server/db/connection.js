@@ -18,7 +18,7 @@ connect.query('CREATE DATABASE IF NOT EXISTS dlocator', (err, results) => {
   connect.end(); // Close the connection
 });
 
-//Connect to database
+//Connect to created database
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
