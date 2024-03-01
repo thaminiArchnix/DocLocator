@@ -20,7 +20,7 @@ const DashTodaysCard = (props) => {
               <div className="col-sm-3 d-flex flex-wrap gap-3 justify-content-end"><button>Cancel</button></div>
             </div>
             <div className="row">
-                <div className="col">{props.location} <i class="bi bi-box-arrow-up-right p-2"></i></div>
+                <div className="col">{props.location} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 
             
             </div>

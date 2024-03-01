@@ -4,6 +4,7 @@ const doctorModel = {
     createDoctor: async function(userData) {
         return new Promise((resolve, reject) => {
             const { full_name, email, date_of_birth, password, gender, phone_number, specialization, longitude, latitude } = userData;
+
             const sql = 'INSERT INTO doctors (full_name, email, date_of_birth, password, gender, phone_number, specialization, longitude, latitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
             connection.query(sql, [full_name, email, date_of_birth, password, gender, phone_number, specialization, longitude, latitude], function(err, result) {
                 if (err) {
@@ -41,6 +42,19 @@ const doctorModel = {
         });
     },
 
+    getDoctorByEmail: async function(userEmail) {
+        return new Promise ((resolve, reject) => {
+            const sql = 'SELECT * FROM doctors WHERE email = ?';
+            connection.query(sql, [userEmail], function(err, result) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+
     loginDoctor: async function(userData) {
         return new Promise((resolve, reject) => {
             const {email, password} = userData;
@@ -54,6 +68,7 @@ const doctorModel = {
             })
         })
     },
+
 
     updateDoctor: async function(userId, userData) {
         return new Promise((resolve, reject) => {

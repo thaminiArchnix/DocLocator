@@ -34,8 +34,8 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
         <div className="col-sm-3 p-5 bg-dark-subtle text-center h-100 rounded">
           <h3 className='p-1'>Absences</h3>
           <div className="container">
-            <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy"> 
-                <input class="form-control" type="date" readonly /> 
+            <div id="datepicker" className="input-group date" data-date-format="mm-dd-yyyy"> 
+                <input className="form-control" type="date" readOnly /> 
             </div>
           </div>
           <div className="row p-3"><button className='bg-dark'>Add Date</button></div>

@@ -1,41 +1,100 @@
-import React, { useEffect, useState } from 'react'
-import {Link} from 'react-router-dom'
+import React, { useEffect, useState, navigate } from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import { useDoctor} from '../../context/DoctorContext.jsx'
+import axios from 'axios'
 
 const Register = () => {
-  const [date, setDate] = useState("");
+  const navigate = useNavigate();
+  const { updateUser } = useDoctor();
 
-  const handleDate = (e) => {
-    setDate(e.target.value);
-    console.log(date);
-  }
+  const [formData, setFormData] = useState({
+    full_name: '',
+    email: '',
+    date_of_birth: '',
+    password: '',
+    confirmpassword: '',
+    gender: '',
+    phone_number: '',
+    specialization: '',
+    longitude: '',
+    latitude: '',
+  })
+
+  const {full_name, email, date_of_birth, password, confirmpassword, gender, phone_number, specialization, longitude, latitude} = formData;
+  
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password === confirmpassword) {
+      const userData = {
+        full_name: full_name,
+        email: email,
+        date_of_birth: date_of_birth,
+        password: password,
+        gender: gender,
+        phone_number: phone_number,
+        specialization: specialization,
+        longitude: longitude,
+        latitude: latitude,
+      };
+      console.log(userData);
+      
+
+      try {
+        const response = await axios.post('http://localhost:3000/doctor', userData);
+
+        console.log(response.data.token); // Check the response from the server
+        localStorage.setItem('token', response.data.token);
+        updateUser(userData);
+        navigate('/doctor/dashboard');
+
+      } catch (error) {
+        console.error('Error signing up:', error);
+      }
+    } else {
+      console.error('Passwords do not match');
+    }
+  };
+  
 
   return (
     <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
         <h2>Sign Up as a Doctor</h2>
-        <form className='d-flex flex-column w-50 gap-2 '>
+        <form className='d-flex flex-column w-50 gap-2' onSubmit={handleSubmit}>
             <label>Full Name</label>
-            <input type="text" placeholder='Enter your Full Name' className="form-control"></input>
+            <input type="text" value={full_name} placeholder='Enter your Full Name' className="form-control" onChange={onChange} name='full_name'></input>
             <label>Email</label>
-            <input type="email" placeholder='Enter your email' className="form-control"></input>
+            <input type="email" value={email} placeholder='Enter your email' className="form-control" onChange={onChange} name='email'></input>
             <label>Phone Number</label>
-            <input type="tel" placeholder='Enter your phone number' className="form-control"></input>
+            <input type="tel" value={phone_number} placeholder='Enter your phone number' className="form-control" onChange={onChange} name='phone_number'></input>
             <label>Gender</label>
-            <select className="form-control">
+            <select value={gender} className="form-control" onChange={onChange} name='gender'>
+              <option>None</option>
               <option>Female</option>
               <option>Male</option>
               <option>Other</option>
             </select>
             <label>Date of Birth</label>
-            <input type="date" value={date} placeholder='Enter your Date of Birth' className="form-control" onChange={handleDate}></input>
+            <input type="date" value={date_of_birth} placeholder='Enter your Date of Birth' className="form-control" onChange={onChange} name='date_of_birth'></input>
             <label>Specialization</label>
-            <input type="text" placeholder='Enter your Specialization' className="form-control"></input>
-            <label>Location</label>
-            <input type="text" placeholder='Enter your Permanent Location' className="form-control"></input>
+            <input type="text" value={specialization} placeholder='Enter your Specialization' className="form-control" onChange={onChange} name='specialization'></input>
+            <label>Longitude</label>
+            <input type="text" value={longitude} placeholder='Enter your Longitude' className="form-control" onChange={onChange} name='longitude'></input>
+            <label>Latitude</label>
+            <input type="text" value={latitude} placeholder='Enter your Latitude' className="form-control" onChange={onChange} name='latitude'></input>
             <label>Password</label>
-            <input type="password" placeholder='Enter your password' className="form-control"></input>
+            <input type="password" value={password} placeholder='Enter your password' className="form-control" onChange={onChange} name='password'></input>
             <label>Confirm Password</label>
-            <input type="password" placeholder='Confirm your password' className="form-control"></input>
-            <button>Sign Up</button>
+            <input type="password" value={confirmpassword} placeholder='Confirm your password' className="form-control" onChange={onChange} name='confirmpassword'></input>
+            <button type='submit'>Sign Up</button>
         </form>
         <p className='py-2'>Already a Member? <Link to='../doctor/login'>Login</Link></p>
         

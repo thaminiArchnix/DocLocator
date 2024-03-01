@@ -22,7 +22,6 @@ function App() {
 
 
   return (
-    <>
     <DoctorContextProvider>
       <Router>
         <Routes>
@@ -35,7 +34,6 @@ function App() {
         </Routes>
       </Router>
     </DoctorContextProvider>
-    </>
   );
 }
 

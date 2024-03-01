@@ -33,14 +33,15 @@ const Login = () => {
     try {
         const response = await axios.post('http://localhost:3000/doctor/login', userData);
         const userDoctor = response.data[0];
+        localStorage.setItem('token', response.data.token);
         updateUser(userDoctor);
         
-        navigate('../doctor/profile');
+        navigate('../doctor/dashboard');
 
     } catch (error) {
         console.error('Error logging in:', error);
     }
-};
+  };
   
 
 
