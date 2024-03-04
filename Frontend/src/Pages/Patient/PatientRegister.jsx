@@ -33,43 +33,44 @@ const PatientRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = {
-      Name: e.target.fullName.value,
-      Email: e.target.email.value,
-      Phone: e.target.phoneNumber.value,
-      Gender: e.target.gender.value,
-      DOB: e.target.dob.value,
-      Password: e.target.password.value,
+      Name: e.target.Name.value,
+      Email: e.target.Email.value,
+      Phone: e.target.Phone.value,
+      Gender: e.target.Gender.value,
+      DOB: e.target.DOB.value,
+      Password: e.target.Password.value,
       Latitude: selectedLocation?.lat,
       Longitude: selectedLocation?.lng,
     };
-
+  
     try {
-      const response = await axios.post('/patient/createpatient', formData);
+      const response = await axios.post('http://localhost:3000/patient/createpatient', formData);
       console.log('Registration successful:', response.data);
     } catch (error) {
       console.error('Registration error:', error);
     }
   };
+  
 
   return (
     <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
       <h2>Sign Up as a Patient</h2>
       <form className='d-flex flex-column w-50 gap-2' onSubmit={handleSubmit}>
             <label>Full Name</label>
-            <input type="text" placeholder='Enter your Full Name' className="form-control"></input>
+            <input type="text" name="Name" placeholder='Enter your Full Name' className="form-control"></input>
             <label>Email</label>
-            <input type="email" placeholder='Enter your email' className="form-control"></input>
+            <input type="email" name="Email" placeholder='Enter your email' className="form-control"></input>
             <label>Phone Number</label>
-            <input type="tel" placeholder='Enter your phone number' className="form-control"></input>
+            <input type="tel" name="Phone" placeholder='Enter your phone number' className="form-control"></input>
             <label>Gender</label>
-            <select className="form-control">
+            <select name="Gender" className="form-control">
               <option>Female</option>
               <option>Male</option>
             </select>
             <label>Date of Birth</label>
-            <input type="date" placeholder='Enter your Date of Birth' className="form-control"></input> 
+            <input type="date" name="DOB"  placeholder='Enter your Date of Birth' className="form-control"></input> 
             <label>Location</label>
             <PlacesAutocomplete
               value={address}
@@ -108,9 +109,9 @@ const PatientRegister = () => {
             </PlacesAutocomplete>
             <LocationMap onSelectLocation={handleMapSelect} />
             <label>Password</label>
-            <input type="password" name="password" placeholder='Enter your password' className="form-control" required />
+            <input type="password" name="Password" placeholder='Enter your password' className="form-control" required />
             <label>Confirm Password</label>
-            <input type="password" name="confirmPassword" placeholder='Confirm your password' className="form-control" required />
+            <input type="password" placeholder='Confirm your password' className="form-control" required />
             <button type="submit">Sign Up</button>
       </form>
       <p className='py-2'>Already a Member? <Link to='../patient/login'>Login</Link></p>
