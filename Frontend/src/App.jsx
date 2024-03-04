@@ -13,6 +13,7 @@ import Profile from "./Pages/Doctor/Profile";
 import Login from "./Pages/Doctor/Login";
 
 import PatientRegister from "./Pages/Patient/PatientRegister";
+import PatientDashboard from "./Pages/Patient/PatientDashboard";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -33,6 +34,9 @@ function App() {
           <Route path="/doctor/profile" element={<Profile/>} />
 
           <Route path="/patient/regi" element={<PatientRegister/>}/>
+          <Route path="/patient/dashboard" element={<PatientDashboard/>}/>
+
+
           
 
           <Route path="/patient/nb" element={<PatientNavbarContainer/>}/>

@@ -4,7 +4,7 @@ import image from '../../assets/avatar.png';
 const PatientAppointmentCard = (props) => {
   return (
     <>
-      <div className="container-box container m-2 b-1 w-75 ">
+      <div className="container-box-card container m-2 b-1 w-75 ">
       
         <div className="row p-5 align-items-center justify-content-center">
           <div className="col-sm-3 d-flex justify-content-center align-items-center">
