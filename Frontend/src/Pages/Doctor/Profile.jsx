@@ -2,13 +2,40 @@ import React, { useContext, useEffect, useState } from 'react'
 import NavbarContainer from '../../Components/Doctor/NavbarContainer'
 import image from '../../assets/avatar.png'
 import { useDoctor } from '../../context/DoctorContext.jsx'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
+
 
 const Profile = () => {
 
-  const {userData} = useDoctor();
+  const {userData, logout} = useDoctor();
   const [doctor, setDoctor] = useState(userData.user);
-  console.log(userData);
+  const [deleteMsg, setDeleteMsg] = useState(false);
+  const navigate = useNavigate();
+  
 
+
+  const handleRemove = () => {
+    try {
+      setDeleteMsg(true);
+      
+    } catch (error) {
+      
+    }
+  };
+  const deleteNow = async () => {
+    try {
+      
+      const response = await axios.delete(`http://localhost:3000/doctor/${userData.user.id}`);
+      logout();
+      navigate('../doctor/register');
+      
+      
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <div>
@@ -18,8 +45,14 @@ const Profile = () => {
           <img src={image} width="300px" height="300px" className='rounded-circle'/>
           <div><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star"></i></div>
           <button className='bg-success'>Update Profile</button>
-          <button className='bg-dark text-white'>Remove Account</button>
+          <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
         </div>
+        <div className={deleteMsg ? 'custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center' : 'hidden'} >
+          Delete Now
+          <button className='btn btn-dark' onClick={deleteNow}>Delete</button>
+          <button className='btn btn-danger' onClick={() => (setDeleteMsg(false))}>No!</button>
+        </div>
+
         <div className="col-sm-6 d-flex flex-column gap-2 py-5">
           <div className="row">
             <h6>Name</h6>
