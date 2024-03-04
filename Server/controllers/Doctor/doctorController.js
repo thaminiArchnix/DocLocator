@@ -112,7 +112,7 @@ const doctorController = {
                         full_name: doctorData[0].full_name,
                         email: doctorData[0].email,
                         date_of_birth: doctorData[0].date_of_birth,
-                        password: databasePassword,
+                        password: password.length,
                         gender: doctorData[0].gender,
                         phone_number: doctorData[0].phone_number,
                         specialization: doctorData[0].specialization,

@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import { useDoctor} from '../../context/DoctorContext.jsx'
 import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -14,6 +15,7 @@ const Login = () => {
   const {email, password} = formData;
   const navigate =  useNavigate();
   const { updateUser } = useDoctor();
+
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -32,10 +34,10 @@ const Login = () => {
 
     try {
         const response = await axios.post('http://localhost:3000/doctor/login', userData);
-        const userDoctor = response.data[0];
-        localStorage.setItem('token', response.data.token);
+        const userDoctor = response.data;
         updateUser(userDoctor);
-        
+        console.log(userDoctor.token);
+        localStorage.setItem('token', userDoctor.token)
         navigate('../doctor/dashboard');
 
     } catch (error) {

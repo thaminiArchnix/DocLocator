@@ -5,6 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+
 import {DoctorContextProvider } from "./context/DoctorContext.jsx";
 import Register from "./Pages/Doctor/Register";
 import Dashboard from "./Pages/Doctor/Dashboard";

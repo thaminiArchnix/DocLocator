@@ -4,12 +4,15 @@ import doctorImage from '../../assets/doctor.png'
 import '../../Components/Doctor/doctor.css'
 import DashTodaysCard from '../../Components/Doctor/DashTodaysCard'
 import DashOngoingCard from '../../Components/Doctor/DashOngoingCard'
+import { useDoctor } from '../../context/DoctorContext'
 
 const Dashboard = () => {
+  const { userData } = useDoctor();
+  console.log(userData);
   return (
     <div className='d-block'>
       <div><NavbarContainer/></div>
-      <h5 className='p-5'>Hello, Dr. Nirwan Ranasinghe</h5>
+      <h5 className='p-5'>Hello, Dr. {userData.user.full_name}</h5>
       <div className='row-sm-11 d-flex flex-wrap align-items-center jistify-content-center'>
         <div className="col-sm-6 text-center p-5"><p>What is Lorem Ipsum?
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div>
