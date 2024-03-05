@@ -10,12 +10,8 @@ const doctorController = {
 
             //validate availability of data in all required fields
             if (!full_name || !email || !date_of_birth || !password || !gender || !phone_number || !specialization || !longitude || !latitude) {
-                
-                res.status(400);
-                throw new Error("Please add all fields.");
+                res.status(400).json({ error: 'Please fill all the fields!'})
             }
-
-            //validate uniqueness of email ----already handled
 
             //hash the password
             const salt = await bcrypt.genSalt(10);

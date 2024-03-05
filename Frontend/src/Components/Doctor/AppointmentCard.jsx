@@ -19,7 +19,7 @@ const AppointmentCard = (props) => {
               <div className="col">{props.startTime} to {props.endTime}</div>
               <div className="col-sm-3 d-flex justify-content-end"><button>Cancel</button></div>
             </div>
-            <div className="row"><div className="col">{props.location} <i class="bi bi-box-arrow-up-right p-2"></i></div></div>
+            <div className="row"><div className="col">{props.location} <i className="bi bi-box-arrow-up-right p-2"></i></div></div>
           </div>
         </div>
       </div>
