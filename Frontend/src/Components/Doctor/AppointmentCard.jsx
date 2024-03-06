@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import image from '../../assets/avatar.png'; 
+import axios from 'axios'
 
 const AppointmentCard = (props) => {
+  const [appointment, setAppointment] = useState({});
+
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/app/22`); //Change this to get patient data, not appointmemt data
+        setAppointment(response.data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
   return (
     <>
       <div className="container-box container m-2 b-1 w-75">
@@ -16,7 +33,7 @@ const AppointmentCard = (props) => {
               <div className="col">{props.gender}</div>
             </div>
             <div className="row d-flex justify-content-between">
-              <div className="col">{props.startTime} to {props.endTime}</div>
+              <div className="col">{appointment.startTime} to {props.endTime}</div>
               <div className="col-sm-3 d-flex justify-content-end"><button>Cancel</button></div>
             </div>
             <div className="row"><div className="col">{props.location} <i className="bi bi-box-arrow-up-right p-2"></i></div></div>

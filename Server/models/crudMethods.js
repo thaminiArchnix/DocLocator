@@ -35,6 +35,10 @@ const crudMethods = (tableName) => {
             return crudOps(`SELECT * FROM ${tableName} WHERE ${tableData} = ?`, data);
         },
 
+        getByDate: async function(data, tableData) {
+            return crudOps(`SELECT * FROM ${tableName} WHERE date = ? AND docId = ?`, data);
+        },
+
         //data : list of data to be added to table
         create: async function(data, tableData) {
             const values = [];

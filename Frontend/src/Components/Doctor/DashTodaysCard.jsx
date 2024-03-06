@@ -1,7 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import image from '../../assets/avatar.png'; 
+import axios from 'axios';
 
 const DashTodaysCard = (props) => {
+  const [patient, setPatient] = useState([{}]);
+
+  useEffect(() => {
+    const fetchPatientDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/doctor/${props.patientId}`); //change this to patient
+        setPatient(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchPatientDetails();
+
+  },[])
+  console.log(patient);
   return (
     <>
       <div className="container-box container m-2 b-1 w-100 bg-info-subtle text-dark">
@@ -11,7 +27,7 @@ const DashTodaysCard = (props) => {
         </div>
           <div className="col d-flex flex-column gap-2">
             <div className="row">
-              <div className="col">{props.name}</div>
+              <div className="col">{patient[0].full_name}</div>
               <div className="col">{props.age} years</div>
               <div className="col">{props.gender}</div>
             </div>

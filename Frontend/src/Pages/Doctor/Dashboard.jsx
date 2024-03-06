@@ -1,18 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavbarContainer from '../../Components/Doctor/NavbarContainer'
 import doctorImage from '../../assets/doctor.png'
 import '../../Components/Doctor/doctor.css'
 import DashTodaysCard from '../../Components/Doctor/DashTodaysCard'
 import DashOngoingCard from '../../Components/Doctor/DashOngoingCard'
 import { useDoctor } from '../../context/DoctorContext'
+import axios from 'axios'
 
 const Dashboard = () => {
   const { userData } = useDoctor();
-  console.log(userData);
+  const [today, setToday] = useState([]);
+
+  useEffect(() => {
+    const fetchTodayAppointments = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/app/today/now/${userData.user.id}`);
+        const todays = Object.values(response.data).filter(app => app.docId == userData.user.id);
+        setToday(todays); 
+      } catch (error) {
+        console.error('Error fetching today\'s appointments:', error);
+      }
+    };
+
+    fetchTodayAppointments();
+  }, []);
+
+  
+ 
   return (
     <div className='d-block'>
       <div><NavbarContainer/></div>
       <h5 className='p-5'>Hello, Dr. {userData.user.full_name}</h5>
+      
       <div className='row-sm-11 d-flex flex-wrap align-items-center jistify-content-center'>
         <div className="col-sm-6 text-center p-5"><p>What is Lorem Ipsum?
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div>
@@ -29,8 +48,9 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
           <div className="row p-5 bg-dark-subtle rounded">
             <h3 className='p-1 text-center'>Today's Appointments</h3>
             <div>
-              <DashTodaysCard name="Jenny Carter" age="32" gender="Female" startTime="11.30 a.m." endTime="12.30 p.m." location="123, Union Place, Colombo"/>
-              <DashTodaysCard name="Jimmy Carter" age="32" gender="Male" startTime="01.30 p.m." endTime="02.30 p.m." location="123, Union Place, Colombo"/>
+            {today.map(app => (
+              <DashTodaysCard key={today.indexOf(app)} patientId={app.docId}/> // change this to patientId
+            ))}
             </div>
           </div>
         </div>

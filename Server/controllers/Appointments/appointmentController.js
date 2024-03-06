@@ -27,6 +27,20 @@ const appointmentController = {
 
     },
 
+    getAppByDate: async function (req, res) {
+        try {
+            const today = new Date().toISOString().split('T')[0];
+            
+
+            const tableData = ['date'];
+            const data = [`${today}`, `${req.params.id}`];
+            const result = await appointmentModel.getByDate(data , tableData);
+            opStatus('Fetched!', 200, 'Did not Fetch', result, res);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    },
+
     getAllApps: async function(req, res) {
         try {
             const result = await appointmentModel.getAll();
