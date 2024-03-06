@@ -4,7 +4,7 @@ import image from '../../assets/avatar.png'
 import { useDoctor } from '../../context/DoctorContext.jsx'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
+import Map from '../../Components/Doctor/Map.jsx'
 
 
 const Profile = () => {
@@ -85,8 +85,9 @@ const Profile = () => {
           </div>
           <div className="row">
             <h6>Location</h6>
-            <p>{`${doctor.longitude},${doctor.latitude}`}</p>
+            <Map longitude={parseFloat(userData.user.longitude)} latitude={parseFloat(userData.user.latitude)}/>
           </div>
+          
         </div>
       </div>
     </div>

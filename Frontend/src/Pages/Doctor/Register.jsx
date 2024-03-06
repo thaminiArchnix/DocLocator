@@ -1,9 +1,12 @@
-import React, { useEffect, useState, navigate } from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import { useDoctor} from '../../context/DoctorContext.jsx'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDoctor } from '../../context/DoctorContext.jsx';
+import axios from 'axios';
+import LocationMap from '../../Components/LocationMap.jsx';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 const Register = () => {
+  const [selectedLocation, setSelectedLocation] = useState({ lat: null, lng: null });
   const navigate = useNavigate();
   const { updateUser } = useDoctor();
 
@@ -18,10 +21,25 @@ const Register = () => {
     specialization: '',
     longitude: '',
     latitude: '',
-  })
+    address: '', // New state for the address
+  });
 
-  const {full_name, email, date_of_birth, password, confirmpassword, gender, phone_number, specialization, longitude, latitude} = formData;
-  
+  const { full_name, email, date_of_birth, password, confirmpassword, gender, phone_number, specialization, longitude, latitude, address } = formData;
+
+  const handleSelect = async (selectedAddress) => {
+    setFormData((prevState) => ({ ...prevState, address: selectedAddress }));
+    try {
+      const results = await geocodeByAddress(selectedAddress);
+      const latLng = await getLatLng(results[0]);
+      setSelectedLocation(latLng);
+    } catch (error) {
+      console.error('Error fetching geolocation:', error);
+    }
+  };
+
+  const handleMapSelect = (location) => {
+    setSelectedLocation(location);
+  };
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -29,6 +47,8 @@ const Register = () => {
       [e.target.name]: e.target.value,
     }));
   };
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,10 +65,12 @@ const Register = () => {
         longitude: longitude,
         latitude: latitude,
       };
-      console.log(userData);
+
+
       
 
       try {
+
         const response = await axios.post('http://localhost:3000/doctor', userData);
 
         console.log(response.data.token); // Check the response from the server
@@ -63,6 +85,7 @@ const Register = () => {
       console.error('Passwords do not match');
     }
   };
+  
   
 
   return (
@@ -86,10 +109,8 @@ const Register = () => {
             <input type="date" value={date_of_birth} placeholder='Enter your Date of Birth' className="form-control" onChange={onChange} name='date_of_birth'></input>
             <label>Specialization</label>
             <input type="text" value={specialization} placeholder='Enter your Specialization' className="form-control" onChange={onChange} name='specialization'></input>
-            <label>Longitude</label>
-            <input type="text" value={longitude} placeholder='Enter your Longitude' className="form-control" onChange={onChange} name='longitude'></input>
-            <label>Latitude</label>
-            <input type="text" value={latitude} placeholder='Enter your Latitude' className="form-control" onChange={onChange} name='latitude'></input>
+            <label>Permanent Location</label>
+            <LocationMap onSelectLocation={handleMapSelect}/>
             <label>Password</label>
             <input type="password" value={password} placeholder='Enter your password' className="form-control" onChange={onChange} name='password'></input>
             <label>Confirm Password</label>

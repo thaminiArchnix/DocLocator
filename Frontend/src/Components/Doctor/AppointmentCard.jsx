@@ -19,6 +19,10 @@ const AppointmentCard = (props) => {
     fetchAppointments();
   }, []);
 
+  const mapClick = () => {
+    
+  };
+
   return (
     <>
       <div className="container-box container m-2 b-1 w-75">
@@ -36,7 +40,7 @@ const AppointmentCard = (props) => {
               <div className="col">{appointment.startTime} to {props.endTime}</div>
               <div className="col-sm-3 d-flex justify-content-end"><button>Cancel</button></div>
             </div>
-            <div className="row"><div className="col">{props.location} <i className="bi bi-box-arrow-up-right p-2"></i></div></div>
+            <div className="row"><div className="col">{props.location} <i className="bi bi-box-arrow-up-right p-2" onClick={mapClick}></i></div></div>
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ const HistoryCard = (props) => {
               <div className="col">{props.startTime} to {props.endTime}</div>
               <div className="col-sm-3 d-flex justify-content-end text-success">{props.status}</div>
             </div>
-            <div className="row"><div className="col">{props.location} <i class="bi bi-box-arrow-up-right p-2"></i></div></div>
+            <div className="row"><div className="col">{props.location} <i className="bi bi-box-arrow-up-right p-2"></i></div></div>
           </div>
         </div>
       </div>
