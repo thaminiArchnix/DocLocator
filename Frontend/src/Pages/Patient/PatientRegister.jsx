@@ -9,10 +9,14 @@ const API_KEY = 'AIzaSyDeA5U3PfjEtKC-lQnEQ7iO9gn8snYBSMs';
 const PatientRegister = () => {
   const [address, setAddress] = useState('');
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  
+
 
   const handleChange = (newAddress) => {
     setAddress(newAddress);
-  };
+  };  
 
   const handleSelect = async (selectedAddress) => {
     setAddress(selectedAddress);
@@ -31,8 +35,26 @@ const PatientRegister = () => {
     setSelectedLocation(location);
   };
 
+  const isValidPassword = (password) => {
+    const lowerCaseRegex = /[a-z]/;
+    const upperCaseRegex = /[A-Z]/;
+    const digitOrSymbolRegex = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+    return (
+      password.length >= 8 &&
+      lowerCaseRegex.test(password) &&
+      upperCaseRegex.test(password) &&
+      digitOrSymbolRegex.test(password)
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isValidPassword(password) || password !== confirmPassword) {
+      console.error('Password does not meet the requirements or does not match the confirmation');
+      return;
+    }
   
     const formData = {
       Name: e.target.Name.value,
@@ -41,9 +63,11 @@ const PatientRegister = () => {
       Gender: e.target.Gender.value,
       DOB: e.target.DOB.value,
       Password: e.target.Password.value,
+      ConfirmPassword: confirmPassword,
       Latitude: selectedLocation?.lat,
       Longitude: selectedLocation?.lng,
     };
+    
   
     try {
       const response = await axios.post('http://localhost:3000/patient/createpatient', formData);
@@ -109,9 +133,25 @@ const PatientRegister = () => {
             </PlacesAutocomplete>
             <LocationMap onSelectLocation={handleMapSelect} />
             <label>Password</label>
-            <input type="password" name="Password" placeholder='Enter your password' className="form-control" required />
+            <input
+              type="password"
+              name="Password"
+              placeholder='Enter your password'
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
             <label>Confirm Password</label>
-            <input type="password" placeholder='Confirm your password' className="form-control" required />
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder='Confirm your password'
+              className="form-control"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
             <button type="submit">Sign Up</button>
       </form>
       <p className='py-2'>Already a Member? <Link to='../patient/login'>Login</Link></p>
