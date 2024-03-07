@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AppointmentCard from './AppointmentCard';
 import axios from 'axios';
 import { useDoctor } from '../../context/DoctorContext';
+import {dateConverter} from '../../Middleware/dateConverter.js'
 
 const AppointmentDay = (props) => {
   const [appointments, setAppointments] = useState([]);
@@ -27,17 +28,11 @@ const AppointmentDay = (props) => {
   const appArray = Object.values(appointments);
   console.log(appArray);
 
-
-  const convert = (keyDate) => {
-    const date = new Date(keyDate); 
-    const formattedDate = date.toString().substring(0,16);
-    return formattedDate;
-  };
-  const convertDate = convert(props.date);
+  const dateBanner = dateConverter(props.date);
 
   return (
     <div className='p-2'>
-        <h3 className='p-2'>{convertDate}</h3>
+        <h3 className='p-2'>{dateBanner}</h3>
         <div className='d-flex flex-column align-items-center'>
           {appointments.map((app, index) => (
             <AppointmentCard 

@@ -63,7 +63,7 @@ const appointmentController = {
             const endTime = new Date(appData.date.startTime);
             endTime.setHours(endTime.getHours() + 2);
 
-            const tableData = ['docId', 'patientId', 'date', 'startTime', 'longitude', 'latitude'];
+            const tableData = ['patientId', 'docId', 'date', 'startTime', 'longitude', 'latitude'];
             const result = await appointmentModel.create(Object.values(appData), tableData);
 
             //custom data response

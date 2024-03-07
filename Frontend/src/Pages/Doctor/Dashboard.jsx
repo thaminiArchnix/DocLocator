@@ -31,7 +31,6 @@ const Dashboard = () => {
     fetchTodayAppointments();
   }, []);
   console.log(pending, onGoing);
-  
  
   return (
     <div className='d-block'>
@@ -48,13 +47,13 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
           <div className="row p-5 bg-dark-subtle rounded">
             <h3 className='p-1 text-center'>Ongoing Appointment</h3>
             <div className='p-2'>
-              <DashOngoingCard name="Jenny Carter" age="32" gender="Female" startTime="11.30 a.m." endTime="12.30 p.m." location="123, Union Place, Colombo"/>
+              {onGoing.map(app => (<DashOngoingCard key={today.indexOf(app)} patientId={app.patientId} appId={app.appId}/>))}
             </div>
           </div>
           <div className="row p-5 bg-dark-subtle rounded">
             <h3 className='p-1 text-center'>Today's Appointments</h3>
             <div>
-            {today.map(app => (
+            {pending.map(app => (
               <DashTodaysCard key={today.indexOf(app)} patientId={app.patientId} appId={app.appId}/>
             ))}
             </div>

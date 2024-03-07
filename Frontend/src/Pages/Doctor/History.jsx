@@ -15,7 +15,7 @@ const History = () => {
       try {
         const response = await axios.get('http://localhost:3000/app');
         const apps = Object.values(response.data).filter(app => app.docId == userData.user.id);
-        const completedAppointments = Object.values(apps).filter(app => app.status == "Completed")
+        const completedAppointments = Object.values(apps).filter(app => app.status == "Completed" || app.status == "Canceled");
         setCompletedApps(completedAppointments);
       } catch (error) {
         console.error(error);
@@ -37,7 +37,7 @@ const History = () => {
   };
 
   const dates = getUniqueDates(completedApps);
-  console.log(dates);
+
 
   return (
     <div>

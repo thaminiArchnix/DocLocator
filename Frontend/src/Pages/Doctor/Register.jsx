@@ -40,6 +40,7 @@ const Register = () => {
   const handleMapSelect = (location) => {
     setSelectedLocation(location);
   };
+  
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -48,10 +49,31 @@ const Register = () => {
     }));
   };
 
+  const isValidPassword = (password) => {
+    const lowerCaseRegex = /[a-z]/;
+    const upperCaseRegex = /[A-Z]/;
+    const digitOrSymbolRegex = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+    return (
+      password.length >= 8 &&
+      lowerCaseRegex.test(password) &&
+      upperCaseRegex.test(password) &&
+      digitOrSymbolRegex.test(password)
+    );
+  };
+
   
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const validation = isValidPassword(password);
+    
+    if(validation == false) {
+      console.error('Enter a valid Password!');
+      return;
+    }
+
 
     if (password === confirmpassword) {
       const userData = {
@@ -62,8 +84,8 @@ const Register = () => {
         gender: gender,
         phone_number: phone_number,
         specialization: specialization,
-        longitude: longitude,
-        latitude: latitude,
+        longitude: selectedLocation.lng,
+        latitude: selectedLocation.lat,
       };
 
 
@@ -71,9 +93,8 @@ const Register = () => {
 
       try {
 
-        const response = await axios.post('http://localhost:3000/doctor', userData);
+        const response = await axios.post('http://localhost:3000/doctor/', userData);
 
-        console.log(response.data.token); // Check the response from the server
         localStorage.setItem('token', response.data.token);
         updateUser(userData);
         navigate('/doctor/dashboard');

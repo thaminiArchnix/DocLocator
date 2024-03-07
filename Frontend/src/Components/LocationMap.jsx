@@ -46,7 +46,7 @@ const LocationMap = ({ onSelectLocation }) => {
       onClick={onMapClick}
     >
       {selectedLocation && <Marker position={selectedLocation} />}
-      {console.log(selectedLocation)}
+      
     </GoogleMap>
   ) : null;
 };
