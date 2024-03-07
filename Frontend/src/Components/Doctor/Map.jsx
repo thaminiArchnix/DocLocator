@@ -1,6 +1,7 @@
 import { Loader } from '@googlemaps/js-api-loader';
 import React, { useEffect, useState } from 'react';
 
+
 const Map = (props) => {
     const [address, setAddress] = useState('');
     useEffect(() => {
@@ -32,9 +33,10 @@ const Map = (props) => {
                 position: position,
                 title: "Marker Title",
             });
+            function getAddressFromLatLng (latitude, longitude) {
 
-            function getAddressFromLatLng(latitude, longitude) {
-                return new Promise((resolve, reject) => {
+                return new Promise(async (resolve, reject) => {
+                    
                     const geocoder = new google.maps.Geocoder();
                     const latLng = new google.maps.LatLng(latitude, longitude);
             

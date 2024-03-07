@@ -10,12 +10,18 @@ import axios from 'axios'
 const Dashboard = () => {
   const { userData } = useDoctor();
   const [today, setToday] = useState([]);
+  const [onGoing, setOnGoing] = useState([]);
+  const [pending, setPending] = useState([]);
 
   useEffect(() => {
     const fetchTodayAppointments = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/app/today/now/${userData.user.id}`);
         const todays = Object.values(response.data).filter(app => app.docId == userData.user.id);
+        const pendingApps = todays.filter(app => app.status == "Pending");
+        setPending(pendingApps);
+        const onGoingApps = todays.filter(app => app.status == "OnGoing");
+        setOnGoing(onGoingApps);
         setToday(todays); 
       } catch (error) {
         console.error('Error fetching today\'s appointments:', error);
@@ -24,7 +30,7 @@ const Dashboard = () => {
 
     fetchTodayAppointments();
   }, []);
-
+  console.log(pending, onGoing);
   
  
   return (
@@ -49,7 +55,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
             <h3 className='p-1 text-center'>Today's Appointments</h3>
             <div>
             {today.map(app => (
-              <DashTodaysCard key={today.indexOf(app)} patientId={app.docId}/> // change this to patientId
+              <DashTodaysCard key={today.indexOf(app)} patientId={app.patientId} appId={app.appId}/>
             ))}
             </div>
           </div>

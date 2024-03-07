@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import image from '../../assets/avatar.png'; 
 import axios from 'axios'
+import Map from '../Doctor/Map.jsx'
+import { calculateAge } from '../../Middleware/calculateAge.js';
+import { time } from '../../Middleware/time.js';
+import { calculateEndTime } from '../../Middleware/calculateEndTime.js';
 
 const AppointmentCard = (props) => {
   const [appointment, setAppointment] = useState({});
+  const [patient, setPatient] = useState({});
+  const [mapPopup, setMapPopup] = useState(false);
 
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/app/22`); //Change this to get patient data, not appointmemt data
+        const response = await axios.get(`http://localhost:3000/app/${props.appId}`); 
         setAppointment(response.data[0]);
+        const patient = await axios.get(`http://localhost:3000/patient/${props.patId}`);
+        setPatient(patient.data[0]);
       } catch (error) {
         console.error(error);
       }
@@ -19,9 +27,18 @@ const AppointmentCard = (props) => {
     fetchAppointments();
   }, []);
 
-  const mapClick = () => {
-    
+  const handleMap = () => {
+    setMapPopup(prevMapPopup => !prevMapPopup); // Toggle the state
   };
+
+{/*  const handleCancel = async () => {
+    const response = await axios.put(`http://localhost:3000/app/${props.appId}`);
+  }*/}
+
+  const age = calculateAge(patient.DOB);
+  const startTime = time(appointment.startTime);
+  const endTime = time(calculateEndTime(appointment.startTime));
+
 
   return (
     <>
@@ -32,15 +49,18 @@ const AppointmentCard = (props) => {
         </div>
           <div className="col d-flex flex-column gap-2">
             <div className="row">
-              <div className="col">{props.name}</div>
-              <div className="col">{props.age} years</div>
-              <div className="col">{props.gender}</div>
+              <div className="col">{patient.Name}</div>
+              <div className="col">{age} years</div>
+              <div className="col">{patient.Gender}</div>
             </div>
             <div className="row d-flex justify-content-between">
-              <div className="col">{appointment.startTime} to {props.endTime}</div>
+              <div className="col">{startTime} to {endTime}</div>
               <div className="col-sm-3 d-flex justify-content-end"><button>Cancel</button></div>
             </div>
-            <div className="row"><div className="col">{props.location} <i className="bi bi-box-arrow-up-right p-2" onClick={mapClick}></i></div></div>
+                <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
+                <div className={ mapPopup ? '' : 'hidden'}>
+                  <Map longitude={parseFloat(appointment.longitude)} latitude={parseFloat(appointment.latitude)}/>
+                </div>
           </div>
         </div>
       </div>

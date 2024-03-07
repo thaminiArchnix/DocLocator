@@ -9,7 +9,7 @@ function opStatus (successMsg, successStatus, failMsg, result, res,) {
           message: successMsg,
         });
     } else {
-        return res.status(500).json({ error: failMsg });
+        //return res.status(500).json({ error: failMsg });
     }            
 };
 

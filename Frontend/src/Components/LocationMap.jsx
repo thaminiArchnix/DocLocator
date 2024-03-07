@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { Loader } from '@googlemaps/js-api-loader';
 
 const LocationMap = ({ onSelectLocation }) => {
   const [map, setMap] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
+
   
   const containerStyle = {
     width: '100%',
@@ -11,8 +13,8 @@ const LocationMap = ({ onSelectLocation }) => {
   };
 
   const center = {
-    lat: selectedLocation ? selectedLocation.lat : 0,
-    lng: selectedLocation? selectedLocation.lng: 0,
+    lat: selectedLocation ? selectedLocation.lat : 8,
+    lng: selectedLocation? selectedLocation.lng: 80,
   };
 
   const { isLoaded } = useJsApiLoader({

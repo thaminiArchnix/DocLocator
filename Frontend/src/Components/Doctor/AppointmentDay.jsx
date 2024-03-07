@@ -42,7 +42,8 @@ const AppointmentDay = (props) => {
           {appointments.map((app, index) => (
             <AppointmentCard 
               key={index} 
-              id={app.appId} 
+              appId={app.appId}
+              patId={app.patientId} 
             />
           ))}
         </div>
