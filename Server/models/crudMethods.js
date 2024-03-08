@@ -57,6 +57,19 @@ const crudMethods = (tableName) => {
         //data : id
         delete: async function(data, tableData) {
             return crudOps(`DELETE FROM ${tableName} WHERE ${tableData} = ?`, data);
+        },
+
+        getDoctorByEmail: async function(userEmail) {
+            return new Promise ((resolve, reject) => {
+                const sql = 'SELECT * FROM doctors WHERE email = ?';
+                connection.query(sql, [userEmail], function(err, result) {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
         }
     };
 };

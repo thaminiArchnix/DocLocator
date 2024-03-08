@@ -14,7 +14,7 @@ const Profile = () => {
   const [deleteMsg, setDeleteMsg] = useState(false);
   const navigate = useNavigate();
   
-
+  
 
   const handleRemove = () => {
     try {
@@ -26,12 +26,11 @@ const Profile = () => {
   };
   const deleteNow = async () => {
     try {
-      
+
       const response = await axios.delete(`http://localhost:3000/doctor/${userData.user.id}`);
+      
       logout();
       navigate('../doctor/register');
-      
-      
     } catch (error) {
       
     }

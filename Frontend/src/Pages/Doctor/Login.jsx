@@ -35,8 +35,8 @@ const Login = () => {
     try {
         const response = await axios.post('http://localhost:3000/doctor/login', userData);
         const userDoctor = response.data;
+       
         updateUser(userDoctor);
-        console.log(userDoctor.token);
         localStorage.setItem('token', userDoctor.token)
         navigate('../doctor/dashboard');
 

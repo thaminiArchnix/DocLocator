@@ -1,5 +1,10 @@
+const crudMethods = require('../../Models/crudMethods.js');
 const connection = require('../../DB/connection.js');
-{/*
+
+const doctorModel = crudMethods('doctors');
+
+module.exports = doctorModel;
+/*
 const createModel = (data, userData) => {
     return {
         [data.modelName]: async function(userData) {
@@ -67,7 +72,7 @@ const doctorModel = {
     }, userId)
 };
 
-module.exports = doctorModel;*/}
+module.exports = doctorModel;
 
 const doctorModel = {
     createDoctor: async function(userData) {
@@ -169,3 +174,4 @@ const doctorModel = {
 };
 
 module.exports = doctorModel;
+*/
