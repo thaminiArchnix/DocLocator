@@ -11,8 +11,8 @@ const LocationMap = ({ onSelectLocation }) => {
   };
 
   const center = {
-    lat: 0,
-    lng: 0,
+    lat: selectedLocation ? selectedLocation.lat : 8,
+    lng: selectedLocation? selectedLocation.lng: 80,
   };
 
   const { isLoaded } = useJsApiLoader({

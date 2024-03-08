@@ -1,55 +1,72 @@
-import React, { useState } from 'react'
-import '../../style.css'
+import React, { useState, useContext } from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
-//import { useNavigate } from 'react-router-dom'
+import { usePatient } from '../../Context/Patient/patientContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
 
-    const [values, setValues] = useState({
-        email: '',
-        password: ''
-    })
-    /*
-    const navigate = useNavigate()
-    axios.defaults.withCredentials = true;
-    const [error, setError] = useState('')*/
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        axios.post('http://localhost:3000/auth/patientlogin', values)
-        .then(result => console.log(result))
-        .catch(err => console.log(err))
-        /*.then(res => {
-            if(res.data.Status === 'Success') {
-                navigate('/');
-            } else {
-                setError(res.data.Error);
-            }
-        })
-        .catch(err => console.log(err));*/
+
+const PatientLogin = () => {
+  const [formData, setFormData] = useState({
+    Email : '',
+    Password : ''
+  })
+  const {Email, Password} = formData;
+  const navigate =  useNavigate();
+  const { updateUser } = usePatient();
+
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name] : e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const userData = {
+        Email: Email,
+        Password: Password
+    };
+
+    try {
+        const response = await axios.post('http://localhost:3000/patient/login', userData);
+        const userPatient = response.data;
+        updateUser(userPatient);
+        console.log(userPatient);
+        localStorage.setItem('token', userPatient.token)
+        navigate('../patient/dashboard');
+
+
+    } catch (error) {
+        console.error('Error logging in:', error);
+    
     }
 
-    return (
-        <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
-            <div className='p-3 rounded w-25 border loginForm'>
-               
-                <h2>Login</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className='mb-3'>
-                        <label htmlFor="email"><strong>Email</strong></label>
-                        <input type="email" placeholder='Enter Email' name='email' 
-                          onChange={e => setValues({...values, email: e.target.value})} className='form-control rounded-0' autoComplete='off'/>
-                    </div>
-                    <div className='mb-3'>
-                        <label htmlFor="password"><strong>Password</strong></label>
-                        <input type="password" placeholder='Enter Password' name='password'
-                          onChange={e => setValues({...values, password: e.target.value})} className='form-control rounded-0' />
-                    </div>
-                    <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>
-                </form>
-            </div>
-        </div>
-    )
+    console.log(userData);
+  };
+  
+ 
+
+
+  return (
+    <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
+        <h2>Login as a Patient</h2>
+        <form className='d-flex flex-column w-50 gap-2 ' onSubmit={handleSubmit}>
+            <label>Email</label>
+            <input type="Email" placeholder='Enter your email' name="Email" className="form-control" value={Email} onChange={onChange}></input>
+
+            <label>Password</label>
+            <input type="Password" placeholder='Enter your password' name="Password" className="form-control" value={Password} onChange={onChange}></input>
+            <button type='submit'>Login</button>
+        </form>
+        <p className='py-2'>Not a Member? <Link to='../patient/regi'>Sign Up</Link></p>
+        
+    </div>
+  )
 }
 
-export default Login
+export default PatientLogin

@@ -1,12 +1,68 @@
-import React from 'react'
-import PatientNavbarContainer from '../../Components/Patient/PatientNavbarContainer'
-import app from '../../assets/app.jpg'
-import '../../Components/Patient/patient.css'
-import PatientAppointmentCard from '../../Components/Patient/PatientAppointmentCard'
-//import PatientDashTodayCard from '../../Components/Patient/PatientDashTodayCard'
-//import PatientDashOngoingCard from '../../Components/Patient/PatientDashOngoingCard'
+import React, { useState } from 'react';
+import PatientNavbarContainer from '../../Components/Patient/PatientNavbarContainer';
+import app from '../../assets/app.jpg';
+import '../../Components/Patient/patient.css';
+import PatientAppointmentCard from '../../Components/Patient/PatientAppointmentCard';
+//import PatientDashTodayCard from '../../Components/Patient/PatientDashTodayCard';
+//import PatientDashOngoingCard from '../../Components/Patient/PatientDashOngoingCard';
+
+
 
 const PatientDashboard = () => {
+
+  const [specialization, setSpecialization] = useState('');
+  const [disease, setDisease] = useState('');
+  const [radius, setRadius] = useState('');
+  const [currentLocation, setCurrentLocation] = useState('');
+  const [nearestDoctors, setNearestDoctors] = useState([]);
+
+  // Function to calculate distance between two coordinates using Haversine formula
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c; // Distance in kilometers
+
+    return distance;
+  };
+
+  // Function to convert degrees to radians
+  const toRadians = (degrees) => {
+    return degrees * (Math.PI / 180);
+  };
+
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Fetch all doctors
+      const allDoctorsResponse = await fetch('http://localhost:3000/doctor');
+      const allDoctorsData = await allDoctorsResponse.json();
+
+      // Calculate distances and filter by radius
+      const doctorsWithinRadius = allDoctorsData.filter((doctor) => {
+        const distance = calculateDistance(
+          parseFloat(doctor.latitude),
+          parseFloat(doctor.longitude)
+        );
+
+        return distance <= parseFloat(radius);
+      });
+
+      setNearestDoctors(doctorsWithinRadius);
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+    }
+  };
+
+
   return (
     <div className='d-block'>
       <div><PatientNavbarContainer/></div>
@@ -30,7 +86,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                     <label className="form-label" htmlFor="form3Example1">Select Current Location</label>
                   </div>
                   <div className="col-lg-7">
-                    <form>
+                   {/*} <form onSubmit={handleSearchSubmit}>
                       <div className="row">
                         <div className="col-md-9">
                           <div className="row mb-4">
@@ -42,14 +98,10 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                             </div>
                             <div className="col-md-6">
                               <div className="form-outline">
-                                <input type="email" id="form3Example2" className="form-control" />
+                                <input type="number" id="form3Example2" className="form-control" />
                                 <label className="form-label" htmlFor="form3Example2">Radius</label>
                               </div>
                             </div>
-                          </div>
-                          <div className="form-outline mb-4">
-                            <input type="text" id="form3Example3" className="form-control" />
-                            <label className="form-label" htmlFor="form3Example3">Subject</label>
                           </div>
                           <div className="text-center text-md-start">
                             <button type="submit" className="btn btn-primary mb-5 mb-md-0">
@@ -58,7 +110,29 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                           </div>
                         </div>
                       </div>
-                    </form>
+  </form>{*/}
+                  <form onSubmit={handleSearchSubmit}>
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label htmlFor="specialization" className="form-label">Specialization</label>
+                        <input type="text" className="form-control" id="specialization" value={specialization} onChange={(e) => setSpecialization(e.target.value)} />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label htmlFor="radius" className="form-label">Radius (in kilometers)</label>
+                        <input type="number" className="form-control" id="radius" value={radius} onChange={(e) => setRadius(e.target.value)} />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label htmlFor="disease" className="form-label">Disease</label>
+                        <input type="text" className="form-control" id="disease" value={disease} onChange={(e) => setDisease(e.target.value )} />
+                      </div>
+                    </div>
+                    <div className="text-center text-md-start">
+                      <button type="submit" className="btn btn-primary mb-5 mb-md-0">Search</button>
+                    </div>
+                  </form>
+
+                    {nearestDoctors.length > 0 && <NearestDoctorsList doctors={nearestDoctors} />}
+    
                   </div>
                 </div>
               </section>     

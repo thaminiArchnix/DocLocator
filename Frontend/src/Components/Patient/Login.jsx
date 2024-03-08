@@ -1,55 +1,67 @@
-import React, { useState } from 'react'
-import '../../style.css'
+import React, { useState, useContext } from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
-//import { useNavigate } from 'react-router-dom'
+import { usePatient} from '../../Context/patientContext.jsx'
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    email : '',
+    password : ''
+  })
+  const {email, password} = formData;
+  const navigate =  useNavigate();
+  const { updateUser } = usePatient();
 
-    const [values, setValues] = useState({
-        email: '',
-        password: ''
-    })
-    /*
-    const navigate = useNavigate()
-    axios.defaults.withCredentials = true;
-    const [error, setError] = useState('')*/
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        axios.post('http://localhost:3000/auth/patientlogin', values)
-        .then(result => console.log(result))
-        .catch(err => console.log(err))
-        /*.then(res => {
-            if(res.data.Status === 'Success') {
-                navigate('/');
-            } else {
-                setError(res.data.Error);
-            }
-        })
-        .catch(err => console.log(err));*/
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name] : e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const userData = {
+        email: email,
+        password: password
+    };
+
+    try {
+        const response = await axios.post('http://localhost:3000/doctor/login', userData);
+        const usePatient = response.data;
+        updateUser(usePatient);
+        console.log(usePatient.token);
+        localStorage.setItem('token', usePatient.token)
+        navigate('../patient/dashboard');
+
+    } catch (error) {
+        console.error('Error logging in:', error);
     }
+  };
+  
 
-    return (
-        <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
-            <div className='p-3 rounded w-25 border loginForm'>
-               
-                <h2>Login</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className='mb-3'>
-                        <label htmlFor="email"><strong>Email</strong></label>
-                        <input type="email" placeholder='Enter Email' name='email' 
-                          onChange={e => setValues({...values, email: e.target.value})} className='form-control rounded-0' autoComplete='off'/>
-                    </div>
-                    <div className='mb-3'>
-                        <label htmlFor="password"><strong>Password</strong></label>
-                        <input type="password" placeholder='Enter Password' name='password'
-                          onChange={e => setValues({...values, password: e.target.value})} className='form-control rounded-0' />
-                    </div>
-                    <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>
-                </form>
-            </div>
-        </div>
-    )
+
+  return (
+    <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
+        <h2>Login as a Doctor</h2>
+        <form className='d-flex flex-column w-50 gap-2 ' onSubmit={handleSubmit}>
+            <label>Email</label>
+            <input type="email" placeholder='Enter your email' name="email" className="form-control" value={email} onChange={onChange}></input>
+
+            <label>Password</label>
+            <input type="password" placeholder='Enter your password' name="password" className="form-control" value={password} onChange={onChange}></input>
+            <button type='submit'>Login</button>
+        </form>
+        <p className='py-2'>Not a Member? <Link to='../doctor/register'>Sign Up</Link></p>
+        
+    </div>
+  )
 }
 
 export default Login

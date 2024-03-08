@@ -1,6 +1,7 @@
 const connection = require('../db/connection.js');
 const activationService = require('../services/activationService.js');
 const bcrypt = require('bcrypt');
+const jsonwebtoken = require('jsonwebtoken');
 
 const patientController = (() => {
     const executeQuery = (sql, params, successMessage, errorMessage, req, res) => {
@@ -43,10 +44,14 @@ const patientController = (() => {
       activationService.sendActivationEmail(patientEmail, activationToken);
     };
 
+
+
     const getAllPatients = (req, res) => {
       const sql = 'SELECT * FROM patient';
       executeQuery(sql, [], null, 'No Patient Found', req, res);
     };
+
+
 
     const getPatientById = (req, res) => {
       const PatientId = req.params.id;
@@ -54,6 +59,8 @@ const patientController = (() => {
       const params = [PatientId];
       executeQuery(sql, params, null, 'Patient not found', req, res);
     };
+
+
 
     const updatePatient = (req, res) => {
       const PatientId = req.params.id;
@@ -63,6 +70,9 @@ const patientController = (() => {
       executeQuery(sql, params, 'Patient Data Updated Successfully', null, req, res);
     };
 
+
+
+
     const deletePatient = (req, res) => {
       const PatientId = req.params.id;
       const sql = 'DELETE FROM patient WHERE PatientId = ?';
@@ -71,27 +81,7 @@ const patientController = (() => {
     };
 
 
-    /*const activatePatient = async (req, res) => {
-      const { token } = req.query;
     
-      try {
-        const user = await activationService.verifyActivationToken(token);
-    
-        if (!user) {
-          return res.status(400).send('Invalid activation link');
-        }
-    
-        const sql = 'UPDATE patient SET activation_status = 1 WHERE PatientId = ?';
-        const params = [user.PatientId];
-    
-        executeQuery(sql, params, 'Account Activated Successfully', 'Error activating account', req, res);
-    
-        res.redirect('/patient/dashboard');
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-      }
-    };*/
 
     const activatePatient = async (req, res) => {
       const { token } = req.params;
@@ -122,8 +112,55 @@ const patientController = (() => {
         res.status(500).json({ error: 'Internal Server Error' });
       }
     };
-    
 
+
+
+
+    const loginPatient = async (req, res) => {
+      try {
+        const { Email, Password } = req.body;
+  
+        const sql = 'SELECT * FROM patient WHERE Email = ?';
+        const params = [Email];
+  
+        executeQuery(sql,params, null,'Invalid User Data',req,res,
+        async  (patientData) => {
+            const databasePassword = patientData[0].Password;
+            const result = await bcrypt.compare(Password, databasePassword);
+  
+            if (result) {
+              const token = generateToken(patientData[0].id);
+  
+              res.status(201).json({
+                patientId: patientData[0].patientId,
+                Name: patientData[0].Name,
+                Email: patientData[0].Email,
+                DOB: patientData[0].DOB,
+                Phone: patientData[0].Phone,
+                token: token,
+                message: 'Logged In Successfully',
+              });
+            } else {
+              res.status(400).json({ error: 'Invalid User Data' });
+            }
+          }
+        );
+      } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    };
+
+
+  
+    const generateToken = (id) => {
+      return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: '1d',
+      });
+    };
+
+
+
+  
     return {
       createPatient,
       getAllPatients,
@@ -131,6 +168,8 @@ const patientController = (() => {
       updatePatient,
       deletePatient,
       activatePatient,
+      loginPatient,
+      generateToken
     };
   })();
   

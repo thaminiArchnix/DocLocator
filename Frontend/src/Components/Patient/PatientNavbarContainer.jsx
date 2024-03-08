@@ -11,7 +11,7 @@ const PatientNavbarContainer = () => {
         <div className='mx-auto text-white'>DocLocator</div>
         <Nav className="mx-auto align-items-center d-flex flex-wrap">
             <Nav.Link href="./dashboard" className='text-center'>Home</Nav.Link>
-            <Nav.Link href="./appointments" className='text-center'>My Appointments</Nav.Link>
+            <Nav.Link href="./myappointment" className='text-center'>My Appointments</Nav.Link>
             <Nav.Link href="./history" className='text-center'>Treatment History</Nav.Link>
             <Nav.Link href="./profile" className='text-center'>Profile</Nav.Link>
         </Nav>
