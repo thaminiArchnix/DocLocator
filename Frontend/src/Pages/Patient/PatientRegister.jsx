@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import LocationMap from '../../Components/Patient/LocationMap'; 
@@ -11,7 +11,7 @@ const PatientRegister = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+  const navigate = useNavigate();
 
 
   const handleChange = (newAddress) => {
@@ -72,6 +72,7 @@ const PatientRegister = () => {
     try {
       const response = await axios.post('http://localhost:3000/patient/createpatient', formData);
       console.log('Registration successful:', response.data);
+      navigate('/patient/patientAuth');
     } catch (error) {
       console.error('Registration error:', error);
     }

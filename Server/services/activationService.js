@@ -9,8 +9,7 @@ const generateActivationToken = () => {
 };
 
 const sendActivationEmail = (patientEmail, token) => {
- // const activationLink = `http://localhost:3000/patient/dashboard/activate?token=${token}`;
- const activationLink = `http://localhost:3000/patient/dashboard`;
+ const activationLink = `http://localhost:3000/activate?token=${token}`;
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
