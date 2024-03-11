@@ -97,7 +97,10 @@ const Register = () => {
 
         localStorage.setItem('token', response.data.token);
         updateUser(userData);
-        navigate('/doctor/dashboard');
+        const email = { email : response.data.email};
+        const doctor = await axios.post('http://localhost:3000/auth/verify', email);
+        navigate('/doctor/auth');
+        
 
       } catch (error) {
         console.error('Error signing up:', error);

@@ -4,6 +4,7 @@ const authRouter = express.Router();
 const authController = require("../../controllers/Auth/authController.js");
 
 // Route to handle activation link
-authRouter.get("/doctor/activate", authController.activateDoctorAccount);
+authRouter.get("/activate", authController.activateDoctorAccount);
+authRouter.post("/verify", authController.verifyDoctorAccount);
 
 module.exports = authRouter;

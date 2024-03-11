@@ -8,7 +8,7 @@ const generateActivationToken = () => {
 };
 
 const sendActivationEmail = (patientEmail, token) => {
-  const activationLink = `http://localhost:3000/doctor/activate?token=${token}`;
+  const activationLink = `http://localhost:3000/auth/activate?token=${token}`;
   //const activationLink = `http://localhost:3000/patient/dashboard`;
 
   const transporter = nodemailer.createTransport({
@@ -21,7 +21,7 @@ const sendActivationEmail = (patientEmail, token) => {
 
   const mailOptions = {
     from: "thaminiarchnix@gmail.com",
-    to: patientEmail,
+    to: patientEmail, //change to patient Email
     subject: "Activate Your Account",
     text: `Click the following link to activate your account: ${activationLink}`,
   };
@@ -36,7 +36,7 @@ const sendActivationEmail = (patientEmail, token) => {
 };
 
 const verifyActivationToken = async (token) => {
-  const sql = "SELECT * FROM doctor WHERE verification = ?";
+  const sql = "SELECT * FROM doctors WHERE verification = ?";
   const params = [token];
 
   return new Promise((resolve, reject) => {
