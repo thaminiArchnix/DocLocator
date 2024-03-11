@@ -51,7 +51,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
             </div>
           </div>
           <div className="row p-5 bg-dark-subtle rounded">
-            <h3 className='p-1 text-center'>Today's Appointments</h3>
+            <h3 className='p-1 text-center'>Upcoming Appointments</h3>
             <div>
             {pending.map(app => (
               <DashTodaysCard key={today.indexOf(app)} patientId={app.patientId} appId={app.appId}/>

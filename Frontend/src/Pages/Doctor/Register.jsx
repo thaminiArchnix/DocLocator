@@ -62,17 +62,32 @@ const Register = () => {
     );
   };
 
+  const isValidPhone = (phone) => {
+    const regex = /^\d{10}$/;
+    return (
+      phone.length === 10 &&
+      regex.test(phone)
+    );
+  };
+
   
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validation = isValidPassword(password);
+    const phone = isValidPhone(phone_number);
     
     if(validation == false) {
       console.error('Enter a valid Password!');
       return;
-    }
+    };
+
+    if(phone == false) {
+      console.error('Enter a valid phone number!');
+      return;
+    };
+
 
 
     if (password === confirmpassword) {

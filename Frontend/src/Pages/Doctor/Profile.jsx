@@ -84,7 +84,7 @@ const Profile = () => {
           </div>
           <div className="row">
             <h6>Location</h6>
-            <Map longitude={parseFloat(userData.user.longitude)} latitude={parseFloat(userData.user.latitude)}/>
+            <Map longitude={parseFloat(userData.user.longitude)} latitude={parseFloat(userData.user.latitude)} id={`doc${doctor.id}`}/>
           </div>
           
         </div>
