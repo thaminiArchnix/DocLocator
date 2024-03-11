@@ -11,7 +11,7 @@ const DashTodaysCard = (props) => {
   const [patient, setPatient] = useState([{}]);
   const [appointment, setAppointment] = useState([{}]);
   const [mapPopup, setMapPopup] = useState(false);
-
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -20,6 +20,8 @@ const DashTodaysCard = (props) => {
         const appoint = await axios.get(`http://localhost:3000/app/${props.appId}`) 
         setPatient(response.data);
         setAppointment(appoint.data);
+        setStatus(appoint.data[0].status);
+        
       } catch (error) {
         console.error(error);
       }
@@ -27,9 +29,40 @@ const DashTodaysCard = (props) => {
     fetchPatientDetails();
 
   },[])
+  
 
+  useEffect(() => {
+    setStatus(appointment[0]?.status || '');
+  },[]);
+  console.log(status);
   const handleMap = () => {
     setMapPopup(prevMapPopup => !prevMapPopup); // Toggle the state
+  };
+
+  const handleCancel = async () => {
+    const data = {
+        "status": "Canceled"
+    }
+    try {
+      const response = await axios.put(`http://localhost:3000/app/${props.appId}`, data);
+      window.location.reload();
+      setStatus('Canceled');
+    } catch (error) {
+      console.error(error);
+    }
+    
+  };
+  const handleStart = async () => {
+    const data = {
+      "status": "OnGoing"
+    }
+    try {
+      const response = await axios.put(`http://localhost:3000/app/${props.appId}`, data);
+      setStatus('OnGoing');
+      window.location.reload(); // Reload the page
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const location = appointment[0].longitude;
@@ -51,17 +84,18 @@ const DashTodaysCard = (props) => {
             </div>
             <div className="row d-flex justify-content-between">
               <div className="col">{startTime} to {endTime}</div>
-              <div className="col-sm-3 d-flex flex-wrap gap-3 justify-content-end"><button>Cancel</button></div>
+              <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
+              <div className="col-sm-3 d-flex flex-wrap gap-3 justify-content-end"><button className={`btn ${status === 'Canceled' ? "disabled" : "btn-primary"}`} onClick={handleCancel}>Cancel</button></div>
             </div>
             <div className="row">
                 <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 <div className={ mapPopup ? '' : 'hidden'}>
-                  <Map longitude={parseFloat(appointment[0].longitude)} latitude={parseFloat(appointment[0].latitude)}/>
+                  {mapPopup && <Map longitude={parseFloat(appointment[0].longitude)} latitude={parseFloat(appointment[0].latitude)} id={props.appId}/>}
                 </div>
                 
             
             </div>
-            <div className="row"><button className='bg-success'>Start</button></div>
+            <div className="row"><button className={`btn ${status === 'Canceled' ? "disabled" : "btn-warning"}`} onClick={handleStart}>Start</button></div>
           </div>
         </div>
       </div>

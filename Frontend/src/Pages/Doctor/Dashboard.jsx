@@ -59,7 +59,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
             </div>
           </div>
         </div>
-        <div className="col-sm-3 p-5 bg-dark-subtle text-center h-100 rounded">
+        {/* <div className="col-sm-3 p-5 bg-dark-subtle text-center h-100 rounded">
           <h3 className='p-1'>Absences</h3>
           <div className="container">
             <div id="datepicker" className="input-group date" data-date-format="mm-dd-yyyy"> 
@@ -67,7 +67,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
             </div>
           </div>
           <div className="row p-3"><button className='bg-dark'>Add Date</button></div>
-        </div>
+        </div> */}
       </div>
       
     </div>

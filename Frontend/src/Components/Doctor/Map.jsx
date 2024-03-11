@@ -24,7 +24,7 @@ const Map = (props) => {
             const map = new Map(document.getElementById("map"), {
                 zoom: 15,
                 center: position,
-                mapId: "DEMO_MAP_ID",
+                mapId: props.id,
             });
 
             // The marker, positioned at the position

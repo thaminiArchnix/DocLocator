@@ -43,7 +43,7 @@ const History = () => {
     <div>
       <div><NavbarContainer/></div>
       <div>
-        {dates.map(date => (<HistoryDay key={dates.indexOf(date)} date={date}/>))}
+        {dates.sort((a, b) => new Date(b) - new Date(a)).map(date => (<HistoryDay key={dates.indexOf(date)} date={date}/>))}
       </div>
     </div>
   )

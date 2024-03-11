@@ -14,7 +14,8 @@ const AppointmentDay = (props) => {
         const response = await axios.get('http://localhost:3000/app');
         const userapps = await Object.values(response.data).filter(app => app.docId == userData.user.id);
         const todays = await Object.values(userapps).filter(app => app.date == props.date);
-        setAppointments(todays);
+        const nonCompleted = await Object.values(todays).filter(app => app.status !== 'Completed');
+        setAppointments(nonCompleted);
       } catch (error) {
         console.error(error);
       }
@@ -40,7 +41,7 @@ const AppointmentDay = (props) => {
               appId={app.appId}
               patId={app.patientId} 
             />
-          ))}
+          )).sort((a, b) => b.date - a.date)}
         </div>
     </div>
   );

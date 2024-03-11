@@ -10,8 +10,11 @@ const AppointmentCard = (props) => {
   const [appointment, setAppointment] = useState({});
   const [patient, setPatient] = useState({});
   const [mapPopup, setMapPopup] = useState(false);
+  const [status, setStatus] = useState('Pending');
 
-
+  useEffect(() => {
+    setStatus(appointment.status);
+  },[appointment]);
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -31,13 +34,24 @@ const AppointmentCard = (props) => {
     setMapPopup(prevMapPopup => !prevMapPopup); // Toggle the state
   };
 
-{/*  const handleCancel = async () => {
-    const response = await axios.put(`http://localhost:3000/app/${props.appId}`);
-  }*/}
+  const handleCancel = async () => {
+    const data = {
+        "status": "Canceled"
+    }
+    try {
+      const response = await axios.put(`http://localhost:3000/app/${props.appId}`, data);
+      setStatus('Canceled');
+    } catch (error) {
+      console.error(error);
+    }
+    
+  }
+
 
   const age = calculateAge(patient.DOB);
   const startTime = time(appointment.startTime);
   const endTime = time(calculateEndTime(appointment.startTime));
+  console.log(parseFloat(appointment.longitude), parseFloat(appointment.latitude));
 
 
   return (
@@ -55,11 +69,12 @@ const AppointmentCard = (props) => {
             </div>
             <div className="row d-flex justify-content-between">
               <div className="col">{startTime} to {endTime}</div>
-              <div className="col-sm-3 d-flex justify-content-end"><button>Cancel</button></div>
+              <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
+              <div className="col-sm-3 d-flex justify-content-end"><button className={`btn ${status === 'Canceled' ? "disabled" : "btn-primary"}`} onClick={handleCancel}>Cancel</button></div>
             </div>
                 <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 <div className={ mapPopup ? '' : 'hidden'}>
-                  <Map longitude={parseFloat(appointment.longitude)} latitude={parseFloat(appointment.latitude)}/>
+                  {mapPopup && <Map longitude={parseFloat(appointment.longitude)} latitude={parseFloat(appointment.latitude)} id={appointment.appId}/>}
                 </div>
           </div>
         </div>

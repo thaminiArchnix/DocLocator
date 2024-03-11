@@ -41,7 +41,7 @@ const Appointments = () => {
   return (
     <div>
       <div><NavbarContainer /></div>
-      {dates.map(date => (
+      {dates.sort((a, b) => new Date(b) - new Date(a)).map(date => (
         <AppointmentDay key={dates.indexOf(date)} date={date}/>
       ))}
       
