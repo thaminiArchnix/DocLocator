@@ -4,6 +4,8 @@ import { useDoctor } from '../../context/DoctorContext.jsx';
 import axios from 'axios';
 import LocationMap from '../../Components/LocationMap.jsx';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { isValidPassword } from '../../Middleware/isValidPassword.js';
+import { isValidPhone } from '../../Middleware/isValidPhone.js';
 
 const Register = () => {
   const [selectedLocation, setSelectedLocation] = useState({ lat: null, lng: null });
@@ -39,6 +41,7 @@ const Register = () => {
 
   const handleMapSelect = (location) => {
     setSelectedLocation(location);
+    
   };
   
 
@@ -49,28 +52,6 @@ const Register = () => {
     }));
   };
 
-  const isValidPassword = (password) => {
-    const lowerCaseRegex = /[a-z]/;
-    const upperCaseRegex = /[A-Z]/;
-    const digitOrSymbolRegex = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-
-    return (
-      password.length >= 8 &&
-      lowerCaseRegex.test(password) &&
-      upperCaseRegex.test(password) &&
-      digitOrSymbolRegex.test(password)
-    );
-  };
-
-  const isValidPhone = (phone) => {
-    const regex = /^\d{10}$/;
-    return (
-      phone.length === 10 &&
-      regex.test(phone)
-    );
-  };
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -148,7 +129,7 @@ const Register = () => {
             <input type="date" value={date_of_birth} placeholder='Enter your Date of Birth' className="form-control" onChange={onChange} name='date_of_birth'></input>
             <label>Specialization</label>
             <input type="text" value={specialization} placeholder='Enter your Specialization' className="form-control" onChange={onChange} name='specialization'></input>
-            <label>Permanent Location</label>
+            <label>Service Location</label>
             <LocationMap onSelectLocation={handleMapSelect}/>
             <label>Password</label>
             <input type="password" value={password} placeholder='Enter your password' className="form-control" onChange={onChange} name='password'></input>

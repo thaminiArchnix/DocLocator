@@ -13,7 +13,9 @@ const Profile = () => {
   const [doctor, setDoctor] = useState(userData.user);
   const [deleteMsg, setDeleteMsg] = useState(false);
   const navigate = useNavigate();
-  
+  const handleUpdate = () => {
+    navigate('../doctor/update');
+  }
   
 
   const handleRemove = () => {
@@ -43,7 +45,7 @@ const Profile = () => {
         <div className="col-sm-5 p-1 pt-5 d-flex flex-column gap-4 align-items-center">
           <img src={image} width="300px" height="300px" className='rounded-circle'/>
           <div><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star"></i></div>
-          <button className='bg-success'>Update Profile</button>
+          <button className='bg-success' onClick={handleUpdate}>Update Profile</button>
           <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
         </div>
         <div className={deleteMsg ? 'custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center' : 'hidden'} >

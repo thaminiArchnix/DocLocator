@@ -28,7 +28,6 @@ const activateDoctorAccount = async (req, res) => {
   try {
     const doctor = await verifyActivationToken(token);
     if (doctor) {
-      console.log(doctor);
       const link =
         "<a href='http://localhost:5173/doctor/login'>Go to login page</a>";
       res.send(`Account activated successfully! ${link}`);

@@ -32,7 +32,6 @@ const doctorController = {
         res,
         true
       );
-      console.log(result[0].date, dateConverter(result[0].date));
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -126,6 +125,13 @@ const doctorController = {
   updateDoctor: async function (req, res) {
     try {
       const data = req.body;
+      const salt = await bcrypt.genSalt(10);
+      const oldpass = data.password;
+      const hashedPassword = await bcrypt.hash(data.newpass, salt);
+      const passLength = data.password.length;
+      delete data.newpass;
+      data.password = hashedPassword;
+      console.log(data);
       const id = req.params.id;
       const tableData = [
         "full_name",
@@ -141,8 +147,39 @@ const doctorController = {
       const idData = "id";
       array = Object.values(data);
       array.push(id);
-      const result = await doctorModel.update(array, tableData, idData);
-      opStatus("Doctor Updated!", 200, "Cannot Find Doctor!", result, res);
+
+      const response = await doctorModel.getById(id, idData);
+      console.log(data.password, response[0].password);
+
+      bcrypt.compare(
+        oldpass,
+        response[0].password,
+        async function (err, result) {
+          if (err) {
+            res.status(500).json({ error: err.message });
+          } else if (result) {
+            try {
+              const result = await doctorModel.update(array, tableData, idData);
+
+              if (result) {
+                res.status(201).json({
+                  id: id,
+                  ...data,
+                  password: passLength,
+                  token: generateToken({
+                    email: data.email,
+                    id: result.insertId,
+                  }),
+                });
+              } else {
+                return res.status(500).json({ error: "Internal Server Error" });
+              }
+            } catch (error) {
+              res.status(500).json({ error: error.message });
+            }
+          }
+        }
+      );
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
