@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import image from '../../assets/avatar.png';
+import fpat from '../../assets/fpat.png';
+import mpat from '../../assets/mpat.png';
 import './doctor.css'
 import axios from 'axios';
 import { calculateAge } from '../../Middleware/calculateAge';
@@ -39,7 +40,7 @@ const HistoryCard = (props) => {
       <div className="container-box container m-2 b-1 history w-50">
         <div className="row p-3 align-items-center justify-content-center">
           <div className="col-sm-3 d-flex justify-content-center align-items-center">
-            <img src={image} className="rounded-circle" alt="Avatar" width="100" height="100"/>
+            <img src={patient.Gender == "Female" ? fpat : mpat} className="rounded-circle" alt="Avatar" width="100" height="100"/>
           </div>
           <div className="col d-flex flex-column gap-2">
             <div className="row d-flex flex-row flex-wrap">

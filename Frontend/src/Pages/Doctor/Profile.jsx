@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import NavbarContainer from '../../Components/Doctor/NavbarContainer'
-import image from '../../assets/avatar.png'
+import mdoc from '../../assets/mdoc.png'
+import fdoc from '../../assets/fdoc.png'
 import { useDoctor } from '../../context/DoctorContext.jsx'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Map from '../../Components/Doctor/Map.jsx'
+import { dateConverter } from '../../Middleware/dateConverter.js'
 
 
 const Profile = () => {
@@ -21,30 +23,28 @@ const Profile = () => {
   const handleRemove = () => {
     try {
       setDeleteMsg(true);
-      
     } catch (error) {
-      
+      console.error(error);
     }
   };
+
   const deleteNow = async () => {
     try {
-
       const response = await axios.delete(`http://localhost:3000/doctor/${userData.user.id}`);
-      
       logout();
       navigate('../doctor/register');
     } catch (error) {
-      
+      console.error(error);
     }
   }
+  const dateOfBirth = dateConverter(doctor.date_of_birth);
 
   return (
     <div>
       <div><NavbarContainer/></div>
       <div className='d-flex'>
         <div className="col-sm-5 p-1 pt-5 d-flex flex-column gap-4 align-items-center">
-          <img src={image} width="300px" height="300px" className='rounded-circle'/>
-          <div><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star-fill"></i><i className="bi bi-star"></i></div>
+          <img src={doctor.gender == "female" ? fdoc : mdoc} width="300px" height="300px" className='rounded-circle'/>
           <button className='bg-success' onClick={handleUpdate}>Update Profile</button>
           <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
         </div>
@@ -66,11 +66,11 @@ const Profile = () => {
           </div>
           <div className="row">
             <h6>Date of Birth</h6>
-            <p>{doctor.date_of_birth}</p> {/*displays wrong dob */}
+            <p>{dateOfBirth}</p> 
           </div>
           <div className="row">
             <h6>Password</h6>
-            <p>{'*'.repeat(doctor.password)}</p> {/*displays stars for length of password */}
+            <p>{'*'.repeat(doctor.password)}</p>
           </div>
           <div className="row">
             <h6>Phone</h6>
@@ -88,7 +88,6 @@ const Profile = () => {
             <h6>Location</h6>
             <Map longitude={parseFloat(userData.user.longitude)} latitude={parseFloat(userData.user.latitude)} id={`doc${doctor.id}`}/>
           </div>
-          
         </div>
       </div>
     </div>

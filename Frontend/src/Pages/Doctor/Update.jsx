@@ -22,8 +22,6 @@ const Update = () => {
                     ...prevState,
                     password: ""
                 }));
-                               
-                
             } catch (error) {
                 console.error(error);
             }
@@ -51,12 +49,12 @@ const Update = () => {
     };
 
     const onChangeConfirmPass = (e) => {
-        setConfirmPassword(e.target.value)
+        setConfirmPassword(e.target.value);
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData.phone_number);
+        
         const newValidation = isValidPassword(newpassword)
         const phone = isValidPhone(`${formData.phone_number}`);
         
@@ -69,7 +67,7 @@ const Update = () => {
         console.error('Enter a valid phone number!');
         return;
         };
-        console.log(newpassword, confirmpassword);
+        
         if (newpassword === confirmpassword) {
             const data = {
                 full_name: formData.full_name,
@@ -91,10 +89,7 @@ const Update = () => {
                 
             } catch (error) {
                 console.error('Error updating profile:', error.response);
-                // Handle error response from the server
             }
-            
-
         } else {
             console.error('Passwords do not match');
         }
@@ -109,7 +104,6 @@ const Update = () => {
         <form className='d-flex flex-column w-50 gap-2' onSubmit={handleSubmit}>
             <label>Full Name</label>
             <input type="text" value={formData.full_name} placeholder='Enter your Full Name' className="form-control" onChange={onChange} name='full_name'></input>
-            
             <label>Phone Number</label>
             <input type="tel" value={formData.phone_number} placeholder='Enter your phone number' className="form-control" onChange={onChange} name='phone_number'></input>
             <label>Gender</label>

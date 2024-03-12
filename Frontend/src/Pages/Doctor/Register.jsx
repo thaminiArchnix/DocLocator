@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDoctor } from '../../context/DoctorContext.jsx';
 import axios from 'axios';
 import LocationMap from '../../Components/LocationMap.jsx';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+//import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { isValidPassword } from '../../Middleware/isValidPassword.js';
 import { isValidPhone } from '../../Middleware/isValidPhone.js';
 
@@ -23,25 +23,24 @@ const Register = () => {
     specialization: '',
     longitude: '',
     latitude: '',
-    address: '', // New state for the address
+    //address: '', // New state for the address
   });
 
   const { full_name, email, date_of_birth, password, confirmpassword, gender, phone_number, specialization, longitude, latitude, address } = formData;
 
-  const handleSelect = async (selectedAddress) => {
-    setFormData((prevState) => ({ ...prevState, address: selectedAddress }));
-    try {
-      const results = await geocodeByAddress(selectedAddress);
-      const latLng = await getLatLng(results[0]);
-      setSelectedLocation(latLng);
-    } catch (error) {
-      console.error('Error fetching geolocation:', error);
-    }
-  };
+  // const handleSelect = async (selectedAddress) => {
+  //   setFormData((prevState) => ({ ...prevState, address: selectedAddress }));
+  //   try {
+  //     const results = await geocodeByAddress(selectedAddress);
+  //     const latLng = await getLatLng(results[0]);
+  //     setSelectedLocation(latLng);
+  //   } catch (error) {
+  //     console.error('Error fetching geolocation:', error);
+  //   }
+  // };
 
   const handleMapSelect = (location) => {
     setSelectedLocation(location);
-    
   };
   
 
@@ -69,8 +68,6 @@ const Register = () => {
       return;
     };
 
-
-
     if (password === confirmpassword) {
       const userData = {
         full_name: full_name,
@@ -84,9 +81,6 @@ const Register = () => {
         latitude: selectedLocation.lat,
       };
 
-
-      
-
       try {
 
         const response = await axios.post('http://localhost:3000/doctor/', userData);
@@ -96,7 +90,6 @@ const Register = () => {
         const email = { email : response.data.email};
         const doctor = await axios.post('http://localhost:3000/auth/verify', email);
         navigate('/doctor/auth');
-        
 
       } catch (error) {
         console.error('Error signing up:', error);
@@ -106,8 +99,6 @@ const Register = () => {
     }
   };
   
-  
-
   return (
     <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
         <h2>Sign Up as a Doctor</h2>

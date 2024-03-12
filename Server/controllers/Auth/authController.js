@@ -23,7 +23,7 @@ const verifyActivationToken = async (token) => {
 
 const activateDoctorAccount = async (req, res) => {
   const token = req.query.token;
-  console.log(`token gotten : ${token}`);
+  //console.log(`token gotten : ${token}`);
 
   try {
     const doctor = await verifyActivationToken(token);
@@ -88,7 +88,7 @@ const verifyDoctorAccount = async (req, res) => {
           if (result) {
             resolve(result[0]);
             res.status(200).json(result);
-            console.log("Token added to db");
+            //console.log("Token added to db");
           } else {
             resolve(null);
           }

@@ -7,7 +7,7 @@ import { useDoctor } from '../../context/DoctorContext'
 
 const History = () => {
   const {userData} = useDoctor();
-  const [appointments, setAppointments] = useState([]);
+  //const [appointments, setAppointments] = useState([]);
   const [completedApps, setCompletedApps] = useState([]);
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import image from '../../assets/avatar.png'; 
+import fpat from '../../assets/fpat.png'; 
+import mpat from '../../assets/mpat.png'; 
 import axios from 'axios'
 import Map from '../Doctor/Map.jsx'
 import { calculateAge } from '../../Middleware/calculateAge.js';
@@ -59,7 +60,7 @@ const AppointmentCard = (props) => {
       <div className="container-box container m-2 b-1 w-75">
         <div className="row p-3 align-items-center justify-content-center">
         <div className="col-sm-3 d-flex justify-content-center align-items-center">
-          <img src={image} className="rounded-circle" alt="Avatar" width="100" height="100"/>
+          <img src={patient.Gender == "Female" ? fpat : mpat} className="rounded-circle" alt="Avatar" width="100" height="100"/>
         </div>
           <div className="col d-flex flex-column gap-2">
             <div className="row">
