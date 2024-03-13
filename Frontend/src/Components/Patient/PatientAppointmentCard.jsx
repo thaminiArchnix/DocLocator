@@ -6,6 +6,12 @@ import axios from 'axios';
 const PatientAppointmentCard = (props) => {
   const [appointment, setAppointment] = useState({});
   const [docData, setDocData] = useState([]);
+  const [status, setStatus] = useState('Pending');
+
+
+  useEffect(() => {
+    setStatus(appointment.status);
+  },[appointment]);
 
   useEffect(() => {
     const fetchAppointment = async () => {
@@ -22,6 +28,19 @@ const PatientAppointmentCard = (props) => {
 
     fetchAppointment();
   }, []);
+
+  const handleCancel = async () => {
+    const data = {
+        "status": "Canceled"
+    }
+    try {
+      const response = await axios.put(`http://localhost:3000/app/${props.appId}`, data);
+      setStatus('Canceled');
+    } catch (error) {
+      console.error(error);
+    }
+    
+  };
 
   return (
     <>
@@ -46,10 +65,18 @@ const PatientAppointmentCard = (props) => {
             <div className="row d-flex justify-content-between">
             <div className="col">{appointment.status}</div>
             </div>
-            <div className="row mt-auto">
+            <div className="row d-flex justify-content-between">
+              
+              <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
               <div className="col-sm-3 d-flex justify-content-end">
-                <button className="btn btn-danger">Cancel</button>
-              </div>
+              <button
+                className={`btn ${status === 'Completed' || status === 'Ongoing' || status === 'Canceled' ? 'disabled' : 'btn-primary'}`}
+                onClick={handleCancel}
+                disabled={status === 'Completed' || status === 'Ongoing' || status === 'Canceled'}
+              >
+                Cancel
+              </button>
+            </div>
             </div>
           </div>
         </div>

@@ -135,6 +135,8 @@ const patientController = (() => {
     );
   };
 
+  
+
   const deletePatient = (req, res) => {
     const PatientId = req.params.id;
     const sql = "DELETE FROM patient WHERE PatientId = ?";
