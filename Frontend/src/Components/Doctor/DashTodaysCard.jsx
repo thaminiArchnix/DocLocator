@@ -13,6 +13,7 @@ const DashTodaysCard = (props) => {
   const [appointment, setAppointment] = useState([{}]);
   const [mapPopup, setMapPopup] = useState(false);
   const [status, setStatus] = useState('');
+  const [endTime, setEndTime] = useState();
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -67,8 +68,12 @@ const DashTodaysCard = (props) => {
   };
 
   const location = appointment[0].longitude;
-  const startTime = time(appointment[0].startTime);
-  const endTime = time(calculateEndTime(appointment[0].startTime));
+  useEffect(()=> {
+    setEndTime(calculateEndTime(appointment[0].startTime))
+
+  }, [appointment])
+  
+  
   const patientAge = calculateAge(patient[0].DOB);
   return (
     <>
@@ -84,7 +89,7 @@ const DashTodaysCard = (props) => {
               <div className="col">{patient[0].Gender}</div>
             </div>
             <div className="row d-flex justify-content-between">
-              <div className="col">{startTime} to {endTime}</div>
+              <div className="col">{appointment[0].startTime} to {endTime}</div>
               <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
               <div className="col-sm-3 d-flex flex-wrap gap-3 justify-content-end"><button className={`btn ${status === 'Canceled' ? "disabled" : "btn-primary"}`} onClick={handleCancel}>Cancel</button></div>
             </div>

@@ -1,11 +1,21 @@
-export const calculateEndTime = (dateTimeString) => {
-    const date = new Date(dateTimeString);
+export const calculateEndTime = (timeString) => {
+  if (timeString === undefined) {
+    return "00:00:00";
+  } else {
+    // Split the timeString into hours, minutes, and seconds
+    const [hours, minutes, seconds] = timeString.split(":").map(Number);
+    console.log(hours, minutes, seconds);
+    // Calculate the new hours after adding two hours
+    let newHours = hours + 2;
 
-    // Add 2 hours to the current time
-    date.setHours(date.getHours() + 2);
+    // Ensure that the new hours are within the range of 0 to 23
+    newHours %= 24;
 
     // Format the new time
-    const endTime = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+    const newTimeString = `${newHours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-    return endTime;
-}
+    return newTimeString;
+  }
+};
