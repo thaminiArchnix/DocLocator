@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.container-box {
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); 
+    border-radius: 10px; 
+}
+
+.rounded-circle {
+    border: 2px solid #ccc; 
+    border-radius: 50%; 
+}
+
+.history {
+    width: 10%;
+    
+}
+.container-box-card {
+    background-color:rgb(169, 251, 233);
+    border: 2px solid #087869; 
+    border-radius: 30px; 
+
+
+}
+
+
