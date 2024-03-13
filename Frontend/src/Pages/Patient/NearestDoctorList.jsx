@@ -1,14 +1,11 @@
 import React from 'react';
 import NearestDoctorCard from './NearestDoctorCard';
 
-const NearestDoctorsList = (props) => {
-  const doctors = Object.values(props);
-
-  console.log(doctors[0]);
+const NearestDoctorsList = ({ doctors, onSelectDoctor }) => {
   return (
     <>
-      {doctors[0].map((doctor) => (
-        <NearestDoctorCard key={doctor.id} id={doctor.id}/>
+      {doctors.map((doctor) => (
+        <NearestDoctorCard key={doctor.id} doctor={doctor} onSelectDoctor={onSelectDoctor} />
       ))}
     </>
   );

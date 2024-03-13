@@ -106,7 +106,7 @@ const patientController = (() => {
         );
     
         // Send the redirection URL in the response
-        res.json({ redirectUrl: '/patient/dashboard' });
+      //  res.json({ redirectUrl: '/patient/dashboard' });
       } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -119,45 +119,45 @@ const patientController = (() => {
     const loginPatient = async (req, res) => {
       try {
         const { Email, Password } = req.body;
-  
+    
         const sql = 'SELECT * FROM patient WHERE Email = ?';
         const params = [Email];
-  
-        executeQuery(sql,params, null,'Invalid User Data',req,res,
-        async  (patientData) => {
-            const databasePassword = patientData[0].Password;
-            const result = await bcrypt.compare(Password, databasePassword);
-  
-            if (result) {
-              const token = generateToken(patientData[0].id);
-  
-              res.status(201).json({
-                patientId: patientData[0].patientId,
-                Name: patientData[0].Name,
-                Email: patientData[0].Email,
-                DOB: patientData[0].DOB,
-                Phone: patientData[0].Phone,
-                token: token,
-                message: 'Logged In Successfully',
-              });
-            } else {
-              res.status(400).json({ error: 'Invalid User Data' });
-            }
+    
+        executeQuery(sql, params, null, 'Invalid User Data', req, res, async (patientData) => {
+          const databasePassword = patientData[0].Password;
+          const result = await bcrypt.compare(Password, databasePassword);
+    
+          if (result) {
+            const patientId = patientData[0].PatientId;
+            const token = generateToken(patientId);
+    
+            res.status(201).json({
+              patientId,
+              Name: patientData[0].Name,
+              Email: patientData[0].Email,
+              DOB: patientData[0].DOB,
+              Phone: patientData[0].Phone,
+              token,
+              message: 'Logged In Successfully',
+            });
+          } else {
+            res.status(400).json({ error: 'Invalid User Data' });
           }
-        );
+        });
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
       }
     };
+    
 
 
   
-    const generateToken = (id) => {
-      return jwt.sign({ id }, process.env.JWT_SECRET, {
+    const generateToken = (patientId) => {
+      return jwt.sign({ patientId }, process.env.JWT_SECRET, {
         expiresIn: '1d',
       });
     };
-
+    
 
 
   

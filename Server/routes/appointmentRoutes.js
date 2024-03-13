@@ -6,6 +6,7 @@ AppointmentRouter.get('/getAppointment', appointmentController.getAllAppointment
 AppointmentRouter.get('/getAppointment/:id', appointmentController.getAppointmentById);
 AppointmentRouter.post('/createAppointment', appointmentController.createAppointment);
 AppointmentRouter.put('/updateAppointment/:id', appointmentController.updateAppointment);
+AppointmentRouter.put('/updateAppointmentStatus/:id', appointmentController.updateAppointmentStatus);
 AppointmentRouter.delete('/removeAppointment/:id', appointmentController.deleteAppointment);
 
 module.exports = AppointmentRouter;

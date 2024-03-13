@@ -1,55 +1,117 @@
-import React, { useState } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { usePatient } from '../../Context/Patient/patientContext';
 
 const MakeAppointment = () => {
-
   const navigate = useNavigate();
+  const { userData } = usePatient();
+  const [docId, setDocId] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [patientId, setPatientId] = useState('');
 
+  const [formData, setFormData] = useState({
+    docId: '',
+    patientId: '',
+    date: '',
+    startTime: '',
+    status: 'Pending',
+    latitude: '',
+    longitude: '',
+    disease: '',
+  });
+
+  useEffect(() => {
+    const savedLocationData = JSON.parse(localStorage.getItem('selectedLocation'));
+    const savedDocId = savedLocationData?.docId;
+  
+    console.log(savedDocId);
+    console.log(savedLocationData);
+  
+    setFormData({
+      ...formData,
+      docId: savedDocId || '',
+      latitude: savedLocationData?.latitude || '',
+      longitude: savedLocationData?.longitude || '',
+      patientId: userData.user[0].PatientId|| '',
+    });
+  }, [userData]);
+  console.log(formData) 
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      docId: e.target.docId.value,
-      patientId: e.target.patientId.value,
-      date: e.target.date.value,
-      startTime: e.target.startTime.value,
-      closedTime: e.target.closedTime.value,
-      status: e.target.status.value,
-      Radius: e.target. Radius.value,
-      latitude: selectedLocation?.lat,
-      longitude: selectedLocation?.lng,
-    };
-    
-  
     try {
       const response = await axios.post('http://localhost:3000/appointment/createAppointment', formData);
-      console.log('Appointment made successful:', response.data);
-      navigate('/appointment/myappointments');
+      console.log('Appointment made successfully:', response.data);
+      navigate('/patient/myappointments');
     } catch (error) {
       console.error('Request error:', error);
     }
   };
-  
-
   return (
     <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
-      <h2>Make a Appointment</h2>
+      <h2>Make an Appointment</h2>
       <form className='d-flex flex-column w-50 gap-2' onSubmit={handleSubmit}>
-            <label>Your ID</label>
-            <input type="tenumberxt" name="patientId" placeholder='' className="form-control"></input>
-            <label>Doctor ID</label>
-            <input type="number" name="docId" placeholder='' className="form-control"></input>
-            <label>Select Time</label>
-            <input type="time" name="Phone" placeholder='Select time slot' className="form-control"></input>
-            <label>Description of Disease</label>
-            <input type="textarea" name="Phone" placeholder='Give breife explanation of disease' className="form-control"></input>
-          
+      <label>Your ID</label>
+        <input
+          type="text"
+          name="patientId"
+          value={formData.patientId}
+          readOnly
+          className="form-control"
+        />
 
-            <button type="submit">Submit</button>
+        <label>Doctor ID</label>
+        <input
+          type="text"
+          name="docId"
+          value={formData.docId}
+          readOnly
+          className="form-control"
+        />
+
+        <label>Select Date</label>
+        <input
+          type="date"
+          name="date"
+          value={formData.date}
+          placeholder='Select time slot'
+          className="form-control"
+          onChange={handleChange}
+        />
+
+        <label>Select Time</label>
+        <input
+          type="time"
+          name="startTime"
+          value={formData.startTime}
+          placeholder='Select time slot'
+          className="form-control"
+          onChange={handleChange}
+        />
+
+        <label>Description of Disease</label>
+        <textarea
+          id="disease"
+          name="disease"
+          value={formData.disease}
+          rows="4"
+          cols="50"
+          placeholder="Enter your description here..."
+          onChange={handleChange}
+        ></textarea>
+
+        <button type="submit">Submit</button>
       </form>
-      <p className='py-2'>Already a Member? <Link to='../patient/login'>Login</Link></p>
+      <p className='py-2'>
+        Need to change the doctor? <Link to='../patient/dashboard'>Home</Link>
+      </p>
     </div>
   );
 };

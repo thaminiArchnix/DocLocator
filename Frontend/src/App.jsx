@@ -17,7 +17,7 @@ import PatientDashboard from "./Pages/Patient/PatientDashboard";
 import PatientMyAppointments from "./Pages/Patient/PatientMyAppointments";
 import PatientProfile from "./Pages/Patient/PatientProfile";
 import PatientLogin from "./Components/Patient/PatientLogin";
-
+import PatientHistory from "./Pages/Patient/PatientHistory"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './index.css';
@@ -27,7 +27,7 @@ import PatientAppointmentCard from "./Components/Patient/PatientAppointmentCard"
 import NearestDoctor from "./Components/Patient/NearestDoctor";
 import { PatientContextProvider } from "./Context/Patient/patientContext";
 import MakeAppointment from "./Pages/Patient/MakeAppointment";
-//import AuthenticationPage from "./Components/Patient/authenticationPage";
+import AuthPage from "./Pages/Patient/AuthPage";
 
 
 
@@ -49,8 +49,9 @@ function App() {
             <Route path="/patient/dashboard" element={<PatientDashboard />} />
             <Route path="/patient/myappointment" element={<PatientMyAppointments />} />
             <Route path="/patient/profile" element={<PatientProfile />} />
-            <Route path="/patient/profile" element={<PatientProfile />} /> 
-            {/* <Route path="/patient/patientAuth" element={<AuthenticationPage />} />    */}
+            <Route path="/patient/history" element={<PatientHistory />} />
+            
+            <Route path="/patient/patientAuth" element={<AuthPage />} />
   
 
           

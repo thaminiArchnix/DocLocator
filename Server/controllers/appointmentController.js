@@ -2,9 +2,9 @@ const connection = require('../db/connection.js');
 
 const appointmentController = {
   createAppointment: function(req, res) {
-    const { docId, patientId, date, startTime, closedTime, status , longitude ,  latitude, Radius } = req.body;
-    const sql = 'INSERT INTO appointment(docId, patientId, date, startTime, closedTime, status , longitude ,  latitude, Radius) VALUES (?, ?, ?, ?, ?, ?, ?, ? , ?)';
-    connection.query(sql, [docId, patientId, date, startTime, closedTime, status , longitude ,  latitude, Radius], function(err, result) {
+    const { docId, patientId, date, startTime, status , longitude ,  latitude, disease } = req.body;
+    const sql = 'INSERT INTO appointment(docId, patientId, date, startTime, status , longitude ,  latitude, disease) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    connection.query(sql, [docId, patientId, date, startTime,  status , longitude ,  latitude, disease], function(err, result) {
       if (err) {
         res.status(400).json({ error: err.message });
       } else {
@@ -43,12 +43,13 @@ const appointmentController = {
       }
     });
   },
+  
 
   updateAppointment: function(req, res) {
     const appId = req.params.id;
     const { docId, patientId, date, startTime, closedTime, status , longitude ,  latitude, Radius } = req.body;
-    const sql = 'UPDATE appointment SET docId = ?, patientId = ?, date = ?, startTime = ?, closedTime = ? , status = ? , longitude = ?, latitude = ?, Radius = ? WHERE appId = ?';
-    connection.query(sql, [docId, patientId, date, startTime, closedTime, status , longitude ,  latitude, Radius , appId], function(err, result) {
+    const sql = 'UPDATE appointment SET docId = ?, patientId = ?, date = ?, startTime = ?, closedTime = ? , status = ? , longitude = ?, latitude = ?, disease = ? WHERE appId = ?';
+    connection.query(sql, [docId, patientId, date, startTime, closedTime, status , longitude ,  latitude, disease , appId], function(err, result) {
       if (err) {
         res.status(500).json({ error: err.message });
       } else {
@@ -56,6 +57,21 @@ const appointmentController = {
       }
     });
   },
+
+  updateAppointmentStatus: function(req, res) {
+    const appId = req.params.id;
+    const { status } = req.body;
+    const sql = 'UPDATE appointment SET status = ? WHERE appId = ?';
+    
+    connection.query(sql, [status, appId], function(err, result) {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        res.json({ message: 'Appointment status updated successfully' });
+      }
+    });
+  },
+  
 
   deleteAppointment: function(req, res) {
     const appId = req.params.id;

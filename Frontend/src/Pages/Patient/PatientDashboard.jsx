@@ -4,24 +4,36 @@ import PatientNavbarContainer from '../../Components/Patient/PatientNavbarContai
 import app from '../../assets/app.jpg';
 import '../../Components/Patient/patient.css';
 import NearestDoctorsList from '../../Pages/Patient/NearestDoctorList';
-import PatientAppointmentCard from '../../Components/Patient/PatientAppointmentCard';
 import axios from 'axios';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import LocationMap from '../../Components/Patient/LocationMap';
 
 const API_KEY = 'AIzaSyDeA5U3PfjEtKC-lQnEQ7iO9gn8snYBSMs';
 
+const saveLocationToLocalStorage = (latitude, longitude, docId) => {
+  const locationData = {
+    latitude,
+    longitude,
+    docId,
+  };
+
+  localStorage.setItem('selectedLocation', JSON.stringify(locationData));
+};
+
 const PatientDashboard = () => {
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [specialization, setSpecialization] = useState('');
   const [radius, setRadius] = useState('');
   const [address, setAddress] = useState('');
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [nearestDoctors, setNearestDoctors] = useState([]);
-  const [doctorsWithinRadius, setDoctorWithinRadius] = useState([]);
-
 
   const handleChange = (newAddress) => {
     setAddress(newAddress);
+  };
+
+  const handleSelectDoctor = (doctorId) => {
+    setSelectedDoctor(doctorId);
   };
 
   const handleSelect = async (selectedAddress) => {
@@ -66,9 +78,6 @@ const PatientDashboard = () => {
       const allDoctorsResponse = await axios.get('http://localhost:3000/doctor');
       const allDoctorsData = allDoctorsResponse.data;
 
-      console.log(allDoctorsData);
-
-
       const doctorsWithinRadius = allDoctorsData.filter((doctor) => {
         const distance = calculateDistance(
           parseFloat(doctor.latitude),
@@ -77,19 +86,22 @@ const PatientDashboard = () => {
           selectedLocation.lng
         );
 
-        console.log(distance);
         return (
           distance <= parseFloat(radius) &&
           doctor.specialization.toLowerCase() === specialization.toLowerCase()
         );
       });
-      
+
       setNearestDoctors(doctorsWithinRadius);
+
+      if (selectedLocation && doctorsWithinRadius.length > 0) {
+        saveLocationToLocalStorage(selectedLocation.lat, selectedLocation.lng, doctorsWithinRadius[0].id);
+      }
+
     } catch (error) {
       console.error('Error fetching doctors:', error);
     }
   };
-
   return (
     <div className='d-block'>
       <div><PatientNavbarContainer/></div>
@@ -164,7 +176,7 @@ const PatientDashboard = () => {
                   </form>
                 </div>
                 <div className="col-lg-7">
-                  {nearestDoctors.length > 0 && <NearestDoctorsList doctors={nearestDoctors} />}
+                <NearestDoctorsList doctors={nearestDoctors} onSelectDoctor={handleSelectDoctor} />
                 </div>
               </div>
             </section>
