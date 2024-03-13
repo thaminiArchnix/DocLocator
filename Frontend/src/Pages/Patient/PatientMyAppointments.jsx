@@ -13,7 +13,7 @@ const PatientMyAppointments = () => {
       try {
         if (userData) {
           
-          const allAppointmentsResponse = await axios.get(`http://localhost:3000/appointment/getAppointment`);
+          const allAppointmentsResponse = await axios.get(`http://localhost:3000/appointment/`);
           const allAppointmentsData = allAppointmentsResponse.data;
           console.log(allAppointmentsResponse);
           console.log(allAppointmentsResponse);

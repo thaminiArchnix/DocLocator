@@ -49,7 +49,7 @@ const MakeAppointment = () => {
     try {
       const response = await axios.post('http://localhost:3000/appointment/createAppointment', formData);
       console.log('Appointment made successfully:', response.data);
-      navigate('/patient/myappointments');
+      navigate('/patient/myappointment');
     } catch (error) {
       console.error('Request error:', error);
     }

@@ -11,8 +11,8 @@ const PatientAppointmentCard = (props) => {
   useEffect(() => {
     const fetchappointment= async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/appointment/getAppointment/${props.appId}`); 
-        setAppointment(response.data);
+        const response = await axios.get(`http://localhost:3000/appointment/${props.appId}`); 
+        setAppointment(response.data[0]);
         
         const doctor = await axios.get(`http://localhost:3000/doctor/${props.docId}`);
         setdocData(doctor.data[0]);

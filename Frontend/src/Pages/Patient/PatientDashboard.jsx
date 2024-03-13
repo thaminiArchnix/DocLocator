@@ -77,8 +77,9 @@ const PatientDashboard = () => {
     try {
       const allDoctorsResponse = await axios.get('http://localhost:3000/doctor');
       const allDoctorsData = allDoctorsResponse.data;
+       console.log(allDoctorsResponse.data);
 
-      const doctorsWithinRadius = allDoctorsData.filter((doctor) => {
+      const doctorsWithinRadius = Object.values(allDoctorsData).filter((doctor) => {
         const distance = calculateDistance(
           parseFloat(doctor.latitude),
           parseFloat(doctor.longitude),

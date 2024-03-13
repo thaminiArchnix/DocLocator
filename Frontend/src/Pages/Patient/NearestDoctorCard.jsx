@@ -7,11 +7,13 @@ import { Link } from 'react-router-dom';
 const NearestDoctorCard = (props) => {
   const [docData, setDocData] = useState([]);
   const { doctor, onSelectDoctor } = props;
+  console.log(props.doctor.id);
 
   useEffect(() => {
     const fetchDoctorData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/doctor/${doctor.id}`);
+        const response = await axios.get(`http://localhost:3000/doctor/${props.doctor.id}`);
+        console.log(response);
         setDocData(response.data[0]);
       } catch (error) {
         console.error('Error fetching doctors:', error);

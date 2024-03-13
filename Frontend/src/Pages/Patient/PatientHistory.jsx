@@ -13,7 +13,7 @@ const PatientHistroy = () => {
       try {
         if (userData) {
           // Fetch all appointments
-          const allAppointmentsResponse = await axios.get(`http://localhost:3000/appointment/getAppointment`);
+          const allAppointmentsResponse = await axios.get(`http://localhost:3000/appointment/`);
           const allAppointmentsData = allAppointmentsResponse.data;
           console.log(allAppointmentsResponse);
           console.log(allAppointmentsResponse);

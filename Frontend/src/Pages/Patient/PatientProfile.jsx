@@ -47,11 +47,11 @@ const PatientProfile = () => {
           <button className='bg-success'>Update Profile</button>
           <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
         </div>
-        <div className={deleteMsg ? 'custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center' : 'hidden'} >
+        {/* <div className={deleteMsg ? 'custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center' : 'hidden'} >
           Delete Now
           <button className='btn btn-dark' onClick={deleteNow}>Delete</button>
           <button className='btn btn-danger' onClick={() => (setDeleteMsg(false))}>No!</button>
-        </div>
+        </div> */}
 
         <div className="col-sm-6 d-flex flex-column gap-2 py-5">
           <div className="row">
