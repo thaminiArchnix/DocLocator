@@ -20,9 +20,11 @@ const patientController = (() => {
           res.status(404).json({ error: errorMessage });
         } else {
           if (successMessage) {
-            res
-              .status(201)
-              .json({ id: result.insertId, message: successMessage });
+            res.status(201).json({
+              id: result.insertId,
+              ...result,
+              message: successMessage,
+            });
           } else {
             res.json(result);
           }
@@ -69,10 +71,29 @@ const patientController = (() => {
       "Patient created successfully. Check your email for activation instructions.";
     const errorMessage = "Patient not created";
 
-    executeQuery(sql, params, successMessage, errorMessage, req, res);
+    connection.query(sql, params, function (err, result) {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        if (!result || result.length === 0) {
+          res.status(404).json({ error: errorMessage });
+        } else {
+          if (successMessage) {
+            res.status(201).json({
+              id: result.insertId,
+              email: Email,
+
+              message: successMessage,
+            });
+          } else {
+            res.json(result);
+          }
+        }
+      }
+    });
 
     const patientEmail = Email;
-    activationService.sendActivationEmail(patientEmail, activationToken);
+    //activationService.sendActivationEmail(patientEmail, activationToken);
   };
 
   const getAllPatients = (req, res) => {

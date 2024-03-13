@@ -70,8 +70,12 @@ const PatientRegister = () => {
     
   
     try {
+      console.log(formData);
       const response = await axios.post('http://localhost:3000/patient/createpatient', formData);
       console.log('Registration successful:', response.data);
+      const email = { email : response.data.email};
+      
+      const auth = await axios.post('http://localhost:3000/auth/verifyPatient', email);
       navigate('/patient/patientAuth');
     } catch (error) {
       console.error('Registration error:', error);
