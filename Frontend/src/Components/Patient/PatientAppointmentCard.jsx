@@ -62,9 +62,7 @@ const PatientAppointmentCard = (props) => {
             <div className="row justify-content-between">
               <div className="col">Date: {appointment.date}</div>
             </div>
-            <div className="row d-flex justify-content-between">
-            <div className="col">{appointment.status}</div>
-            </div>
+            
             <div className="row d-flex justify-content-between">
               
               <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
