@@ -1,5 +1,6 @@
-const appointmentModel = require("../../Models/Appointments/appointmentModel.js");
-const dateConverter = require("../../Middleware/dateConverter.js");
+const appointmentModel = require("../../models/Appointments/appointmentModel.js");
+const connection = require("../../db/connection.js");
+//const dateConverter = require("../../Middleware/dateConverter.js");
 
 function opStatus(successMsg, successStatus, failMsg, result, res) {
   if (result) {
@@ -58,58 +59,88 @@ const appointmentController = {
       res.status(400).json({ error: error.message });
     }
   },
-
-  createAppointment: async function (req, res) {
-    try {
-      const appData = req.body;
-      //validations
-      //Checking for all data fields
-      if (
-        !appData.patientId ||
-        !appData.docId ||
-        !appData.date ||
-        !appData.startTime ||
-        !appData.longitude ||
-        !appData.latitude
-      ) {
-        return res
-          .status(400)
-          .json({ error: "Please fill all fields of the appointment form!" });
+  createAppointment: function (req, res) {
+    const {
+      docId,
+      patientId,
+      date,
+      startTime,
+      status,
+      longitude,
+      latitude,
+      disease,
+    } = req.body;
+    const sql =
+      "INSERT INTO appointment(docId, patientId, date, startTime, status , longitude ,  latitude, disease) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    connection.query(
+      sql,
+      [docId, patientId, date, startTime, status, longitude, latitude, disease],
+      function (err, result) {
+        if (err) {
+          res.status(400).json({ error: err.message });
+        } else {
+          res
+            .status(201)
+            .json({
+              id: result.insertId,
+              message: "appointment created successfully",
+            });
+        }
       }
-
-      //end time calculation
-      const endTime = new Date(appData.date.startTime);
-      endTime.setHours(endTime.getHours() + 2);
-
-      const tableData = [
-        "patientId",
-        "docId",
-        "date",
-        "startTime",
-        "longitude",
-        "latitude",
-        "status",
-      ];
-      const result = await appointmentModel.create(
-        Object.values(appData),
-        tableData
-      );
-
-      //custom data response
-      if (result) {
-        res.status(201).json({
-          id: result.insertId,
-          ...appData,
-          endTime,
-          message: "Appointment Created Successfully",
-        });
-      } else {
-        return res.status(500).json({ error: "Internal Server Error" });
-      }
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
+    );
   },
+
+  //   createAppointment: async function (req, res) {
+  //     try {
+  //       const appData = req.body;
+  //       //validations
+  //       //Checking for all data fields
+  //       if (
+  //         !appData.patientId ||
+  //         !appData.docId ||
+  //         !appData.date ||
+  //         !appData.startTime ||
+  //         !appData.longitude ||
+  //         !appData.latitude
+  //       ) {
+  //         return res
+  //           .status(400)
+  //           .json({ error: "Please fill all fields of the appointment form!" });
+  //       }
+
+  //       //end time calculation
+  //       const endTime = new Date(appData.date.startTime);
+  //       endTime.setHours(endTime.getHours() + 2);
+
+  //       const tableData = [
+  //         "patientId",
+  //         "docId",
+  //         "date",
+  //         "startTime",
+  //         "longitude",
+  //         "latitude",
+  //         "status",
+  //       ];
+  //       const result = await appointmentModel.create(
+  //         Object.values(appData),
+  //         tableData
+  //       );
+
+  //       //custom data response
+  //       if (result) {
+  //         res.status(201).json({
+  //           id: result.insertId,
+  //           ...appData,
+  //           endTime,
+  //           message: "Appointment Created Successfully",
+  //         });
+  //       } else {
+  //         return res.status(500).json({ error: "Internal Server Error" });
+  //       }
+  //     } catch (error) {
+  //       res.status(400).json({ error: error.message });
+  //     }
+  //   },
 
   deleteAppointment: async function (req, res) {
     try {
