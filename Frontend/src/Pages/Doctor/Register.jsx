@@ -82,10 +82,10 @@ const Register = () => {
       };
 
       try {
-
+        //issue with logic? token saved in localStorage?
         const response = await axios.post('http://localhost:3000/doctor/', userData);
 
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('token', response.data.token); //unused token for access
         updateUser(userData);
         const email = { email : response.data.email};
         const doctor = await axios.post('http://localhost:3000/auth/verify', email);

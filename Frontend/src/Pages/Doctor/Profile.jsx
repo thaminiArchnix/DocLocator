@@ -12,7 +12,7 @@ import { dateConverter } from '../../Middleware/dateConverter.js'
 const Profile = () => {
 
   const {userData, logout} = useDoctor();
-  const [doctor, setDoctor] = useState(userData.user);
+  const [doctor, setDoctor] = useState(userData.user); //Update functionality moved
   const [deleteMsg, setDeleteMsg] = useState(false);
   const navigate = useNavigate();
   const handleUpdate = () => {

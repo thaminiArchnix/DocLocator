@@ -33,7 +33,7 @@ const Login = () => {
         const userDoctor = response.data;
        
         updateUser(userDoctor);
-        localStorage.setItem('token', userDoctor.token)
+        localStorage.setItem('token', userDoctor.token) //not used : set access?
         navigate('../doctor/dashboard');
 
     } catch (error) {

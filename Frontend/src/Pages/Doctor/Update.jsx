@@ -28,7 +28,8 @@ const Update = () => {
         }
         fetchData();
     },[]);
-
+    
+    // --doesn't work for newpassword
     const onChange = (e) => {
         setFormData((prevState) => ({
             ...prevState,
