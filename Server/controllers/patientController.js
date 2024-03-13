@@ -13,7 +13,7 @@ const patientController = (() => {
             res.status(404).json({ error: errorMessage });
           } else {
             if (successMessage) {
-              res.status(201).json({ id: result.insertId, message: successMessage });
+              res.status(201).json({ id: result.insertId,...result , message: successMessage });
             } else {
               res.json(result);
             }

@@ -28,6 +28,7 @@ import NearestDoctor from "./Components/Patient/NearestDoctor";
 import { PatientContextProvider } from "./Context/Patient/patientContext";
 import MakeAppointment from "./Pages/Patient/MakeAppointment";
 import AuthPage from "./Pages/Patient/AuthPage";
+import HomePage from "./Pages/HomePage";
 
 
 
@@ -37,6 +38,7 @@ function App() {
     <PatientContextProvider>
       <Router>
         <Routes>
+        <Route path="/login" element={<HomePage/>} />
           <Route path="/doctor/login" element={<Login/>} />
           <Route path="/doctor/register" element={<Register/>} />
           <Route path="/doctor/dashboard" element={<Dashboard/>} />

@@ -36,13 +36,17 @@ const PatientAppointmentCard = (props) => {
           </div>
           <div className="col d-flex flex-column gap-4">
             <div className="row">
-              <div className="col">{docData.full_name}</div>
+              <div className="col">Name of Doctor :{docData.full_name}</div>
             </div>
             <div className="row d-flex justify-content-between">
                <div className="col">Specialization  : {docData.specialization} </div>
             </div>
             <div className="row d-flex justify-content-between">
-               <div className="col">Time  : {appointment.startTime}  to  {appointment.closedTime}</div>
+               <div className="col">Time  : {appointment.startTime} </div>
+            </div>
+
+            <div className="row d-flex justify-content-between">
+               <div className="col">Date  : {appointment.date} </div>
             </div>
 
             <div className="col-sm-3 d-flex "><button className="btn btn-danger">Cancel</button></div>
