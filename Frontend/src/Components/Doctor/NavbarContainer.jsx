@@ -1,11 +1,21 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { useNavigate } from 'react-router-dom';
 import './doctor.css';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { useDoctor } from '../../context/DoctorContext';
 
 
 const NavbarContainer = () => {
+  const {updateUser, logout} = useDoctor();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('../doctor/login');
+  }
+  
   return (
     <Navbar bg="dark" data-bs-theme="dark" className='d-flex flex-wrap align-items-center'>
         <div className='mx-auto text-white'>DocLocator</div>
@@ -15,7 +25,7 @@ const NavbarContainer = () => {
             <Nav.Link href="./history" className='text-center'>Treatment History</Nav.Link>
             <Nav.Link href="./profile" className='text-center'>Profile</Nav.Link>
         </Nav>
-        <div className='mx-3 d-flex text-center justify-content-center'><Button className='mr-3' variant="primary" href='./login'>Logout</Button>{' '}</div>
+        <div className='mx-3 d-flex text-center justify-content-center'><Button className='mr-3' variant="primary" onClick={handleLogout}>Logout</Button>{' '}</div>
     </Navbar>
   )
 }

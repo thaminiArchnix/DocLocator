@@ -13,3 +13,7 @@
     border-radius: 50%; /* Ensures the image remains perfectly round */
 }
 
+.cursor {
+    cursor: pointer;
+    text-decoration: underline;
+}

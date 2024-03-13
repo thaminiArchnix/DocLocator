@@ -1,18 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavbarContainer from '../../Components/Doctor/NavbarContainer'
 import doctorImage from '../../assets/doctor.png'
 import '../../Components/Doctor/doctor.css'
 import DashTodaysCard from '../../Components/Doctor/DashTodaysCard'
 import DashOngoingCard from '../../Components/Doctor/DashOngoingCard'
+import { useDoctor } from '../../context/DoctorContext'
+import axios from 'axios'
 
 const Dashboard = () => {
+  const { userData } = useDoctor();
+  const [onGoing, setOnGoing] = useState([]);
+  const [pending, setPending] = useState([]);
+
+  useEffect(() => {
+    const fetchTodayAppointments = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/app/today/now/${userData.user.id}`);
+        const todays = Object.values(response.data).filter(app => app.docId == userData.user.id);
+        const pendingApps = todays.filter(app => app.status == "Pending");
+        setPending(pendingApps);
+        const onGoingApps = todays.filter(app => app.status == "OnGoing");
+        setOnGoing(onGoingApps);
+        
+      } catch (error) {
+        console.error('Error fetching today\'s appointments:', error);
+      }
+    };
+
+    fetchTodayAppointments();
+  }, []);
+  console.log(pending, onGoing);
+ 
   return (
     <div className='d-block'>
       <div><NavbarContainer/></div>
-      <h5 className='p-5'>Hello, Dr. Nirwan Ranasinghe</h5>
+      <h5 className='p-5'>Hello, Dr. {userData.user.full_name}</h5>
+      
       <div className='row-sm-11 d-flex flex-wrap align-items-center jistify-content-center'>
-        <div className="col-sm-6 text-center p-5"><p>What is Lorem Ipsum?
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div>
+        <div className="col-sm-6 text-center p-5"><h6>Welcome to DocLocator?!</h6> <p>
+        Whether you're in the clinic, at home, or on the go, use DocLocator to make informed decisions and deliver personalized care. Join our community of healthcare professionals dedicated to excellence and innovation. Together, let's shape the future of medicine and transform healthcare delivery for the better.</p></div>
         <div className="col-sm-5 d-flex align-items-center justify-content-center"><img src={doctorImage} width='300' height='300'/></div>
       </div>
       <div className='d-flex justify-content-center gap-3 pt-5 flex-wrap'>
@@ -20,25 +46,17 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
           <div className="row p-5 bg-dark-subtle rounded">
             <h3 className='p-1 text-center'>Ongoing Appointment</h3>
             <div className='p-2'>
-              <DashOngoingCard name="Jenny Carter" age="32" gender="Female" startTime="11.30 a.m." endTime="12.30 p.m." location="123, Union Place, Colombo"/>
+              {onGoing.map(app => (<DashOngoingCard key={onGoing.indexOf(app)} patientId={app.patientId} appId={app.appId}/>))}
             </div>
           </div>
           <div className="row p-5 bg-dark-subtle rounded">
-            <h3 className='p-1 text-center'>Today's Appointments</h3>
+            <h3 className='p-1 text-center'>Upcoming Appointments</h3>
             <div>
-              <DashTodaysCard name="Jenny Carter" age="32" gender="Female" startTime="11.30 a.m." endTime="12.30 p.m." location="123, Union Place, Colombo"/>
-              <DashTodaysCard name="Jimmy Carter" age="32" gender="Male" startTime="01.30 p.m." endTime="02.30 p.m." location="123, Union Place, Colombo"/>
+            {pending.map(app => (
+              <DashTodaysCard key={pending.indexOf(app)} patientId={app.patientId} appId={app.appId}/>
+            ))}
             </div>
           </div>
-        </div>
-        <div className="col-sm-3 p-5 bg-dark-subtle text-center h-100 rounded">
-          <h3 className='p-1'>Absences</h3>
-          <div className="container">
-            <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy"> 
-                <input class="form-control" type="date" readonly /> 
-            </div>
-          </div>
-          <div className="row p-3"><button className='bg-dark'>Add Date</button></div>
         </div>
       </div>
       

@@ -1,17 +1,52 @@
-import React from 'react'
-import NavbarContainer from '../../Components/Doctor/NavbarContainer'
-import AppointmentDay from '../../Components/Doctor/AppointmentDay'
+import React, { useState, useEffect } from 'react';
+import NavbarContainer from '../../Components/Doctor/NavbarContainer';
+import AppointmentDay from '../../Components/Doctor/AppointmentDay';
+import axios from 'axios';
+
 
 const Appointments = () => {
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/app');
+        setAppointments(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
+  
+  const appArray = Object.values(appointments);
+  
+
+  const getUniqueDates = (apps) => {
+    const uniqueDates = [];
+
+    apps.forEach(app => {
+      if (!uniqueDates.includes(app.date) && app.date !== undefined) {
+            uniqueDates.push(app.date);
+        };
+    });
+    return uniqueDates;
+  };
+
+  const dates = getUniqueDates(appArray);
+  
+
   return (
     <div>
-      <div><NavbarContainer/></div>
-      <div>
-        <AppointmentDay date="20 February 2024"/>
-        <AppointmentDay date="21 February 2024"/>
-      </div>
-      </div>
-  )
-}
+      <div><NavbarContainer /></div>
+      {dates.sort((a, b) => new Date(b) - new Date(a)).map(date => (
+        <AppointmentDay key={dates.indexOf(date)} date={date}/>
+      ))}
+      
+    </div>
+    );
+  };
 
-export default Appointments
+export default Appointments;

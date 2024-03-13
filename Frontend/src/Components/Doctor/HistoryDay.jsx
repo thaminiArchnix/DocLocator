@@ -1,16 +1,39 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import HistoryCard from './HistoryCard'
+import {dateConverter} from '../../Middleware/dateConverter.js'
+import axios from 'axios'
+import { useDoctor } from '../../context/DoctorContext.jsx'
 
 const HistoryDay = (props) => {
+  const {userData} = useDoctor();
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/app');
+        const apps = Object.values(response.data).filter(app => app.docId == userData.user.id);
+        const completedAppointments = apps.filter(app => app.status == "Completed");
+        const appsByDate = completedAppointments.filter(app => app.date == props.date);
+        setAppointments(appsByDate);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
+  const dateBanner = dateConverter(props.date);
+  
+
+  
   return (
     <div>
         <div className='p-2'>
-            <h3 className='p-2 px-5'>{props.date}</h3>
+            <h3 className='p-2 px-5'>{dateBanner}</h3>
             <div className='d-flex flex-wrap justify-content-center align-items-center'>
-                <HistoryCard name="Shashika Abeygunawardene" age="32" gender="Female" startTime="11.30 a.m." endTime="12.30 p.m." location="123, Union Place, Colombo" status="Completed"/>
-                <HistoryCard name="Jenny Carter" age="32" gender="Female" startTime="11.30 a.m." endTime="12.30 p.m." location="123, Union Place, Colombo" status="Completed"/>
-                <HistoryCard name="Shashika Abeygunawardene" age="32" gender="Female" startTime="11.30 a.m." endTime="12.30 p.m." location="123, Union Place, Colombo" status="Completed"/>
-                <HistoryCard name="Shashika Abeygunawardene" age="32" gender="Female" startTime="11.30 a.m." endTime="12.30 p.m." location="123, Union Place, Colombo" status="Completed"/>
+              {appointments.map(app => (<HistoryCard key={appointments.indexOf(app)}appId={app.appId} patientId={app.patientId}/>))}
             </div>
         </div>
     </div>
