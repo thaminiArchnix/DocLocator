@@ -13,6 +13,7 @@ const DashOngoingCard = (props) => {
   const [patient, setPatient] = useState([]);
   const [mapPopup, setMapPopup] = useState(false);
   const [status, setStatus] = useState('');
+  const [endTime, setEndTime] = useState();
 
   useEffect(() => {
     setStatus(appointment.status);
@@ -48,8 +49,11 @@ const DashOngoingCard = (props) => {
     }
   }
   const age = calculateAge(patient.DOB);
-  const startTime = time(appointment.startTime);
-  const endTime = time(calculateEndTime(appointment.startTime));
+  
+  useEffect(()=> {
+    setEndTime(calculateEndTime(appointment.startTime))
+
+  }, [appointment])
 
   return (
     <>
@@ -65,7 +69,7 @@ const DashOngoingCard = (props) => {
             <div className="col">{patient.Gender}</div>
           </div>
           <div className="row d-flex justify-content-between">
-            <div className="col">{startTime} to {endTime}</div>
+            <div className="col">{appointment.startTime} to {endTime}</div>
             <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
             {/* <div className="col-sm-3 d-flex flex-wrap gap-3 justify-content-end"><button>Cancel</button></div> */}
           </div>

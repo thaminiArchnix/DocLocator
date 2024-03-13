@@ -13,6 +13,7 @@ const HistoryCard = (props) => {
   const [appointment, setAppointment] = useState({});
   const [patient, setPatient] = useState({});
   const [mapPopup, setMapPopup] = useState(false);
+  const [endTime, setEndTime] = useState();
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -29,8 +30,11 @@ const HistoryCard = (props) => {
     fetchAppointments();
   }, []);
   const age = calculateAge(patient.DOB);
-  const startTime = time(appointment.startTime);
-  const endTime = time(calculateEndTime(appointment.startTime));
+  useEffect(()=> {
+    setEndTime(calculateEndTime(appointment.startTime))
+
+  }, [appointment])
+  
   const handleMap = () => {
     setMapPopup(prevMapPopup => !prevMapPopup); 
   };
@@ -49,7 +53,7 @@ const HistoryCard = (props) => {
               <div className="col">{patient.Gender}</div>
             </div>
             <div className="row d-flex flex-wrap justify-content-between">
-              <div className="col">{startTime} to {endTime}</div>
+              <div className="col">{appointment.startTime} to {endTime}</div>
               <div className="col-sm-3 d-flex justify-content-end text-success">{appointment.status}</div>
             </div>
                 <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
