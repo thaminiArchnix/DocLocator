@@ -24,7 +24,7 @@ const DashOngoingCard = (props) => {
         const response = await axios.get(`http://localhost:3000/app/${props.appId}`);
         setAppointment(response.data[0]);
         
-        const patient = await axios.get(`http://localhost:3000/patient/${props.patientId}`);
+        const patient = await axios.get(`http://localhost:3000/patient/getpatient/${props.patientId}`);
         setPatient(patient.data[0]);
       } catch (error) {
         

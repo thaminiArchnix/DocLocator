@@ -3,7 +3,7 @@ const doctorRouter = require("./routes/Doctor/doctorRoutes.js");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const appRouter = require("./Routes/Appointment/appointmentRoutes");
-const patientRouter = require("./Routes/Patient/patientRoutes");
+const PatientRouter = require("./routes/patientRoutes.js");
 const authRouter = require("./routes/Auth/authRoutes.js");
 
 const app = express();
@@ -16,7 +16,7 @@ app.use(cors());
 //Routes
 app.use("/doctor", doctorRouter);
 app.use("/app", appRouter);
-app.use("/patient", patientRouter);
+app.use("/patient", PatientRouter);
 app.use("/auth", authRouter);
 
 app.listen(3000, () => {

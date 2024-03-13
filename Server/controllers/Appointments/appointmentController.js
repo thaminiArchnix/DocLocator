@@ -25,7 +25,7 @@ const appointmentController = {
         result,
         res
       );
-      console.log(result[0].date, dateConverter(result[0].date));
+      //console.log(result[0].date, dateConverter(result[0].date));
     } catch (error) {
       res.status(400).json({ error: error.message });
     }

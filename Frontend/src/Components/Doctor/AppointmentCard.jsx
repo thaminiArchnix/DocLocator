@@ -21,7 +21,7 @@ const AppointmentCard = (props) => {
       try {
         const response = await axios.get(`http://localhost:3000/app/${props.appId}`); 
         setAppointment(response.data[0]);
-        const patient = await axios.get(`http://localhost:3000/patient/${props.patId}`);
+        const patient = await axios.get(`http://localhost:3000/patient/getpatient/${props.patId}`);
         setPatient(patient.data[0]);
       } catch (error) {
         console.error(error);

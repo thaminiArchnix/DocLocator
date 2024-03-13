@@ -19,7 +19,7 @@ const HistoryCard = (props) => {
       try {
         const response = await axios.get(`http://localhost:3000/app/${props.appId}`);
         setAppointment(response.data[0]);
-        const patientUser = await axios.get(`http://localhost:3000/patient/${props.patientId}`);
+        const patientUser = await axios.get(`http://localhost:3000/patient/getpatient/${props.patientId}`);
         setPatient(patientUser.data[0]);
       } catch (error) {
         console.error(error);

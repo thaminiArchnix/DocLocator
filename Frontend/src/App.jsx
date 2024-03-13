@@ -18,6 +18,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import './index.css';
 import Auth from "./Pages/Doctor/Auth.jsx";
 import Update from "./Pages/Doctor/Update.jsx";
+import HomePage from "./Pages/HomePage.jsx";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
     <DoctorContextProvider>
       <Router>
         <Routes>
+          <Route path="/login" element={<HomePage/>}/>
           <Route path="/doctor/login" element={<Login/>} />
           <Route path="/doctor/register" element={<Register/>} />
           <Route path="/doctor/dashboard" element={<Dashboard/>} />

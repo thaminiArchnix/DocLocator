@@ -17,7 +17,7 @@ const DashTodaysCard = (props) => {
   useEffect(() => {
     const fetchPatientDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/patient/${props.patientId}`);
+        const response = await axios.get(`http://localhost:3000/patient/getpatient/${props.patientId}`);
         const appoint = await axios.get(`http://localhost:3000/app/${props.appId}`) 
         setPatient(response.data);
         setAppointment(appoint.data);
