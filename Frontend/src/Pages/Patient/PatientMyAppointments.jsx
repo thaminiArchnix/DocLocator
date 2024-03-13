@@ -21,9 +21,11 @@ const PatientMyAppointments = () => {
 
 
     
-          const filteredAppointments = Object.values(allAppointmentsData).filter(
-            appointment => appointment.patientId == userData.user[0].PatientId
+          const filteredAppointments = Object.values(allAppointmentsData).filter(appointment => 
+            appointment.patientId === userData.user[0].PatientId &&
+            (appointment.status === "Ongoing" || appointment.status === "Pending")
           );
+          
             console.log(userData.user)
           setAppointments(filteredAppointments);
         }
@@ -40,9 +42,12 @@ const PatientMyAppointments = () => {
   return (
     <>
       <div><PatientNavbarContainer/></div>
-      {appointments.map((appointment) => (
-        <PatientAppointmentCard key={appointment.appId} appId={appointment.appId} docId={appointment.docId} />
-      ))}
+      <div className='d-flex flex-column align-items-center'>
+        {appointments.map((appointment) => (
+          <PatientAppointmentCard key={appointment.appId} appId={appointment.appId} docId={appointment.docId} />
+        ))}
+      </div>
+      
     </>
   );
 };

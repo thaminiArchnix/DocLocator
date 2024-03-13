@@ -1,59 +1,59 @@
-import React, { useState , useEffect } from 'react';
-import image from '../../assets/avatar.png'; 
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import fdoc from '../../assets/fdoc.png';
+import mdoc from '../../assets/mdoc.png';
+import axios from 'axios';
 
 const PatientAppointmentCard = (props) => {
-
   const [appointment, setAppointment] = useState({});
-  const [docData, setdocData] = useState([]);
-
+  const [docData, setDocData] = useState([]);
 
   useEffect(() => {
-    const fetchappointment= async () => {
+    const fetchAppointment = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/app/${props.appId}`); 
+        const response = await axios.get(`http://localhost:3000/app/${props.appId}`);
         setAppointment(response.data[0]);
-        
-        const doctor = await axios.get(`http://localhost:3000/doctor/${props.docId}`);
-        setdocData(doctor.data[0]);
 
+        const doctor = await axios.get(`http://localhost:3000/doctor/${props.docId}`);
+        setDocData(doctor.data[0]);
       } catch (error) {
         console.error('Error fetching appointments:', error);
       }
     };
 
-    fetchappointment();
+    fetchAppointment();
   }, []);
-  console.log(docData,appointment);
 
   return (
     <>
-      <div className="container-box-card container m-2 b-1 w-75 ">
-      
-        <div className="row p-5 align-items-center justify-content-center">
+      <div className="container-box-card container m-2 w-40 card-container p-4 bg-light shadow" style={{ border: 'none', width: '66.67% !important' }}>
+        <div className="row align-items-center card-content">
           <div className="col-sm-3 d-flex justify-content-center align-items-center">
-            <img src={image} className="rounded-circle" alt="Avatar" width="100" height="100"/>
+            <img src={docData.gender === 'female' ? fdoc : mdoc} className="rounded-circle" alt="Avatar" width="200" height="200" />
           </div>
           <div className="col d-flex flex-column gap-4">
             <div className="row">
-              <div className="col">Name of Doctor :{docData.full_name}</div>
+              <div className="col">Name of Doctor: {docData.full_name}</div>
+            </div>
+            <div className="row justify-content-between">
+              <div className="col">Specialization: {docData.specialization}</div>
+            </div>
+            <div className="row justify-content-between">
+              <div className="col">Time: {appointment.startTime}</div>
+            </div>
+            <div className="row justify-content-between">
+              <div className="col">Date: {appointment.date}</div>
             </div>
             <div className="row d-flex justify-content-between">
-               <div className="col">Specialization  : {docData.specialization} </div>
+            <div className="col">{appointment.status}</div>
             </div>
-            <div className="row d-flex justify-content-between">
-               <div className="col">Time  : {appointment.startTime} </div>
+            <div className="row mt-auto">
+              <div className="col-sm-3 d-flex justify-content-end">
+                <button className="btn btn-danger">Cancel</button>
+              </div>
             </div>
-
-            <div className="row d-flex justify-content-between">
-               <div className="col">Date  : {appointment.date} </div>
-            </div>
-
-            <div className="col-sm-3 d-flex "><button className="btn btn-danger">Cancel</button></div>
-
           </div>
         </div>
-        </div>
+      </div>
     </>
   );
 };

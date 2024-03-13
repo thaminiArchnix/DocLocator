@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import NavbarContainer from '../../Components/Doctor/NavbarContainer'
-import image from '../../assets/avatar.png'
+import fpat from '../../assets/fpat.png'
+import mpat from '../../assets/mpat.png'
 import { usePatient } from '../../context/Patient/patientContext.jsx'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -44,7 +45,7 @@ const PatientProfile = () => {
       <div><PatientNavbarContainer/></div>
       <div className='d-flex'>
         <div className="col-sm-5 p-1 pt-5 d-flex flex-column gap-4 align-items-center">
-          <img src={image} width="300px" height="300px" className='rounded-circle'/>
+          <img src={patient[0].Gender === 'Female' ? fpat : mpat} width="300px" height="300px" className='rounded-circle'/>
           <button className='bg-success'>Update Profile</button>
           <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
         </div>
