@@ -112,8 +112,8 @@ const PatientDashboard = () => {
       <div><PatientNavbarContainer/></div>
       <h5 className='p-2'>Hello, {userData.user[0].Name}</h5>
       <div className='row-sm-11 d-flex flex-wrap align-items-center jistify-content-center'>
-        <div className="col-sm-6 text-justify p-5"><p>What is Lorem Ipsum?
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div>
+        <div className="col-sm-6 text-justify p-5"><h6>Welcome to DocLocator!</h6>
+        <p>Whether you're at the clinic, in the comfort of your home, or on the move, DocLocator is here to help you make informed decisions and receive personalized care. Join our community of patients committed to improving health outcomes and accessing innovative healthcare solutions. Together, let's pave the way for a brighter future in medicine and revolutionize the delivery of healthcare for everyone's benefit.</p></div>
         <div className="col-sm-5 d-flex align-items-center justify-content-center"><img src={app} alt="app" /></div>
       </div>
       <div className='d-flex justify-content-center gap-3 pt-5 flex-wrap'>

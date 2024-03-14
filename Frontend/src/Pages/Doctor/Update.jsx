@@ -5,6 +5,7 @@ import axios from 'axios';
 import { isValidPassword } from '../../Middleware/isValidPassword';
 import { isValidPhone } from '../../Middleware/isValidPhone';
 import { useNavigate } from 'react-router-dom';
+//import { compareHashedPasswords } from '../../Middleware/compareHashedPasswords';
 
 const Update = () => {
     const {updateUser, userData} = useDoctor();
@@ -59,8 +60,11 @@ const Update = () => {
         const newValidation = isValidPassword(newpassword)
         const phone = isValidPhone(`${formData.phone_number}`);
         
+
+        
         if(newValidation == false) {
         console.error('New password is not Strong Enough');
+        alert('New password is not Strong Enough');
         return;
         };
 
@@ -85,14 +89,17 @@ const Update = () => {
             
             try {
                 const response = await axios.put(`http://localhost:3000/doctor/${userData.user.id}`, data);
+                
                 updateUser(response.data);
                 navigate('../doctor/profile');
                 
             } catch (error) {
                 console.error('Error updating profile:', error.response);
+                alert("Fill all fields correctly!");
             }
         } else {
             console.error('Passwords do not match');
+            alert("Confirm new password");
         }
     };
 

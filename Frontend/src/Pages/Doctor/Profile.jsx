@@ -44,7 +44,7 @@ const Profile = () => {
       <div><NavbarContainer/></div>
       <div className='d-flex'>
         <div className="col-sm-5 p-1 pt-5 d-flex flex-column gap-4 align-items-center">
-          <img src={doctor.gender == "female" ? fdoc : mdoc} width="300px" height="300px" className='rounded-circle'/>
+          <img src={doctor.gender == "Female" || doctor.gender == "female" ? fdoc : mdoc} width="300px" height="300px" className='rounded-circle'/>
           <button className='bg-success' onClick={handleUpdate}>Update Profile</button>
           <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
         </div>
