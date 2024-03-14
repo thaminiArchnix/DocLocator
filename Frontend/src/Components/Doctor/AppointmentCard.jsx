@@ -77,6 +77,7 @@ const AppointmentCard = (props) => {
               <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
               <div className="col-sm-3 d-flex justify-content-end"><button className={`btn ${status === 'Canceled' ? "disabled" : status === 'Missed' ? "disabled": "btn-primary"}`} onClick={handleCancel}>Cancel</button></div>
             </div>
+                <div>{patient.Phone}</div>
                 <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 <div className={ mapPopup ? '' : 'hidden'}>
                   {mapPopup && <Map longitude={parseFloat(appointment.longitude)} latitude={parseFloat(appointment.latitude)} id={appointment.appId}/>}
