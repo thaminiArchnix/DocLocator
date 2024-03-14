@@ -13,6 +13,7 @@ const MakeAppointment = () => {
 
   const [formData, setFormData] = useState({
     docId: '',
+    full_name:'',
     patientId: '',
     date: '',
     startTime: '',
@@ -25,13 +26,17 @@ const MakeAppointment = () => {
   useEffect(() => {
     const savedLocationData = JSON.parse(localStorage.getItem('selectedLocation'));
     const savedDocId = savedLocationData?.docId;
+    const savedDocName = savedLocationData?.full_name;
   
     console.log(savedDocId);
     console.log(savedLocationData);
+    console.log(savedDocName);
+
   
     setFormData({
       ...formData,
       docId: savedDocId || '',
+      full_name:savedDocName||'',
       latitude: savedLocationData?.latitude || '',
       longitude: savedLocationData?.longitude || '',
       patientId: userData.user[0].PatientId|| '',
@@ -72,6 +77,15 @@ const MakeAppointment = () => {
           type="text"
           name="docId"
           value={formData.docId}
+          readOnly
+          className="form-control"
+        />
+
+      <label>Doctor Name</label>
+        <input
+          type="text"
+          name="full_name"
+          value={formData.full_name}
           readOnly
           className="form-control"
         />

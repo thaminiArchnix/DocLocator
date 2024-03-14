@@ -14,6 +14,7 @@ const PatientProfile = () => {
   const {userData, logout} = usePatient();
   const [patient, setPatient] = useState(userData.user);
   const [deleteMsg, setDeleteMsg] = useState(false);
+  const [address, setAddress] = useState('');
   const navigate = useNavigate();
   
   console.log(userData.user[0]);
@@ -84,7 +85,7 @@ const PatientProfile = () => {
           </div>
           <div className="row">
             <h6>Location</h6>
-            <Map longitude={parseFloat(userData.user.longitude)} latitude={parseFloat(userData.user.latitude)}/>
+            <Map longitude={parseFloat(userData.user.Longitude)} latitude={parseFloat(userData.user.Latitude)} id={`map${patient.PatientId}` } setAddress={setAddress}/>
           </div>
           
         </div>

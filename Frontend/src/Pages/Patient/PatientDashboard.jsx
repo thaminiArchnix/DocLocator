@@ -11,12 +11,13 @@ import { usePatient } from '../../context/Patient/patientContext';
 
 const API_KEY = 'AIzaSyDeA5U3PfjEtKC-lQnEQ7iO9gn8snYBSMs';
 
-const saveLocationToLocalStorage = (latitude, longitude, docId) => {
+const saveLocationToLocalStorage = (latitude, longitude, docId, full_name) => {
 
   const locationData = {
     latitude,
     longitude,
     docId,
+    full_name,
   };
 
   localStorage.setItem('selectedLocation', JSON.stringify(locationData));
@@ -26,6 +27,7 @@ const PatientDashboard = () => {
   const { userData } = usePatient();
   console.log(userData);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedDoctorName, setSelectedDoctorName] = useState(null);
   const [specialization, setSpecialization] = useState('');
   const [radius, setRadius] = useState('');
   const [address, setAddress] = useState('');
@@ -36,9 +38,11 @@ const PatientDashboard = () => {
     setAddress(newAddress);
   };
 
-  const handleSelectDoctor = (doctorId) => {
+  const handleSelectDoctor = (doctorId, full_name) => {
     setSelectedDoctor(doctorId);
+    setSelectedDoctorName(full_name);
   };
+  
 
   const handleSelect = async (selectedAddress) => {
     setAddress(selectedAddress);
@@ -100,7 +104,7 @@ const PatientDashboard = () => {
       setNearestDoctors(doctorsWithinRadius);
 
       if (selectedLocation && doctorsWithinRadius.length > 0) {
-        saveLocationToLocalStorage(selectedLocation.lat, selectedLocation.lng, doctorsWithinRadius[0].id);
+        saveLocationToLocalStorage(selectedLocation.lat, selectedLocation.lng, doctorsWithinRadius[0].id , doctorsWithinRadius[0].full_name);
       }
 
     } catch (error) {
