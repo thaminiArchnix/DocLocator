@@ -68,9 +68,9 @@ const PatientAppointmentCard = (props) => {
               <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'Missed' ? "col text-warning" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
               <div className="col-sm-3 d-flex justify-content-end">
               <button
-                className={`btn ${status === 'Completed' || status === 'Ongoing' || status === 'Canceled' ? 'disabled' : 'btn-primary'}`}
+                className={`btn ${status === 'Completed' || status === 'Ongoing' || status === 'Missed' || status === 'Canceled' ? 'disabled' : 'btn-primary'}`}
                 onClick={handleCancel}
-                disabled={status === 'Completed' || status === 'Ongoing' || status === 'Canceled'}
+                disabled={status === 'Completed' || status === 'Ongoing' || status === 'Canceled' || status === 'Missed'}
               >
                 Cancel
               </button>

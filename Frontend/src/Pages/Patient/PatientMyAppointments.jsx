@@ -23,7 +23,7 @@ const PatientMyAppointments = () => {
     
           const filteredAppointments = Object.values(allAppointmentsData).filter(appointment => 
             appointment.patientId === userData.user[0].PatientId &&
-            (appointment.status === "Ongoing" || appointment.status === "Pending" || appointment.status === "Missed")
+            (appointment.status === "Ongoing" || appointment.status === "Pending" || appointment.status === "Missed" || appointment.status === "Canceled")
           );
           
             console.log(userData.user)
