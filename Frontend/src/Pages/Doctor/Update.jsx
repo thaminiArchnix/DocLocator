@@ -89,13 +89,13 @@ const Update = () => {
             
             try {
                 const response = await axios.put(`http://localhost:3000/doctor/${userData.user.id}`, data);
-                
+                console.log(response.data);
                 updateUser(response.data);
                 navigate('../doctor/profile');
                 
             } catch (error) {
-                console.error('Error updating profile:', error.response);
-                alert("Fill all fields correctly!");
+                console.error('Error updating profile:', error.response.data.error);
+                alert(error.response.data.error);
             }
         } else {
             console.error('Passwords do not match');

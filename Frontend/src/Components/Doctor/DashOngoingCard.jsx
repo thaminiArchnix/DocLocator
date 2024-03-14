@@ -74,6 +74,7 @@ const DashOngoingCard = (props) => {
             {/* <div className="col-sm-3 d-flex flex-wrap gap-3 justify-content-end"><button>Cancel</button></div> */}
           </div>
           <div className="row">
+              {/* <div>{patient.Phone}</div> */}
               <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 <div className={ mapPopup ? '' : 'hidden'}>
                   {mapPopup && <Map longitude={parseFloat(appointment.longitude)} latitude={parseFloat(appointment.latitude)} id={props.appId}/>}
