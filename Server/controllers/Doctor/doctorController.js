@@ -149,7 +149,7 @@ const doctorController = {
       array.push(id);
 
       const response = await doctorModel.getById(id, idData);
-      //console.log(data.password, response[0].password);
+      console.log(oldpass, response[0].password);
 
       bcrypt.compare(
         oldpass,
@@ -157,6 +157,7 @@ const doctorController = {
         async function (err, result) {
           if (err) {
             res.status(500).json({ error: err.message });
+            console.error(err);
           } else if (result) {
             try {
               const result = await doctorModel.update(array, tableData, idData);

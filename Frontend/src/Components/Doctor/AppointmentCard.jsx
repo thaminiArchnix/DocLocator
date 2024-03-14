@@ -61,7 +61,7 @@ const AppointmentCard = (props) => {
 
   return (
     <>
-      <div className="container-box container m-2 b-1 w-75">
+      <div className={status === 'Missed' ? "container-box container m-2 b-1 w-75 bg-danger text-white" : "container-box container m-2 b-1 w-75"}>
         <div className="row p-3 align-items-center justify-content-center">
         <div className="col-sm-3 d-flex justify-content-center align-items-center">
           <img src={patient.Gender == "Female" ? fpat : mpat} className="rounded-circle" alt="Avatar" width="100" height="100"/>
@@ -75,7 +75,7 @@ const AppointmentCard = (props) => {
             <div className="row d-flex justify-content-between">
               <div className="col">{appointment.startTime} to {endTime}</div>
               <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
-              <div className="col-sm-3 d-flex justify-content-end"><button className={`btn ${status === 'Canceled' ? "disabled" : "btn-primary"}`} onClick={handleCancel}>Cancel</button></div>
+              <div className="col-sm-3 d-flex justify-content-end"><button className={`btn ${status === 'Canceled' ? "disabled" : status === 'Missed' ? "disabled": "btn-primary"}`} onClick={handleCancel}>Cancel</button></div>
             </div>
                 <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 <div className={ mapPopup ? '' : 'hidden'}>

@@ -6,11 +6,14 @@ import DashTodaysCard from '../../Components/Doctor/DashTodaysCard'
 import DashOngoingCard from '../../Components/Doctor/DashOngoingCard'
 import { useDoctor } from '../../context/DoctorContext'
 import axios from 'axios'
+import { calculateEndTime } from '../../Middleware/calculateEndTime'
 
 const Dashboard = () => {
   const { userData } = useDoctor();
   const [onGoing, setOnGoing] = useState([]);
   const [pending, setPending] = useState([]);
+  const [startApp, setStartApp] = useState(false);
+  const [missed, setMissed] = useState(false);
 
   useEffect(() => {
     const fetchTodayAppointments = async () => {
@@ -21,6 +24,8 @@ const Dashboard = () => {
         setPending(pendingApps);
         const onGoingApps = todays.filter(app => app.status == "OnGoing");
         setOnGoing(onGoingApps);
+
+        
         
       } catch (error) {
         console.error('Error fetching today\'s appointments:', error);
@@ -29,15 +34,54 @@ const Dashboard = () => {
 
     fetchTodayAppointments();
   }, []);
-  console.log(pending, onGoing);
+  useEffect(() => {
+    const checkAppointmentTime = async () => {
+      const currentTime = new Date();
+      const currentTimeString = `${currentTime.getHours()}:${currentTime.getMinutes().toString().padStart(2, '0')}:${currentTime.getSeconds().toString().padStart(2, '0')}`;
+      for (const app of pending) {
+        const endTime = calculateEndTime(app.startTime);
+        console.log(app.startTime, endTime, currentTimeString);
+        if (app.startTime === currentTimeString && app.status == "Pending") {
+          console.log('executed');
+          setStartApp(true);
+        }
+        //console.log(app.startTime, endTime, currentTimeString);
+        if (endTime == currentTimeString && app.status == "Pending") {
+          //console.log('executed');
+          const data = {
+            "status": "Missed"
+          }
+          try {
+            console.log(data);
+            const response = await axios.put(`http://localhost:3000/app/${app.appId}`, data);
+            setMissed(true);
+            
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+      }
+    };
+
+    const intervalId = setInterval(checkAppointmentTime, 1000); // Check every second
+    return () => clearInterval(intervalId);
+  }, [pending]);
+  //console.log(pending, onGoing);
+  const handleMissed = () => {
+    setMissed(false);
+    window.location.reload();
+    //console.log(missed);
+  }
  
   return (
     <div className='d-block'>
       <div><NavbarContainer/></div>
       <h5 className='p-5'>Hello, Dr. {userData.user.full_name}</h5>
-      
-      <div className='row-sm-11 d-flex flex-wrap align-items-center jistify-content-center'>
-        <div className="col-sm-6 text-center p-5"><h6>Welcome to DocLocator?!</h6> <p>
+      {startApp && <div className="text-white bg-danger p-3">It is time for your appointment. Press Start to Begin!</div>}
+      {missed && <div className="d-flex align-items-center justify-content-center flex-row text-white bg-danger p-3">You missed an appointment! <button className='m-3 btn btn-outline-light' onClick={handleMissed}>Ok</button></div>}
+      <div className='row-sm-11 d-flex flex-wrap align-items-center justify-content-center'>
+        <div className="col-sm-6 text-center p-5"><h6>Welcome to DocLocator!</h6> <p>
         Whether you're in the clinic, at home, or on the go, use DocLocator to make informed decisions and deliver personalized care. Join our community of healthcare professionals dedicated to excellence and innovation. Together, let's shape the future of medicine and transform healthcare delivery for the better.</p></div>
         <div className="col-sm-5 d-flex align-items-center justify-content-center"><img src={doctorImage} width='300' height='300'/></div>
       </div>
@@ -52,9 +96,9 @@ const Dashboard = () => {
           <div className="row p-5 bg-dark-subtle rounded">
             <h3 className='p-1 text-center'>Upcoming Appointments</h3>
             <div>
-            {pending.map(app => (
+            {pending ? pending.map(app => (
               <DashTodaysCard key={pending.indexOf(app)} patientId={app.patientId} appId={app.appId}/>
-            ))}
+            )) : 'No pending'}
             </div>
           </div>
         </div>
