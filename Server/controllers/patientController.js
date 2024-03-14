@@ -108,37 +108,49 @@ const patientController = (() => {
     executeQuery(sql, params, null, "Patient not found", req, res);
   };
 
-  const updatePatient = (req, res) => {
+  const updatePatient = async (req, res) => {
     const PatientId = req.params.id;
-    const { Name, Email, Phone, DOB, Longitude, Latitude, Gender, Password } =
-      req.body;
-    const sql =
-      "UPDATE patient SET Name = ?, Email = ?, Phone = ?, DOB = ?, Longitude = ?, Latitude = ?, Gender = ?, Password = ? WHERE PatientId = ?";
-    const params = [
-      Name,
-      Email,
-      Phone,
-      DOB,
-      Longitude,
-      Latitude,
-      Gender,
-      Password,
-      PatientId,
-    ];
-    executeQuery(
-      sql,
-      params,
-      "Patient Data Updated Successfully",
-      null,
-      req,
-      res
-    );
+    const { Name, Phone, DOB, Gender, Password, newpass } = req.body;
+  
+    const sql = "SELECT Password FROM patient WHERE PatientId = ?";
+    connection.query(sql, [PatientId], async (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+  
+      if (!result || !result[0]) {
+        return res.status(404).json({ error: "Patient not found" });
+      }
+  
+      const hashedPassword = result[0].Password;
+  
+      const passwordMatch = await bcrypt.compare(Password, hashedPassword);
+      if (!passwordMatch) {
+        return res.status(400).json({ error: "Incorrect current password" });
+      }
+  
+      const hashedNewPassword = await bcrypt.hash(newpass, 10);
+  
+      const updateSql = "UPDATE patient SET Name = ?, Phone = ?, DOB = ?, Gender = ?, Password = ? WHERE PatientId = ?";
+      const params = [Name, Phone, DOB, Gender, hashedNewPassword, PatientId];
+      
+      executeQuery(
+        updateSql,
+        params,
+        "Patient Data Updated Successfully",
+        null,
+        req,
+        res
+      );
+    });
   };
+  
 
   
 
   const deletePatient = (req, res) => {
     const PatientId = req.params.id;
+    console.log('Deleting patient with ID:', PatientId);
     const sql = "DELETE FROM patient WHERE PatientId = ?";
     const params = [PatientId];
     executeQuery(sql, params, "Patient Deleted Successfully", null, req, res);

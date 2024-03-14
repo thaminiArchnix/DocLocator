@@ -27,6 +27,7 @@ import PatientProfile from "./Pages/Patient/PatientProfile.jsx";
 import PatientHistroy from "./Pages/Patient/PatientHistory.jsx";
 import AuthPage from "./Pages/Patient/AuthPage.jsx";
 import MakeAppointment from "./Pages/Patient/MakeAppointment.jsx";
+import UpdatePatient from "./Pages/Patient/UpdatePatient.jsx";
 
 
 function App() {
@@ -56,6 +57,8 @@ function App() {
           <Route path="/patient/profile" element={<PatientProfile/>}/>
           <Route path="/patient/history" element={<PatientHistroy/>}/>
           <Route path="/patient/patientAuth" element={<AuthPage/>}/>
+          <Route path="/patient/updateProfile" element={<UpdatePatient/>}/>
+
 
           <Route path="/appointment/MakeAppointment" element={<MakeAppointment/>}/>
         </Routes>

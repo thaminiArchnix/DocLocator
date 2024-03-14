@@ -16,7 +16,7 @@ const PatientProfile = () => {
   const [deleteMsg, setDeleteMsg] = useState(false);
   const navigate = useNavigate();
   
-  console.log(patient);
+  console.log(userData.user[0]);
 
 
   const handleRemove = () => {
@@ -27,17 +27,20 @@ const PatientProfile = () => {
       
     }
   };
+
   const deleteNow = async () => {
     try {
-      
-      const response = await axios.delete(`http://localhost:3000/patient/removePatient/${userData.user.id}`);
+      const response = await axios.delete(`http://localhost:3000/patient/removepatient/${userData.user[0].PatientId}`);
       logout();
       navigate('../patient/regi');
-      
-      
     } catch (error) {
-      
+      console.error(error);
     }
+  }
+  console.log(userData.user[0].PatientId);
+
+  const handleUpdate = () => {
+    navigate('../patient/updateProfile');
   }
 
   return (
@@ -45,15 +48,17 @@ const PatientProfile = () => {
       <div><PatientNavbarContainer/></div>
       <div className='d-flex'>
         <div className="col-sm-5 p-1 pt-5 d-flex flex-column gap-4 align-items-center">
+        {patient && patient.length > 0 && (
           <img src={patient[0].Gender === 'Female' ? fpat : mpat} width="300px" height="300px" className='rounded-circle'/>
-          <button className='bg-success'>Update Profile</button>
+        )}
+          <button className='bg-success' onClick={handleUpdate}>Update Profile</button>
           <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
         </div>
-        {/* <div className={deleteMsg ? 'custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center' : 'hidden'} >
+        <div className={deleteMsg ? 'custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center' : 'hidden'} >
           Delete Now
           <button className='btn btn-dark' onClick={deleteNow}>Delete</button>
           <button className='btn btn-danger' onClick={() => (setDeleteMsg(false))}>No!</button>
-        </div> */}
+        </div>
 
         <div className="col-sm-6 d-flex flex-column gap-2 py-5">
           <div className="row">

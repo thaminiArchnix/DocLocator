@@ -26,28 +26,31 @@ const PatientLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const userData = {
-        Email: Email,
-        Password: Password
-    };
-
-    try {
-        const response = await axios.post('http://localhost:3000/patient/login', userData);
-        const userPatient = response.data;
-        updateUser(userPatient);
-        console.log(userPatient);
-        localStorage.setItem('token', userPatient.token)
-        navigate('../patient/dashboard');
-
-
-    } catch (error) {
-        console.error('Error logging in:', error);
-    
+  
+    // Check if email and password are provided
+    if (!Email || !Password) {
+      console.error('Please provide both email and password');
+      // You can display an error message to the user
+      return;
     }
-
-    console.log(userData);
+  
+    const userData = {
+      Email: Email,
+      Password: Password
+    };
+  
+    try {
+      const response = await axios.post('http://localhost:3000/patient/login', userData);
+      const userPatient = response.data;
+      updateUser(userPatient);
+      localStorage.setItem('token', userPatient.token);
+      navigate('../patient/dashboard');
+    } catch (error) {
+      console.error('Error logging in:', error);
+      // Handle login error (e.g., display error message)
+    }
   };
+  
   
  
 
