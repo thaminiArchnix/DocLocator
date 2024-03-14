@@ -23,7 +23,7 @@ const PatientHistroy = () => {
           // Filter appointments based on the current logged-in user's patientId
           const filteredAppointments = Object.values(allAppointmentsData).filter(
             appointment => appointment.patientId == userData.user[0].PatientId &&
-            (appointment.status === 'Completed' || appointment.status === 'Missed')
+            (appointment.status === 'Completed')
           );
             console.log(userData.user)
           setAppointments(filteredAppointments);

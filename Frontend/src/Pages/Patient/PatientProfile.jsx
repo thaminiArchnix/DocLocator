@@ -51,8 +51,8 @@ const PatientProfile = () => {
         {patient && patient.length > 0 && (
           <img src={patient[0].Gender === 'Female' ? fpat : mpat} width="300px" height="300px" className='rounded-circle'/>
         )}
-          <button className='bg-success' onClick={handleUpdate}>Update Profile</button>
-          <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
+          <button type='button' className='btn btn-primary btn-lg' onClick={handleUpdate}>Update Profile</button>
+          <button type='button' className='btn btn-dark btn-lg' onClick={handleRemove}>Remove Profile</button>
         </div>
         <div className={deleteMsg ? 'custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center' : 'hidden'} >
           Delete Now

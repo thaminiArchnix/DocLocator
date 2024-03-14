@@ -6,10 +6,10 @@ import { usePatient } from '../../context/Patient/patientContext';
 const MakeAppointment = () => {
   const navigate = useNavigate();
   const { userData } = usePatient();
-  const [docId, setDocId] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [patientId, setPatientId] = useState('');
+  // const [docId, setDocId] = useState('');
+  // const [latitude, setLatitude] = useState('');
+  // const [longitude, setLongitude] = useState('');
+  // const [patientId, setPatientId] = useState('');
 
   const [formData, setFormData] = useState({
     docId: '',
