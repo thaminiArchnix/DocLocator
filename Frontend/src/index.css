@@ -5,6 +5,11 @@
   height: vh100;
 }
 
+/* body {
+  transform: scale(0.7); 
+  transform-origin: top center;
+} */
+
 .custom-alert {
 
   background-color: dimgray;

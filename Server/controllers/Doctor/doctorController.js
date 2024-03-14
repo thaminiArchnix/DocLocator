@@ -131,7 +131,7 @@ const doctorController = {
       const passLength = data.password.length;
       delete data.newpass;
       data.password = hashedPassword;
-      //console.log(data);
+      console.log(data);
       const id = req.params.id;
       const tableData = [
         "full_name",
@@ -149,38 +149,35 @@ const doctorController = {
       array.push(id);
 
       const response = await doctorModel.getById(id, idData);
-      console.log(oldpass, response[0].password);
+      //console.log(oldpass, response[0].password);
 
-      bcrypt.compare(
-        oldpass,
-        response[0].password,
-        async function (err, result) {
-          if (err) {
-            res.status(500).json({ error: err.message });
-            console.error(err);
-          } else if (result) {
-            try {
-              const result = await doctorModel.update(array, tableData, idData);
+      const match = await bcrypt.compare(oldpass, response[0].password);
 
-              if (result) {
-                res.status(201).json({
-                  id: id,
-                  ...data,
-                  password: passLength,
-                  token: generateToken({
-                    email: data.email,
-                    id: result.insertId,
-                  }),
-                });
-              } else {
-                return res.status(500).json({ error: "Internal Server Error" });
-              }
-            } catch (error) {
-              res.status(500).json({ error: error.message });
-            }
+      //console.log(match);
+
+      if (match) {
+        try {
+          const result = await doctorModel.update(array, tableData, idData);
+
+          if (result) {
+            res.status(201).json({
+              id: id,
+              ...data,
+              password: passLength,
+              token: generateToken({
+                email: data.email,
+                id: result.insertId,
+              }),
+            });
+          } else {
+            return res.status(500).json({ error: "Internal Server Error" });
           }
+        } catch (error) {
+          res.status(500).json({ error: error.message });
         }
-      );
+      } else {
+        res.status(500).json({ error: "Enter Current Password" });
+      }
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
