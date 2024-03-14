@@ -56,7 +56,8 @@ const AppointmentCard = (props) => {
   const age = calculateAge(patient.DOB);
   //const startTime = time(appointment.startTime);
   
-  console.log(parseFloat(appointment.longitude), parseFloat(appointment.latitude));
+  //console.log(parseFloat(appointment.longitude), parseFloat(appointment.latitude));
+
 
 
   return (
@@ -78,6 +79,7 @@ const AppointmentCard = (props) => {
               <div className="col-sm-3 d-flex justify-content-end"><button className={`btn ${status === 'Canceled' ? "disabled" : status === 'Missed' ? "disabled": "btn-primary"}`} onClick={handleCancel}>Cancel</button></div>
             </div>
                 <div>{patient.Phone}</div>
+                <div>Patient Notes : {appointment.disease}</div>
                 <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 <div className={ mapPopup ? '' : 'hidden'}>
                   {mapPopup && <Map longitude={parseFloat(appointment.longitude)} latitude={parseFloat(appointment.latitude)} id={appointment.appId}/>}
