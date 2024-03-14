@@ -56,6 +56,8 @@ const HistoryCard = (props) => {
               <div className="col">{appointment.startTime} to {endTime}</div>
               <div className="col-sm-3 d-flex justify-content-end text-success">{appointment.status}</div>
             </div>
+                <div>{patient.Phone}</div>
+                <div>Patient Notes : {appointment.disease}</div>
                 <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 <div className={ mapPopup ? '' : 'hidden'}>
                   {mapPopup && <Map longitude={parseFloat(appointment.longitude)} latitude={parseFloat(appointment.latitude)} id={appointment.appId}/>}
