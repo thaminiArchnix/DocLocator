@@ -45,8 +45,8 @@ const Profile = () => {
       <div className='d-flex'>
         <div className="col-sm-5 p-1 pt-5 d-flex flex-column gap-4 align-items-center">
           <img src={doctor.gender == "Female" || doctor.gender == "female" ? fdoc : mdoc} width="300px" height="300px" className='rounded-circle'/>
-          <button className='bg-success' onClick={handleUpdate}>Update Profile</button>
-          <button className='bg-dark text-white' onClick={handleRemove}>Remove Account</button>
+          <button className='bg-success btn btn-success' onClick={handleUpdate}>Update Profile</button>
+          <button className='text-white btn btn-danger' onClick={handleRemove}>Remove Account</button>
         </div>
         <div className={deleteMsg ? 'custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center' : 'hidden'} >
           Delete Now

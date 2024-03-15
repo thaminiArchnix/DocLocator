@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import AppointmentCard from './AppointmentCard';
 import axios from 'axios';
 import { useDoctor } from '../../context/DoctorContext';
 import {dateConverter} from '../../Middleware/dateConverter.js'
+import Appointment from './Appointment.jsx';
 
 const AppointmentDay = (props) => {
   const [appointments, setAppointments] = useState([]);
   const { userData } = useDoctor();
 
+  //fetch app appointments and filter them by doctor's Id, date and status, and set appointments
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -22,13 +23,9 @@ const AppointmentDay = (props) => {
     };
 
     fetchAppointments();
-  }, [userData, props]); // Include userData.id in the dependency array
-
-
-
-  const appArray = Object.values(appointments);
-  console.log(appArray);
-
+  }, [userData, props]);
+  
+  //convert date to proper format
   const dateBanner = dateConverter(props.date);
 
   return (
@@ -36,7 +33,7 @@ const AppointmentDay = (props) => {
         <h3 className='p-2'>{dateBanner}</h3>
         <div className='d-flex flex-column align-items-center'>
           {appointments.map((app, index) => (
-            <AppointmentCard 
+            <Appointment 
               key={index} 
               appId={app.appId}
               patId={app.patientId} 

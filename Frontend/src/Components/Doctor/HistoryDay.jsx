@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import HistoryCard from './HistoryCard'
 import {dateConverter} from '../../Middleware/dateConverter.js'
 import axios from 'axios'
 import { useDoctor } from '../../context/DoctorContext.jsx'
+import Appointment from './Appointment.jsx'
 
 const HistoryDay = (props) => {
   const {userData} = useDoctor();
   const [appointments, setAppointments] = useState([]);
 
+  //fetch all appointments, filter them by doctor's id, status and date. set appointments
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -20,20 +21,18 @@ const HistoryDay = (props) => {
         console.error(error);
       }
     };
-
     fetchAppointments();
   }, []);
 
+  //get date in relevant format
   const dateBanner = dateConverter(props.date);
-  
 
-  
   return (
     <div>
         <div className='p-2'>
             <h3 className='p-2 px-5'>{dateBanner}</h3>
             <div className='d-flex flex-wrap justify-content-center align-items-center'>
-              {appointments.map(app => (<HistoryCard key={appointments.indexOf(app)}appId={app.appId} patientId={app.patientId}/>))}
+              {appointments.map(app => (<Appointment key={appointments.indexOf(app)}appId={app.appId} patId={app.patientId}/>))}
             </div>
         </div>
     </div>
