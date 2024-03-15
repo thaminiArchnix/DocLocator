@@ -8,9 +8,10 @@ import { useDoctor } from '../../context/DoctorContext';
 
 
 const NavbarContainer = () => {
-  const {updateUser, logout} = useDoctor();
+  const {logout} = useDoctor();
   const navigate = useNavigate();
 
+  //logout with context and navigate to login page
   const handleLogout = () => {
     logout();
     navigate('../doctor/login');

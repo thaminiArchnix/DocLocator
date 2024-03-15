@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import NavbarContainer from '../../Components/Doctor/NavbarContainer'
 import doctorImage from '../../assets/doctor.png'
 import '../../Components/Doctor/doctor.css'
-import DashTodaysCard from '../../Components/Doctor/DashTodaysCard'
-import DashOngoingCard from '../../Components/Doctor/DashOngoingCard'
+
+
 import { useDoctor } from '../../context/DoctorContext'
 import axios from 'axios'
 import { calculateEndTime } from '../../Middleware/calculateEndTime'
+import Appointment from '../../Components/Doctor/Appointment'
 
 const Dashboard = () => {
   const { userData } = useDoctor();
@@ -89,15 +90,15 @@ const Dashboard = () => {
         <div className="col-sm-8 p-0 d-flex flex-column gap-2 ">
           <div className="row p-5 bg-dark-subtle rounded">
             <h3 className='p-1 text-center'>Ongoing Appointment</h3>
-            <div className='p-2'>
-              {onGoing.map(app => (<DashOngoingCard key={onGoing.indexOf(app)} patientId={app.patientId} appId={app.appId}/>))}
+            <div className='d-flex flex-column align-items-center justify-content-center p-2'>
+              {onGoing.map(app => (<Appointment key={onGoing.indexOf(app)} patId={app.patientId} appId={app.appId}/>))}
             </div>
           </div>
           <div className="row p-5 bg-dark-subtle rounded">
             <h3 className='p-1 text-center'>Upcoming Appointments</h3>
-            <div>
+            <div className='d-flex flex-column align-items-center justify-content-center p-2'>
             {pending ? pending.map(app => (
-              <DashTodaysCard key={pending.indexOf(app)} patientId={app.patientId} appId={app.appId}/>
+              <Appointment key={pending.indexOf(app)} patId={app.patientId} appId={app.appId} today={true}/>
             )) : 'No pending'}
             </div>
           </div>

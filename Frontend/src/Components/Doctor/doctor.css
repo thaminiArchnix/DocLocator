@@ -10,11 +10,25 @@
 }
 
 .rounded-circle {
-    border: 2px solid #ccc; /* Add a 2px solid border with a grey color */
+    border: none;    
     border-radius: 50%; /* Ensures the image remains perfectly round */
+    background-color: rgb(116, 112, 112);
+    outline: none;
 }
 
 .cursor {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.ongoing {
+    background-color:cornsilk
+}
+
+.completed-card {
+    background-color: rgb(194, 223, 144);
+}
+
+.missed-card {
+    background-color: rgb(209, 127, 127);
 }

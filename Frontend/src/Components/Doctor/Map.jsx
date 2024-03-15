@@ -27,12 +27,14 @@ const Map = (props) => {
                 mapId: props.id,
             });
 
-            // The marker, positioned at the position
+            // The marker, positioned at the location
             const marker = new AdvancedMarkerElement({
                 map: map,
                 position: position,
                 title: "Marker Title",
             });
+
+            //function to get address from latitude and Longitude
             function getAddressFromLatLng (latitude, longitude) {
 
                 return new Promise(async (resolve, reject) => {
@@ -52,26 +54,21 @@ const Map = (props) => {
                         }
                     });
                 });
-            }
+            };
             
-        
-        
-            
+            //get address from latitude and longitude and set address
             getAddressFromLatLng(props.latitude, props.longitude)
                 .then(address => {
                     setAddress(address);
-                    
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
             
         }
-
+        //initialize map
         initMap();
     }, [props.latitude, props.longitude]); // Add dependencies if necessary
-
-    
 
     return (<>
     <div id="map" style={{ width: '100%', height: '400px' }}></div>
