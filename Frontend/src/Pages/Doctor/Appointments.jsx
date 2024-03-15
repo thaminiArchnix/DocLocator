@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavbarContainer from '../../Components/Doctor/NavbarContainer';
-import AppointmentDay from '../../Components/Doctor/AppointmentDay';
 import axios from 'axios';
-
+import Day from '../../Components/Doctor/Day';
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -21,9 +20,6 @@ const Appointments = () => {
   }, []);
 
   
-  const appArray = Object.values(appointments);
-  
-
   const getUniqueDates = (apps) => {
     const uniqueDates = [];
 
@@ -35,6 +31,7 @@ const Appointments = () => {
     return uniqueDates;
   };
 
+  const appArray = Object.values(appointments);
   const dates = getUniqueDates(appArray);
   
 
@@ -42,7 +39,7 @@ const Appointments = () => {
     <div>
       <div><NavbarContainer /></div>
       {dates.sort((a, b) => new Date(b) - new Date(a)).map(date => (
-        <AppointmentDay key={dates.indexOf(date)} date={date}/>
+        <Day key={dates.indexOf(date)} date={date} dt={'app'} />
       ))}
       
     </div>
