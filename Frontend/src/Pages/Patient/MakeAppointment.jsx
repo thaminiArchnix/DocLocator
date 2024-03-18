@@ -52,6 +52,13 @@ const MakeAppointment = () => {
     e.preventDefault();
 
     try {
+      const currentDate = new Date();
+      const appointmentDate = new Date(formData.date);
+      if (currentDate > appointmentDate) {
+        console.error('Please select a valid date');
+        alert('Please select a valid date');
+      }
+
       const response = await axios.post('http://localhost:3000/app/createAppointment', formData);
       console.log('Appointment made successfully:', response.data);
       navigate('/patient/myappointment');

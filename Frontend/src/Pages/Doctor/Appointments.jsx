@@ -13,6 +13,7 @@ const Appointments = () => {
         setAppointments(response.data);
       } catch (error) {
         console.error(error);
+        alert(`${error.request.response}`);
       }
     };
 

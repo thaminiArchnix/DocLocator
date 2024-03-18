@@ -25,6 +25,7 @@ const Update = () => {
                 }));
             } catch (error) {
                 console.error(error);
+                alert(error.response.data.error);
             }
         }
         fetchData();
@@ -70,6 +71,7 @@ const Update = () => {
 
         if(phone == false) {
         console.error('Enter a valid phone number!');
+        alert(`Enter a valid phone number!`);
         return;
         };
         

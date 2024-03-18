@@ -35,6 +35,7 @@ const Profile = () => {
       navigate('../doctor/register');
     } catch (error) {
       console.error(error);
+      alert(`${error.request.response}`);
     }
   }
   const dateOfBirth = dateConverter(doctor.date_of_birth);
