@@ -29,6 +29,7 @@ const Appointment = (props) => {
         setPatient(patient.data[0]);
       } catch (error) {
         console.error(error);
+        alert(`${error.request.response}`);
       }
     };
     fetchAppointments();
@@ -49,6 +50,7 @@ const Appointment = (props) => {
       setStatus('Canceled');
     } catch (error) {
       console.error(error);
+      alert(`${error.request.response}`);
     }
   }
   
@@ -63,6 +65,7 @@ const Appointment = (props) => {
       window.location.reload(); // Reload the page
     } catch (error) {
       console.error(error);
+      alert(`${error.request.response}`);
     }
   }
 
@@ -77,6 +80,7 @@ const Appointment = (props) => {
       window.location.reload(); // Reload the page
     } catch (error) {
       console.error(error);
+      alert(`${error.request.response}`);
     }
   };
 
@@ -98,16 +102,16 @@ const Appointment = (props) => {
         </div>
           <div className="col d-flex flex-column gap-2">
             <div className="row">
-              <div className="col">{patient.Name}</div>
-              <div className="col">{age} years</div>
-              <div className="col">{patient.Gender}</div>
+              <div className="col">Name : {patient.Name}</div>
+              <div className="col">Age : {age} years</div>
+              <div className="col">Gender : {patient.Gender}</div>
             </div>
             <div className="row d-flex justify-content-between">
-              <div className="col">{appointment.startTime} to {endTime}</div>
-              <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>{status}</div>
+              <div className="col bold">Time : {appointment.startTime} to {endTime}</div>
+              <div className={status === 'Canceled' ? "col text-danger" : status === 'Pending' ? "col text-primary" : status === 'OnGoing' ? "col text-warning" : status === 'Completed' ? "col text-success" : "col"}>Status : {status}</div>
               <div className="col-sm-3 d-flex justify-content-end"><button className={`btn ${status === 'Canceled' ? "disabled" : status === 'Missed' ? "disabled": status === 'Completed' ? "hidden": "btn-primary"}`} onClick={handleCancel}>Cancel</button></div>
             </div>
-                <div>{patient.Phone}</div>
+                <div>Phone : {patient.Phone}</div>
                 <div>Patient Notes : {appointment.disease}</div>
                 <div className="col cursor" onClick={handleMap}>{ mapPopup ? 'Close Map' : 'Show Location'} <i className="bi bi-box-arrow-up-right p-2"></i></div>
                 <div className={ mapPopup ? '' : 'hidden'}>

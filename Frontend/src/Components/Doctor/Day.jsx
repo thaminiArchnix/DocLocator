@@ -23,6 +23,7 @@ const Day = (props) => {
           setCompleted(completedAppointments);
         } catch (error) {
           console.error(error);
+          alert(`${error.request.response}`);
         }
       };
   

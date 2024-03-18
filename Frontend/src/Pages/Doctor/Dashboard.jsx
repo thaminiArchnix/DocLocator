@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import NavbarContainer from '../../Components/Doctor/NavbarContainer'
 import doctorImage from '../../assets/doctor.png'
 import '../../Components/Doctor/doctor.css'
-
-
 import { useDoctor } from '../../context/DoctorContext'
 import axios from 'axios'
 import { calculateEndTime } from '../../Middleware/calculateEndTime'
@@ -25,54 +23,56 @@ const Dashboard = () => {
         setPending(pendingApps);
         const onGoingApps = todays.filter(app => app.status == "OnGoing");
         setOnGoing(onGoingApps);
-
-        
-        
       } catch (error) {
         console.error('Error fetching today\'s appointments:', error);
+        alert(`${error.request.response}`);
       }
     };
 
     fetchTodayAppointments();
   }, []);
+
   useEffect(() => {
     const checkAppointmentTime = async () => {
       const currentTime = new Date();
       const currentTimeString = `${currentTime.getHours()}:${currentTime.getMinutes().toString().padStart(2, '0')}:${currentTime.getSeconds().toString().padStart(2, '0')}`;
       for (const app of pending) {
+        //const appTime = new Date(app.startTime);
+        //console.log(app.startTime, appTime, currentTime);
+        // if (currentTime > appTime) {
+        //   console.log('You are here!', app, currentTime, appTime);
+        // }
         const endTime = calculateEndTime(app.startTime);
-        console.log(app.startTime, endTime, currentTimeString);
+        //if (app.StartTime > currentTimeString) {}
+        //console.log(app.startTime, endTime, currentTimeString);
         if (app.startTime === currentTimeString && app.status == "Pending") {
-          console.log('executed');
+          //console.log('executed');
           setStartApp(true);
         }
-        //console.log(app.startTime, endTime, currentTimeString);
-        if (endTime == currentTimeString && app.status == "Pending") {
-          //console.log('executed');
+        
+        if (endTime === currentTimeString && app.status == "Pending") {
           const data = {
             "status": "Missed"
           }
           try {
-            console.log(data);
+            //console.log(data);
             const response = await axios.put(`http://localhost:3000/app/${app.appId}`, data);
             setMissed(true);
-            
           } catch (error) {
             console.error(error);
+            alert(`${error.request.response}`);
           }
         }
-
       }
     };
 
     const intervalId = setInterval(checkAppointmentTime, 1000); // Check every second
     return () => clearInterval(intervalId);
   }, [pending]);
-  //console.log(pending, onGoing);
+  
   const handleMissed = () => {
     setMissed(false);
     window.location.reload();
-    //console.log(missed);
   }
  
   return (
@@ -104,7 +104,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      
     </div>
   )
 }

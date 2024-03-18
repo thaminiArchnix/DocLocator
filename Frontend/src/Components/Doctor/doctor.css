@@ -32,3 +32,11 @@
 .missed-card {
     background-color: rgb(209, 127, 127);
 }
+
+.bold {
+    font-weight: bold;
+}
+
+#red-star {
+    color: red;
+}
