@@ -52,7 +52,7 @@ const Login = () => {
             <input type="email" placeholder='Enter your email' name="email" className="form-control" value={email} onChange={onChange}></input>
             <label>Password</label>
             <input type="password" placeholder='Enter your password' name="password" className="form-control" value={password} onChange={onChange}></input>
-            <button type='submit'>Login</button>
+            <button type='submit' className='btn btn-primary'>Login</button>
         </form>
         <p className='py-2'>Not a Member? <Link to='../doctor/register'>Sign Up</Link></p> 
     </div>
