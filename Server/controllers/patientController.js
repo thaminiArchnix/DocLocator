@@ -190,46 +190,83 @@ const patientController = (() => {
   const loginPatient = async (req, res) => {
     try {
       const { Email, Password } = req.body;
-
       const sql = "SELECT * FROM patient WHERE Email = ?";
       const params = [Email];
+      console.log('Posted to db');
+      // executeQuery(
+      //   sql,
+      //   params,
+      //   null,
+      //   "Invalid User Data",
+      //   req,
+      //   res,
+      // );
 
-      executeQuery(
-        sql,
-        params,
-        null,
-        "Invalid User Data",
-        req,
-        res,
-        async (patientData) => {
-          const databasePassword = patientData[0].Password;
-          const result = await bcrypt.compare(Password, databasePassword);
-
-          if (result) {
-            const patientId = patientData[0].PatientId;
+      connection.query(sql, params, async function (err, result) {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        } 
+        if (!result || result.length === 0) {
+            res.status(404).json("Error");
+            return;
+        }
+        if(result) {
+          const databasePassword = result[0].Password;
+          const match =  await bcrypt.compare(Password, databasePassword);
+          console.log(match);
+          if (match) {
+            const patientId = result[0].PatientId;
             const token = generateToken(patientId);
-
+            console.log(token);
+  
             res.status(201).json({
-              patientId,
-              Name: patientData[0].Name,
-              Email: patientData[0].Email,
-              DOB: patientData[0].DOB,
-              Phone: patientData[0].Phone,
-              token,
+
+              ...result,
+
               message: "Logged In Successfully",
             });
           } else {
             res.status(400).json({ error: "Invalid User Data" });
           }
-        }
-      );
+          }
+
+        });
+
+
+    
+        //  console.log(result);
+    //   const databasePassword = patientData[0].Password;
+    //     const result = await bcrypt.compare(Password, databasePassword);
+    //     console.log('executes');
+
+        // if (result) {
+        //   const patientId = patientData[0].PatientId;
+        //   const token = generateToken(patientId);
+        //   console.log(token);
+
+        //   res.status(201).json({
+        //     patientId,
+        //     Name: patientData[0].Name,
+        //     Email: patientData[0].Email,
+        //     DOB: patientData[0].DOB,
+        //     Phone: patientData[0].Phone,
+        //     token,
+        //     message: "Logged In Successfully",
+        //   });
+        // } else {
+        //   res.status(400).json({ error: "Invalid User Data" });
+        // }
+    
+
+      
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
 
   const generateToken = (patientId) => {
-    return jwt.sign({ patientId }, process.env.JWT_SECRET, {
+    return jsonwebtoken.sign({ patientId }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
   };
