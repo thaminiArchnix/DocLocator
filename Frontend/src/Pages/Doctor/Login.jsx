@@ -1,22 +1,22 @@
-import React, { useState} from 'react'
-import {Link} from 'react-router-dom'
-import axios from 'axios'
-import { useDoctor} from '../../context/DoctorContext.jsx'
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useDoctor } from "../../context/DoctorContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email : '',
-    password : ''
-  })
-  const {email, password} = formData;
-  const navigate =  useNavigate();
+    email: "",
+    password: "",
+  });
+  const { email, password } = formData;
+  const navigate = useNavigate();
   const { updateUser } = useDoctor();
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
-      [e.target.name] : e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -24,39 +24,57 @@ const Login = () => {
     e.preventDefault();
 
     const userData = {
-        email: email,
-        password: password
+      email: email,
+      password: password,
     };
 
     try {
-        const response = await axios.post('http://localhost:3000/doctor/login', userData);
-        const userDoctor = response.data;
-       
-        updateUser(userDoctor);
-        localStorage.setItem('token', userDoctor.token) //not used : set access?
-        navigate('../doctor/dashboard');
+      const response = await axios.post(
+        "http://localhost:3000/doctor/login",
+        userData
+      );
+      const userDoctor = response.data;
 
+      updateUser(userDoctor);
+      //localStorage.setItem("docauth", true); //not used : set access?
+      navigate("../doctor/dashboard");
     } catch (error) {
-        console.error('Error logging in:', error);
-        alert("Wrong email or password");
+      console.error("Error logging in:", error);
+      alert("Wrong email or password");
     }
   };
-  
-
 
   return (
-    <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
-        <h2>Login as a Doctor</h2>
-        <form className='d-flex flex-column w-50 gap-2 ' onSubmit={handleSubmit}>
-            <label>Email</label>
-            <input type="email" placeholder='Enter your email' name="email" className="form-control" value={email} onChange={onChange}></input>
-            <label>Password</label>
-            <input type="password" placeholder='Enter your password' name="password" className="form-control" value={password} onChange={onChange}></input>
-            <button type='submit' className='btn btn-primary'>Login</button>
-        </form>
-        <p className='py-2'>Not a Member? <Link to='../doctor/register'>Sign Up</Link></p> 
+    <div className="container d-flex flex-column align-items-center justify-content-center py-5">
+      <h2>Login as a Doctor</h2>
+      <form className="d-flex flex-column w-50 gap-2 " onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          type="email"
+          placeholder="Enter your email"
+          name="email"
+          className="form-control"
+          value={email}
+          onChange={onChange}
+        ></input>
+        <label>Password</label>
+        <input
+          type="password"
+          placeholder="Enter your password"
+          name="password"
+          className="form-control"
+          value={password}
+          onChange={onChange}
+        ></input>
+        <button type="submit" className="btn btn-primary">
+          Login
+        </button>
+      </form>
+      <p className="py-2">
+        Not a Member? <Link to="../doctor/register">Sign Up</Link>
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

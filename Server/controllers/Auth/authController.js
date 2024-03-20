@@ -1,6 +1,32 @@
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const connection = require("../../db/connection.js");
+const jwt = require("jsonwebtoken");
+
+/* AUTH */
+
+const authenticateUser = async (req, res) => {
+  try {
+    const token = req.body.token;
+    jwt.verify(token, process.env.JWT_SECRET, (error, result) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      if (result) {
+        return res.status(200).json({
+          ...result,
+          message: "Successfully Authenticated",
+        });
+      } else {
+        return res.status(500).json("Error in authentication");
+      }
+    });
+  } catch (error) {
+    return res.json(error);
+  }
+};
+
+/*_______________________________________________________________________*/
 
 /*
 
@@ -170,7 +196,7 @@ const sendActivationEmail = (patientEmail) => {
     from: "thaminiarchnix@gmail.com",
     to: patientEmail, //change to patient Email
     subject: "Activate Your Account",
-    text: `Click the following link to activate your account: ${activationLink}`,
+    text: `Click the following link to verify your email: ${activationLink}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -218,4 +244,5 @@ module.exports = {
   verifyDoctorAccount,
   verifyPatientAccount,
   activatePatientAccount,
+  authenticateUser,
 };
