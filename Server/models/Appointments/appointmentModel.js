@@ -1,5 +1,5 @@
-const crudMethods = require('../../Models/crudMethods.js');
-const connection = require('../../DB/connection.js');
+const crudMethods = require('../../models/crudMethods.js');
+const connection = require('../../db/connection.js');
 
 const appointmentModel = crudMethods('appointment');
 

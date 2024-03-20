@@ -42,6 +42,19 @@ const crudMethods = (tableName) => {
       );
     },
 
+    getAppointmentsForDoctor: function (docId) {
+      return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM appointment WHERE docId = ?";
+        connection.query(sql, [docId], (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        });
+      });
+    },
+
     //data : list of data to be added to table
     create: async function (data, tableData) {
       const values = [];

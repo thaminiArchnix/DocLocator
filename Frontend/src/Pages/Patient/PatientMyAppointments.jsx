@@ -15,9 +15,9 @@ const PatientMyAppointments = () => {
           
           const allAppointmentsResponse = await axios.get(`http://localhost:3000/app/`);
           const allAppointmentsData = allAppointmentsResponse.data;
-          console.log(allAppointmentsResponse);
-          console.log(allAppointmentsResponse);
-          console.log(allAppointmentsData);
+          // console.log(allAppointmentsResponse);
+          // console.log(allAppointmentsResponse);
+          // console.log(allAppointmentsData);
 
 
     
