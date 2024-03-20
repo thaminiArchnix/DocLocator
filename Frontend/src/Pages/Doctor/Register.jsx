@@ -134,7 +134,7 @@ const Register = () => {
             <input type="password" value={password} placeholder='Enter your password' className="form-control" onChange={onChange} name='password'></input>
             <label>Confirm Password <span id='red-star'>*</span></label>
             <input type="password" value={confirmpassword} placeholder='Confirm your password' className="form-control" onChange={onChange} name='confirmpassword'></input>
-            <button type='submit'>Sign Up</button>
+            <button type='submit' className='btn btn-primary'>Sign Up</button>
         </form>
         <p className='py-2'>Already a Member? <Link to='../doctor/login'>Login</Link></p>
         

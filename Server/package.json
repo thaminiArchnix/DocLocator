@@ -11,7 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
+    "axios": "^1.6.8",
+=======
     "bcrypt": "^5.1.1",
+>>>>>>> main
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
