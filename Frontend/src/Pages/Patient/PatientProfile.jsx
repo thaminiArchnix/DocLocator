@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import NavbarContainer from '../../Components/Doctor/NavbarContainer'
 import fpat from '../../assets/fpat.png'
 import mpat from '../../assets/mpat.png'
 import { usePatient } from '../../context/Patient/patientContext.jsx'
@@ -49,7 +48,7 @@ const PatientProfile = () => {
       <div><PatientNavbarContainer/></div>
       <div className='d-flex'>
         <div className="col-sm-5 p-1 pt-5 d-flex flex-column gap-4 align-items-center">
-        {patient && patient.length > 0 && (
+        {patient &&  (
           <img src={patient[0].Gender === 'Female' ? fpat : mpat} width="300px" height="300px" className='rounded-circle'/>
         )}
           <button type='button' className='btn btn-primary btn-lg' onClick={handleUpdate}>Update Profile</button>

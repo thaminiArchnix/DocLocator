@@ -59,6 +59,17 @@ const appointmentController = {
       res.status(400).json({ error: error.message });
     }
   },
+
+  getAppointmentsForDoctor: async function (req, res) {
+    try {
+      const docId = req.params.docId;
+      const appointments = await appointmentModel.getAppointmentsForDoctor(docId);
+      res.status(200).json({ appointments });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+
   createAppointment: function (req, res) {
     const {
       docId,

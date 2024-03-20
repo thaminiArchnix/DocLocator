@@ -47,6 +47,7 @@ const PatientLogin = () => {
       navigate('../patient/dashboard');
     } catch (error) {
       console.error('Error logging in:', error);
+      alert(`${error}`);
       // Handle login error (e.g., display error message)
     }
   };
