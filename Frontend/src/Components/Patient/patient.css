@@ -1,54 +1,95 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .container-box {
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); 
-    border-radius: 10px; 
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
 }
 
 .rounded-circle {
-    border: 2px solid #ccc; 
-    border-radius: 50%; 
+  border: 2px solid #ccc;
+  border-radius: 50%;
 }
 
 .history {
-    width: 10%;
-    
+  width: 10%;
 }
 .container-box-card {
-    background-color:rgb(169, 251, 233);
-    border: 2px solid #087869; 
-    border-radius: 30px; 
-
-
+  background-color: rgb(169, 251, 233);
+  border: 2px solid #087869;
+  border-radius: 30px;
 }
 
-
 .filter-container {
-    /* position: relative;
+  /* position: relative;
     top: 0;
     left: 0; */
-    padding: 10px;
-  }
-  
-  .filter-dropdown {
-    /* position: absolute;
+  padding: 10px;
+}
+
+.filter-dropdown {
+  /* position: absolute;
     top: 0;
     left: 0; */
-    
-    border-radius: 10px;
-    z-index: 1;
-    background-color: #56aad1;
-    padding: 10px;
-    border: 1px solid #cccccc;
-  }
-  
-  .filter-dropdown label {
-    margin-right: 10px;
-    color: #fcf4f4; 
-  }
-  
 
+  border-radius: 10px;
+  z-index: 1;
+  background-color: #56aad1;
+  padding: 10px;
+  border: 1px solid #cccccc;
+}
 
+.filter-dropdown label {
+  margin-right: 10px;
+  color: #fcf4f4;
+}
+
+.custom-alert-box {
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  width: 300px;
+  height: 100px;
+}
+
+.custom-alert-box.error {
+  background-color: #ffcccc;
+  color: #ff0000;
+}
+
+.custom-alert-box.success {
+  background-color: #ccffcc;
+  color: #00cc00;
+}
+
+.custom-alert-box.warning {
+  background-color: #ffffcc;
+  color: #cccc00;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.ongoing {
+  background-color: rgb(221, 214, 188);
+}
+
+.completed-card {
+  background-color: rgb(179, 235, 169);
+}
+
+.missed-card {
+  background-color: rgb(194, 149, 149);
+}
+
+.bold {
+  font-weight: bold;
+}

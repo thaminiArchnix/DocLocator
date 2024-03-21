@@ -13,7 +13,7 @@ import Appointments from "./Pages/Doctor/Appointments";
 import History from "./Pages/Doctor/History";
 import Profile from "./Pages/Doctor/Profile";
 import Login from "./Pages/Doctor/Login";
-import PatientLogin from "./Components/Patient/PatientLogin.jsx";
+import PatientLogin from "./Pages/Patient/PatientLogin.jsx";
 import PatientRegister from "./Pages/Patient/PatientRegister.jsx";
 import PatientDashboard from "./Pages/Patient/PatientDashboard.jsx";
 import PatientMyAppointments from "./Pages/Patient/PatientMyAppointments.jsx";

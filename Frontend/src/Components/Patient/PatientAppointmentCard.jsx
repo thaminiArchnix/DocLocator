@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import fdoc from '../../assets/fdoc.png';
 import mdoc from '../../assets/mdoc.png';
 import axios from 'axios';
+import './patient.css'
 
 const PatientAppointmentCard = (props) => {
   const [appointment, setAppointment] = useState({});
@@ -59,10 +60,12 @@ const PatientAppointmentCard = (props) => {
 
   return (
     <>
-      <div className="container-box-card container m-2 w-40 card-container p-4 bg-light shadow" style={{ border: 'none', width: '66.67% !important' }}>
+     <div className={status === 'Missed' ? "container-box container m-2 b-1 w-75 p-4 missed-card": status === 'OnGoing'? "ongoing container-box container m-2 b-1 p-4 w-75" : status === 'Completed'? "completed-card container-box container m-2 b-1 p-4 w-75" : "bg-white container-box container m-2 b-1 p-4  w-75"}>
+
+      {/* <div className="container-box-card container m-2 w-40 card-container p-4 bg-light shadow" style={{ border: 'none', width: '66.67% !important' }}> */}
         <div className="row align-items-center card-content">
           <div className="col-sm-3 d-flex justify-content-center align-items-center">
-            <img src={docData.gender === 'female' ? fdoc : mdoc} className="rounded-circle" alt="Avatar" width="200" height="200" />
+            <img src={docData.gender === 'female' ? fdoc : mdoc} className="rounded-circle" alt="Avatar" width="150" height="150" />
           </div>
           <div className="col d-flex flex-column gap-4">
             <div className="row">

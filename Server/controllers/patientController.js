@@ -217,13 +217,17 @@ const patientController = (() => {
           console.log(match);
           if (match) {
             const patientId = result[0].PatientId;
-            const token = generateToken(patientId);
+            const patient = {
+              patientId: patientId,
+              email: result[0].Email
+            }
+            const token = generateToken(patient);
             console.log(token);
   
             res.status(201).json({
 
               ...result,
-
+              token : token,
               message: "Logged In Successfully",
             });
           } else {
@@ -265,8 +269,12 @@ const patientController = (() => {
     }
   };
 
-  const generateToken = (patientId) => {
-    return jsonwebtoken.sign({ patientId }, process.env.JWT_SECRET, {
+  const generateToken = (patientId, Email) => {
+    const patient = {
+      patientId : patientId,
+      email : Email
+    }
+    return jsonwebtoken.sign(patient, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
   };

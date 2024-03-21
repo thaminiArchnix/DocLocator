@@ -1,5 +1,5 @@
 import React from 'react';
-import './CustomAlert.css';
+import './patient.css';
 
 const CustomAlert = ({ type, message, onClose }) => {
   return (

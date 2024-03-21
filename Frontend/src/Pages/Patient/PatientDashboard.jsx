@@ -5,12 +5,11 @@ import app from '../../assets/app.jpg';
 import '../../Components/Patient/patient.css';
 import NearestDoctorsList from '../../Components/Patient/NearestDoctorList';
 import axios from 'axios';
-import '../../Components/Patient/CustomAlert.css'
+import '../../Components/Patient/patient.css'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import LocationMap from '../../Components/Patient/LocationMap';
 import { usePatient } from '../../context/Patient/patientContext';
-import CustomAlert from '../../Components/Patient/CustomAlert'; 
-
+import CustomAlert from '../../Components/Patient/CustomAlert';
 const API_KEY = 'AIzaSyDeA5U3PfjEtKC-lQnEQ7iO9gn8snYBSMs';
 
 const saveLocationToLocalStorage = (latitude, longitude, docId, full_name) => {
