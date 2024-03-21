@@ -6,12 +6,14 @@ import { auth } from "../../Middleware/auth";
 import Unauthorized from "../../Components/Doctor/Unauthorized";
 import { useDoctor } from "../../context/DoctorContext";
 import Loading from "../../Components/Doctor/Loading";
+import DatePicker from "react-datepicker";
 
 const Appointments = () => {
   const { userData } = useDoctor();
   const [appointments, setAppointments] = useState([]);
   const [authorization, setAuthorization] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [filterDate, setFilter] = useState();
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -42,6 +44,11 @@ const Appointments = () => {
     return uniqueDates;
   };
 
+  const handleDateSelect = (e) => {
+    setFilter(e.target.value);
+  };
+  console.log(filterDate);
+
   const appArray = Object.values(appointments);
   const dates = getUniqueDates(appArray);
 
@@ -56,10 +63,25 @@ const Appointments = () => {
           <div>
             <NavbarContainer />
           </div>
+          <div className="d-flex flex-column gap-2 justify-content-center align-items-center form-group w-100 p-3">
+            <label htmlFor="datepicker">Filter By Date:</label>
+            <input
+              type="date"
+              className="form-control w-25"
+              id="filterDate"
+              onChange={handleDateSelect}
+              placeholder="Select Date"
+            />
+          </div>
           {dates
             .sort((a, b) => new Date(b) - new Date(a))
             .map((date) => (
-              <Day key={dates.indexOf(date)} date={date} dt={"app"} />
+              <Day
+                key={dates.indexOf(date)}
+                date={date}
+                dt={"app"}
+                filterdate={filterDate}
+              />
             ))}
         </div>
       ) : (
