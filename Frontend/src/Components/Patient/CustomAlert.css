@@ -1,4 +1,4 @@
-.custom-alert {
+.custom-alert-box {
     position: relative;
     padding: 10px 20px;
     border-radius: 5px;
@@ -8,17 +8,17 @@
     height: 100px;
   }
   
-  .custom-alert.error {
+  .custom-alert-box.error {
     background-color: #ffcccc;
     color: #ff0000;
   }
   
-  .custom-alert.success {
+  .custom-alert-box.success {
     background-color: #ccffcc;
     color: #00cc00;
   }
   
-  .custom-alert.warning {
+  .custom-alert-box.warning {
     background-color: #ffffcc;
     color: #cccc00;
   }
