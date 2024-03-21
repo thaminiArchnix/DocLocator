@@ -26,3 +26,29 @@
 }
 
 
+.filter-container {
+    /* position: relative;
+    top: 0;
+    left: 0; */
+    padding: 10px;
+  }
+  
+  .filter-dropdown {
+    /* position: absolute;
+    top: 0;
+    left: 0; */
+    
+    border-radius: 10px;
+    z-index: 1;
+    background-color: #56aad1;
+    padding: 10px;
+    border: 1px solid #cccccc;
+  }
+  
+  .filter-dropdown label {
+    margin-right: 10px;
+    color: #fcf4f4; 
+  }
+  
+
+
