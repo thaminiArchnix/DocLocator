@@ -41,9 +41,13 @@ const PatientHistroy = () => {
   return (
     <>
       <div><PatientNavbarContainer/></div>
+      
+      <div className='d-flex flex-column align-items-center'>
       {appointments.map((appointment) => (
         <PatientAppointmentCard key={appointment.appId} appId={appointment.appId} docId={appointment.docId} />
       ))}
+      </div>
+      
     </>
   );
 };

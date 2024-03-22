@@ -8,7 +8,7 @@ import Navbar from 'react-bootstrap/Navbar';
 const PatientNavbarContainer = () => {
   return (
     <Navbar bg="dark" data-bs-theme="dark" className='d-flex flex-wrap align-items-center'>
-        <div className='mx-auto text-white'>DocLocator</div>
+        <div className='mx-auto text-white'><h3>DocLocator</h3></div>
         <Nav className="mx-auto align-items-center d-flex flex-wrap">
             <Nav.Link href="./dashboard" className='text-center'>Home</Nav.Link>
             <Nav.Link href="./myappointment" className='text-center'>My Appointments</Nav.Link>
