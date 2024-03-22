@@ -1,24 +1,27 @@
-import React, { useState } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import React, { useState } from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 const LocationMap = ({ onSelectLocation }) => {
   const [map, setMap] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
+
+  const libraries = ["places"];
 
   const containerStyle = {
-    width: '100%',
-    height: '400px',
+    width: "100%",
+    height: "400px",
   };
 
   const center = {
     lat: selectedLocation ? selectedLocation.lat : 8,
-    lng: selectedLocation? selectedLocation.lng: 80,
+    lng: selectedLocation ? selectedLocation.lng : 80,
   };
 
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyDeA5U3PfjEtKC-lQnEQ7iO9gn8snYBSMs ',
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyDeA5U3PfjEtKC-lQnEQ7iO9gn8snYBSMs ",
+    libraries,
   });
 
   const onLoad = (map) => {
@@ -34,7 +37,6 @@ const LocationMap = ({ onSelectLocation }) => {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
     });
-    
   };
 
   return isLoaded ? (

@@ -167,7 +167,7 @@ const doctorController = {
               password: passLength,
               token: generateToken({
                 email: data.email,
-                id: result.insertId,
+                id: id,
               }),
             });
           } else {
@@ -194,7 +194,9 @@ const doctorController = {
         email: email,
         id: doctorData[0].id,
       };
+      console.log(doctor);
       const token = generateToken(doctor);
+      console.log(token);
       const databasePassword = doctorData[0].password;
       bcrypt.compare(password, databasePassword, function (err, result) {
         if (err) {

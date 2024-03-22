@@ -99,6 +99,8 @@ const Update = () => {
       };
 
       try {
+        const ls = localStorage.getItem("userData");
+        console.log(ls, userData);
         const config = {
           headers: {
             Authorization: `Bearer ${userData.user.token}`,
