@@ -141,7 +141,7 @@ const patientController = (() => {
       }
 
       const hashedNewPassword = await bcrypt.hash(newpass, 10);
-      console.log(hashedNewPassword);
+      //console.log(hashedNewPassword);
 
       const updateSql =
         "UPDATE patient SET Name = ?, Phone = ?, DOB = ?, Gender = ?, Password = ? WHERE PatientId = ?";
