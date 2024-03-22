@@ -3,15 +3,16 @@ import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import PatientNavbarContainer from "../../Components/Patient/PatientNavbarContainer";
 import app from "../../assets/app.jpg";
 import "../../Components/Patient/patient.css";
-import NearestDoctorsList from "../../Pages/Patient/NearestDoctorList";
+import NearestDoctorsList from "../../Components/Patient/NearestDoctorList";
 import axios from "axios";
+import "../../Components/Patient/patient.css";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
 import LocationMap from "../../Components/Patient/LocationMap";
 import { usePatient } from "../../context/Patient/patientContext";
-
+import CustomAlert from "../../Components/Patient/CustomAlert";
 const API_KEY = "AIzaSyDeA5U3PfjEtKC-lQnEQ7iO9gn8snYBSMs";
 
 const saveLocationToLocalStorage = (latitude, longitude, docId, full_name) => {
@@ -35,6 +36,8 @@ const PatientDashboard = () => {
   const [address, setAddress] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [nearestDoctors, setNearestDoctors] = useState([]);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
 
   const handleChange = (newAddress) => {
     setAddress(newAddress);
@@ -86,6 +89,13 @@ const PatientDashboard = () => {
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if the radius is within the range 0-30
+    if (radius < 0 || radius > 30) {
+      setAlertMessage("Please enter a range between 0 and 20 kilometers.");
+      setAlertType("warning");
+      return;
+    }
+
     try {
       const allDoctorsResponse = await axios.get(
         "http://localhost:3000/doctor"
@@ -120,6 +130,8 @@ const PatientDashboard = () => {
         );
       }
     } catch (error) {
+      setAlertMessage("Error fetching doctors:", error);
+      setAlertType("error");
       console.error("Error fetching doctors:", error);
     }
   };
@@ -142,6 +154,19 @@ const PatientDashboard = () => {
             benefit.
           </p>
         </div>
+        <div className="col-sm-5 d-flex align-items-center justify-content-center">
+          <img src={app} alt="app" />
+        </div>
+        <div className="d-flex flex-column justify-content-center align-items-center w-100 p-2">
+          {alertMessage && (
+            <CustomAlert
+              type={alertType}
+              message={alertMessage}
+              onClose={() => setAlertMessage("")}
+            />
+          )}
+        </div>
+
         <div className="col-sm-5 d-flex align-items-center justify-content-center">
           <img src={app} alt="app" />
         </div>

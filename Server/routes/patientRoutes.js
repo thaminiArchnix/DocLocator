@@ -14,5 +14,5 @@ PatientRouter.put(
 PatientRouter.delete("/removepatient/:id", patientController.deletePatient);
 PatientRouter.put("/activate", patientController.activatePatient);
 PatientRouter.post("/login", patientController.loginPatient);
-
+ 
 module.exports = PatientRouter;
