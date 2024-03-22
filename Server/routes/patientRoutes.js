@@ -11,8 +11,12 @@ PatientRouter.put(
   protect,
   patientController.updatePatient
 );
-PatientRouter.delete("/removepatient/:id", patientController.deletePatient);
+PatientRouter.delete(
+  "/removepatient/:id",
+  protect,
+  patientController.deletePatient
+);
 PatientRouter.put("/activate", patientController.activatePatient);
 PatientRouter.post("/login", patientController.loginPatient);
- 
+
 module.exports = PatientRouter;

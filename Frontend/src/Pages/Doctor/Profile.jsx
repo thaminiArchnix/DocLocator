@@ -50,18 +50,35 @@ const Profile = () => {
 
   const deleteNow = async () => {
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userData.user.token}`,
-        },
-      };
-      const response = await axios.delete(
-        `http://localhost:3000/doctor/${userData.user.id}`,
-        config
+      const appointments = await axios.get("http://localhost:3000/app/");
+      const appsMade = await Object.values(appointments.data).filter(
+        (app) =>
+          app.docId === userData.user.id &&
+          app.status !== "Completed" &&
+          app.status !== "Canceled" &&
+          app.status !== "Missed"
       );
-      console.log(userData.user.token);
-      logout();
-      navigate("../doctor/register");
+      if (appsMade == null || appsMade.length == 0) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${userData.user.token}`,
+          },
+        };
+        const response = await axios.delete(
+          `http://localhost:3000/doctor/${userData.user.id}`,
+          config
+        );
+
+        logout();
+        navigate("../doctor/register");
+      } else {
+        console.error("You can't delete!");
+        alert(
+          "You can't delete your account with Pending and OnGoing Commitments!"
+        );
+      }
+
+      console.log(appsMade);
     } catch (error) {
       console.error(error);
       alert(`${error.request.response}`);

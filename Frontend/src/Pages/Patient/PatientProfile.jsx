@@ -27,8 +27,14 @@ const PatientProfile = () => {
 
   const deleteNow = async () => {
     try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userData.user.token}`,
+        },
+      };
       const response = await axios.delete(
-        `http://localhost:3000/patient/removepatient/${userData.user[0].PatientId}`
+        `http://localhost:3000/patient/removepatient/${userData.user[0].PatientId}`,
+        config
       );
       logout();
       navigate("../patient/regi");
