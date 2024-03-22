@@ -1,76 +1,87 @@
-import React, { useState, useContext } from 'react'
-import {Link} from 'react-router-dom'
-import axios from 'axios'
-import { usePatient } from '../../context/Patient/patientContext.jsx'
-import { useNavigate } from 'react-router-dom';
-
-
-
+import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { usePatient } from "../../context/Patient/patientContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const PatientLogin = () => {
   const [formData, setFormData] = useState({
-    Email : '',
-    Password : ''
-  })
-  const {Email, Password} = formData;
-  const navigate =  useNavigate();
+    Email: "",
+    Password: "",
+  });
+  const { Email, Password } = formData;
+  const navigate = useNavigate();
   const { updateUser } = usePatient();
-
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
-      [e.target.name] : e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Check if email and password are provided
     if (!Email || !Password) {
-      console.error('Please provide both email and password');
+      console.error("Please provide both email and password");
       // You can display an error message to the user
       return;
     }
-  
+
     const userData = {
       Email: Email,
-      Password: Password
+      Password: Password,
     };
-  
+
     try {
-      const response = await axios.post('http://localhost:3000/patient/login', userData);
+      const response = await axios.post(
+        "http://localhost:3000/patient/login",
+        userData
+      );
       const userPatient = response.data;
       updateUser(userPatient);
-      localStorage.setItem('token', userPatient.token);
-      navigate('../patient/dashboard');
+      localStorage.setItem("token", userPatient.token);
+      navigate("../patient/dashboard");
     } catch (error) {
-      console.error('Error logging in:', error);
+      console.error("Error logging in:", error);
       alert(`${error}`);
       // Handle login error (e.g., display error message)
     }
   };
-  
-  
- 
-
 
   return (
-    <div className='container d-flex flex-column align-items-center justify-content-center py-5'>
-        <h2>Login as a Patient</h2>
-        <form className='d-flex flex-column w-50 gap-2 ' onSubmit={handleSubmit}>
-            <label>Email</label>
-            <input type="Email" placeholder='Enter your email' name="Email" className="form-control" value={Email} onChange={onChange}></input>
+    <div className="container d-flex flex-column align-items-center justify-content-center py-5">
+      <h2>Login as a Patient</h2>
+      <form className="d-flex flex-column w-50 gap-2 " onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          type="Email"
+          placeholder="Enter your email"
+          name="Email"
+          className="form-control"
+          value={Email}
+          onChange={onChange}
+        ></input>
 
-            <label>Password</label>
-            <input type="Password" placeholder='Enter your password' name="Password" className="form-control" value={Password} onChange={onChange}></input>
-            <button type='submit'>Login</button>
-        </form>
-        <p className='py-2'>Not a Member? <Link to='../patient/regi'>Sign Up</Link></p>
-        
+        <label>Password</label>
+        <input
+          type="Password"
+          placeholder="Enter your password"
+          name="Password"
+          className="form-control"
+          value={Password}
+          onChange={onChange}
+        ></input>
+        <button type="submit">Login</button>
+      </form>
+      <p className="py-2">
+        Not a Member? <Link to="../patient/regi">Sign Up</Link>
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default PatientLogin
+export default PatientLogin;

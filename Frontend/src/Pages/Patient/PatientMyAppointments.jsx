@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import PatientNavbarContainer from "../../Components/Patient/PatientNavbarContainer";
-import PatientAppointmentCard from "../../Components/Patient/PatientAppointmentCard";
-import { usePatient } from "../../context/Patient/patientContext";
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import PatientNavbarContainer from "../../Components/Patient/PatientNavbarContainer";
 import PatientAppointmentCard from "../../Components/Patient/PatientAppointmentCard";
@@ -33,6 +29,7 @@ const PatientMyAppointments = () => {
           );
 
           setAppointments(filteredAppointments);
+          console.log(filteredAppointments);
         }
       } catch (error) {
         console.error("Error fetching appointments:", error);

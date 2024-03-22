@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import fpat from "../../assets/fpat.png";
 import mpat from "../../assets/mpat.png";
 import { usePatient } from "../../context/Patient/patientContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-//import Map from "../../Components/Patient/LocationMap.jsx";
+import Map from "../../Components/Patient/LocationMap.jsx";
 import PatientNavbarContainer from "../../Components/Patient/PatientNavbarContainer.jsx";
 import ShowLocation from "../../Components/Patient/ShowLocation.jsx";
 import { dateConverter } from "../../Middleware/dateConverter.js";

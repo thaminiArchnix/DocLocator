@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import PatientNavbarContainer from "../../Components/Patient/PatientNavbarContainer";
 import app from "../../assets/app.jpg";
@@ -165,10 +166,6 @@ const PatientDashboard = () => {
               onClose={() => setAlertMessage("")}
             />
           )}
-        </div>
-
-        <div className="col-sm-5 d-flex align-items-center justify-content-center">
-          <img src={app} alt="app" />
         </div>
       </div>
       <div className="d-flex justify-content-center gap-3 pt-5 flex-wrap">
