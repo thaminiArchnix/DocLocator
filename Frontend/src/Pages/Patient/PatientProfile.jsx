@@ -4,9 +4,10 @@ import mpat from "../../assets/mpat.png";
 import { usePatient } from "../../context/Patient/patientContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Map from "../../Components/Patient/LocationMap.jsx";
+//import Map from "../../Components/Patient/LocationMap.jsx";
 import PatientNavbarContainer from "../../Components/Patient/PatientNavbarContainer.jsx";
 import ShowLocation from "../../Components/Patient/ShowLocation.jsx";
+import { dateConverter } from "../../Middleware/dateConverter.js";
 
 const PatientProfile = () => {
   const { userData, logout } = usePatient();
@@ -100,7 +101,7 @@ const PatientProfile = () => {
           </div>
           <div className="row">
             <h6>Date of Birth</h6>
-            <p>{patient[0].DOB}</p>
+            <p>{dateConverter(patient[0].DOB) || patient[0].DOB}</p>
           </div>
           <div className="row">
             <h6>Password</h6>

@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const axios = require("axios");
 
 //Protect User Access
 const protect = async (req, res, next) => {
@@ -9,26 +8,11 @@ const protect = async (req, res, next) => {
 
     // Verify the token
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded, req.params);
+
     // Check if the decoded token matches the request parameter ID
     if (decoded.id == req.params.id) {
-      // Make a request to authenticate the user using the token
-      // const tokenData = { token };
-      // const authResponse = await axios.post(
-      //   "http://localhost:3000/auth/authUser",
-      //   tokenData
-      // );
-      console.log(decoded);
-      console.log("Auth Successful!!");
+      //move to next middleware
       next();
-      // Set the authenticated user's email in the request body
-      //res.body = { email: authResponse.data.email };
-      // return res.status(200).json({
-      //   ...decoded,
-      //   message: "Successfully Authenticated",
-      // });
-
-      // Move to the next middleware
     } else {
       // If the decoded token does not match the request parameter ID, return an error
       console.error("Error decoding access token!!!");
