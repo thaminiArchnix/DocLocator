@@ -51,7 +51,6 @@ const patientController = (() => {
     }
 
     const hashedPassword = await bcrypt.hash(Password, 10);
-    const activationToken = activationService.generateActivationToken();
 
     const sql =
       "INSERT INTO patient(Name, Email, Phone, DOB, Longitude, Latitude, Gender, Password, activation_token) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -64,7 +63,7 @@ const patientController = (() => {
       Latitude,
       Gender,
       hashedPassword,
-      activationToken,
+      "",
     ];
 
     const successMessage =
@@ -78,12 +77,13 @@ const patientController = (() => {
         if (!result || result.length === 0) {
           res.status(404).json({ error: errorMessage });
         } else {
-          if (successMessage) {
+          if (result) {
             res.status(201).json({
               id: result.insertId,
               email: Email,
+              token: generateToken(result.insertId),
 
-              message: successMessage,
+              message: "Created Successfully!",
             });
           } else {
             res.json(result);

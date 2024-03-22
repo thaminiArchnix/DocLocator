@@ -47,7 +47,7 @@ const Appointments = () => {
   const handleDateSelect = (e) => {
     setFilter(e.target.value);
   };
-  console.log(filterDate);
+  //console.log(filterDate);
 
   const appArray = Object.values(appointments);
   const dates = getUniqueDates(appArray);
@@ -63,7 +63,7 @@ const Appointments = () => {
           <div>
             <NavbarContainer />
           </div>
-          <div className="d-flex flex-column gap-2 justify-content-center align-items-center form-group w-100 p-3">
+          <div className="d-flex flex-row gap-5 justify-content-center align-items-center form-group p-3 bg-info rounded m-2">
             <label htmlFor="datepicker">Filter By Date:</label>
             <input
               type="date"

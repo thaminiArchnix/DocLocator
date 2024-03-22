@@ -27,17 +27,35 @@ const PatientProfile = () => {
 
   const deleteNow = async () => {
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userData.user.token}`,
-        },
-      };
-      const response = await axios.delete(
-        `http://localhost:3000/patient/removepatient/${userData.user[0].PatientId}`,
-        config
+      const appointmentsNow = await axios.get("http://localhost:3000/app/");
+
+      const appsMade = await Object.values(appointmentsNow.data).filter(
+        (app) =>
+          app.patientId === userData.user[0].PatientId &&
+          app.status !== "Completed" &&
+          app.status !== "Canceled" &&
+          app.status !== "Missed"
       );
-      logout();
-      navigate("../patient/regi");
+      console.log(appsMade, appointmentsNow);
+      if (appsMade == null || appsMade.length == 0) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${userData.user.token}`,
+          },
+        };
+        console.log("You can delete");
+        const response = await axios.delete(
+          `http://localhost:3000/patient/removepatient/${userData.user[0].PatientId}`,
+          config
+        );
+        logout();
+        navigate("../patient/regi");
+      } else {
+        console.error("Cannot delete account!");
+        alert(
+          "You can't delete your account with Pending and OnGoing Commitments!"
+        );
+      }
     } catch (error) {
       console.error(error);
     }
@@ -81,11 +99,12 @@ const PatientProfile = () => {
         <div
           className={
             deleteMsg
-              ? "custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center"
+              ? "custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center p-5"
               : "hidden"
           }
         >
-          Delete Now
+          Are you sure you want to delete your account? This is an irreversible
+          action.
           <button className="btn btn-dark" onClick={deleteNow}>
             Delete
           </button>

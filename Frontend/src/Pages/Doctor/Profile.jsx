@@ -124,11 +124,12 @@ const Profile = () => {
             <div
               className={
                 deleteMsg
-                  ? "custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center"
+                  ? "custom-alert rounded d-flex flex-column gap-2 justify-content-center align-items-center p-5"
                   : "hidden"
               }
             >
-              Delete Now
+              Are you sure you want to delete your account? This is an
+              irreversible action.
               <button className="btn btn-dark" onClick={deleteNow}>
                 Delete
               </button>
